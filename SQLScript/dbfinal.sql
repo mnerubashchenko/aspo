@@ -386,7 +386,7 @@ EXEC telemetry_by_part_proc 'Тел%'
 CREATE PROC boss_proc
 AS BEGIN 
 SELECT COUNT(Name_post) as 'Количество начальников в организации' 
-FROM USERS JOIN POSTS ON ID_post = Post_user WHERE Name_post LIKE 'Начальник%'
+FROM USERS JOIN POSTS ON ID_post = Post_user WHERE Name_post LIKE 'Началь%'
 END
 
 EXEC boss_proc 
