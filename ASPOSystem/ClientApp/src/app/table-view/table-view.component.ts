@@ -9,9 +9,8 @@ import { HttpClient } from '@angular/common/http';
 export class TableViewComponent  {
     public categories: ICategory[];
     constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-        http.get<any>(baseUrl + 'api/Library/GetCategory').subscribe(result => {
+        http.get<any>(baseUrl + 'api/Category/GetCategory').subscribe(result => {
             this.categories = result as ICategory[];
-            console.log(this.categories);
         }, error => console.error(error));
     }
 

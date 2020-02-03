@@ -8,18 +8,18 @@ using Microsoft.AspNetCore.Mvc;
 namespace ASPOSystem.Controllers
 {
     [Route("api/[controller]")]
-    public class LibraryController : Controller
+    public class TypemeasureController : Controller
     {
         [HttpGet("[action]")]
-        public List<Category> GetCategory()
+        public List<Typemeasure> GetTypemeasure()
         {
-            List<Category> categories;
+            List<Typemeasure> typesmeasure;
             using (RSSContext db = new RSSContext())
             {
-                categories = db.Category.ToList();
+                typesmeasure = db.Typemeasure.ToList();
             }
 
-            return categories;
+            return typesmeasure;
         }
     }
 }

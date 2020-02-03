@@ -1,0 +1,21 @@
+<select name="select"  #selectedtable>
+  <option value="posts">Д</option>
+  <option value="brands">Значение 2</option>
+  <option value="programmCommands">Значение 3</option>
+  <option value="roles">Значение 3</option>
+  <option value="telemetry">Значение 3</option>
+  <option value="typeInter">Значение 3</option>
+  <option value="typeDev">Значение 3</option>
+  <option value="typeMeasure">Значение 3</option>
+  <option value="category">Значение 3</option>
+</select>
+<h1></h1>
+<app-table-posts *ngIf ="selectedtable.value == 'posts'"></app-table-posts>
+<app-table-brands *ngIf ="selectedtable.value == 'brands'"></app-table-brands>
+<app-table-programm-commands *ngIf ="selectedtable.value == 'programmCommands'"></app-table-programm-commands>
+<app-table-roles *ngIf ="selectedtable.value == 'roles'"></app-table-roles>
+<app-table-telemetry *ngIf ="selectedtable.value == 'telemetry'"></app-table-telemetry>
+<app-table-type-inter *ngIf ="selectedtable.value == 'typeInter'"></app-table-type-inter>
+<app-table-type-dev *ngIf ="selectedtable.value == 'typeDev'"></app-table-type-dev>
+<app-table-type-measure *ngIf ="selectedtable.value == 'typeMeasure'"></app-table-type-measure>
+<app-table-view *ngIf ="selectedtable.value == 'category'"></app-table-view>
