@@ -391,6 +391,9 @@ END
 
 EXEC boss_proc 
 
+create login RSSadmin with password = '#Qteltn3', DEFAULT_DATABASE = master, CHECK_EXPIRATION = OFF, CHECK_POLICY = OFF;
+
+create user RSSadmin for login RSSadmin
 
 
 

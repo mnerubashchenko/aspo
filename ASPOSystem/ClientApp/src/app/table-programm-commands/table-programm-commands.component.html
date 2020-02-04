@@ -1,7 +1,11 @@
-<dx-data-grid
-  id="gridContainer"
-  [dataSource]="commands"
-  [columns]="['idCommand', 'codeCommand', 'nameCommand', 'purposeCommand', 'descriptionCommand', 'telemetryCommand']"
-  [showBorders]="true"
-  keyExpr="idCommand">
+<dx-data-grid id="gridContainer"
+              [dataSource]="commands"
+              [columns]="['idCommand', 'codeCommand', 'nameCommand', 'purposeCommand', 'descriptionCommand', 'telemetryCommand']"
+              [showBorders]="true"
+              keyExpr="idCommand">
+  <dxo-editing mode="row"
+               [allowUpdating]="true"
+               [allowDeleting]="true"
+               [allowAdding]="true">
+  </dxo-editing>
 </dx-data-grid>

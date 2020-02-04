@@ -1,7 +1,11 @@
-<dx-data-grid
-  id="gridContainer"
-  [dataSource]="telemetries"
-  [columns]="['idTelemetry', 'longNameTelemetry', 'shortNameTelemetry', 'byteNumberTelemetry', 'startBitTelemetry', 'lenghtTelemetry', 'possibleValuesTelemetry']"
-  [showBorders]="true"
-  keyExpr="idTelemetry">
+<dx-data-grid id="gridContainer"
+              [dataSource]="telemetries"
+              [columns]="['idTelemetry', 'longNameTelemetry', 'shortNameTelemetry', 'byteNumberTelemetry', 'startBitTelemetry', 'lenghtTelemetry', 'possibleValuesTelemetry']"
+              [showBorders]="true"
+              keyExpr="idTelemetry">
+  <dxo-editing mode="row"
+               [allowUpdating]="true"
+               [allowDeleting]="true"
+               [allowAdding]="true">
+  </dxo-editing>
 </dx-data-grid>

@@ -1,7 +1,11 @@
-<dx-data-grid
-  id="gridContainer"
-  [dataSource]="roles"
-  [columns]="['idRole', 'nameRole']"
-  [showBorders]="true"
-  keyExpr="idRole">
+<dx-data-grid id="gridContainer"
+              [dataSource]="roles"
+              [columns]="['idRole', 'nameRole']"
+              [showBorders]="true"
+              keyExpr="idRole">
+  <dxo-editing mode="row"
+               [allowUpdating]="true"
+               [allowDeleting]="true"
+               [allowAdding]="true">
+  </dxo-editing>
 </dx-data-grid>
