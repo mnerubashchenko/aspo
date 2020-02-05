@@ -1,25 +1,23 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { ITypemeasure, TypemeasureService } from './TypemeasureService';
 
 @Component({
   selector: 'app-table-type-measure',
-  templateUrl: './table-type-measure.component.html',
-  styleUrls: ['./table-type-measure.component.css']
+    templateUrl: './table-type-measure.component.html',
+    styleUrls: ['./table-type-measure.component.css']
 })
 export class TableTypeMeasureComponent {
     public typesmeasure: ITypemeasure[];
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<any>(baseUrl + 'api/Typemeasure/GetTypemeasure').subscribe(result => {
-        this.typesmeasure = result as ITypemeasure[];
-    }, error => console.error(error));
+    constructor(private typeMeasureService: TypemeasureService) {
+        this.typeMeasureService.subject.subscribe(this.typesmeasureReceived);
+  }
+
+    typesmeasureReceived = (data: ITypemeasure[]) => {
+        this.typesmeasure = data;
   }
 
   ngOnInit() {
+      this.typeMeasureService.getTypemeasure();
   }
 
-}
-
-interface ITypemeasure {
-    IdTypemeasure: string;
-    NameTypemeasure: string;
 }

@@ -1,11 +1,17 @@
 <dx-data-grid id="gridContainer"
               [dataSource]="typesdev"
-              [columns]="['idTypedev', 'nameTypedev']"
               [showBorders]="true"
               keyExpr="idTypedev">
-  <dxo-editing mode="row"
+  <dxi-column dataField="nameTypedev" caption="Тип устройства"></dxi-column>
+  <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"
                [allowAdding]="true">
+    <dxo-popup title="Тип устройства"
+               [showTitle]="true"
+               [width]="500"
+               [height]="225"
+               [position]="{ my: 'top', at: 'top', of: window }">
+    </dxo-popup>
   </dxo-editing>
 </dx-data-grid>

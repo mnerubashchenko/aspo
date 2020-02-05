@@ -16,7 +16,7 @@ namespace ASPOSystem.Controllers
             List<Typeinter> typesinter;
             using (RSSContext db = new RSSContext())
             {
-                typesinter = db.Typeinter.ToList();
+                typesinter = db.Typeinter.Where(p => p.IdTypeinter.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
             }
 
             return typesinter;

@@ -16,7 +16,7 @@ namespace ASPOSystem.Controllers
             List<Brands> brands;
             using (RSSContext db = new RSSContext())
             {
-                brands = db.Brands.ToList();
+                brands = db.Brands.Where(p=> p.IdBrand.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
             }
 
             return brands;

@@ -16,7 +16,7 @@ namespace ASPOSystem.Controllers
             List<Typemeasure> typesmeasure;
             using (RSSContext db = new RSSContext())
             {
-                typesmeasure = db.Typemeasure.ToList();
+                typesmeasure = db.Typemeasure.Where(p => p.IdTypemeasure.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
             }
 
             return typesmeasure;

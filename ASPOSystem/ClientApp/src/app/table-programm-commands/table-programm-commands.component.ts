@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { IProgrammcommands, PrCommandsService } from './PrCommandsService';
 
 @Component({
   selector: 'app-table-programm-commands',
@@ -8,22 +8,16 @@ import { HttpClient } from '@angular/common/http';
 })
 export class TableProgrammCommandsComponent {
     public commands: IProgrammcommands[];
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<any>(baseUrl + 'api/Programmcommands/GetCommand').subscribe(result => {
-        this.commands = result as IProgrammcommands[];
-    }, error => console.error(error));
+    constructor(private commandService: PrCommandsService) {
+        this.commandService.subject.subscribe(this.commandReceived);
+  }
+
+    commandReceived = (data: IProgrammcommands[]) => {
+        this.commands = data;
   }
 
   ngOnInit() {
+      this.commandService.getCommand();
   }
 
-}
-
-interface IProgrammcommands {
-    IdCommand: string;
-    CodeCommand: string;
-    NameCommand: string;
-    PurposeCommand: string;
-    DescriptionCommand: string;
-    TelemetryCommand: string;
 }

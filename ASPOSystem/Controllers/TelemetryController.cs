@@ -16,7 +16,7 @@ namespace ASPOSystem.Controllers
             List<Telemetry> telemetries;
             using (RSSContext db = new RSSContext())
             {
-                telemetries = db.Telemetry.ToList();
+                telemetries = db.Telemetry.Where(p => p.IdTelemetry.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
             }
 
             return telemetries;

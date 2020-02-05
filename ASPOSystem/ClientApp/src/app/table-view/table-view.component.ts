@@ -1,25 +1,23 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { ICategory, CategoryService } from './CategoryService';
 
 @Component({
   selector: 'app-table-view',
-  templateUrl: './table-view.component.html',
-  styleUrls: ['./table-view.component.css']
+    templateUrl: './table-view.component.html',
+    styleUrls: ['./table-view.component.css']
 })
-export class TableViewComponent  {
+export class TableViewComponent {
     public categories: ICategory[];
-    constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-        http.get<any>(baseUrl + 'api/Category/GetCategory').subscribe(result => {
-            this.categories = result as ICategory[];
-        }, error => console.error(error));
-    }
-
-  ngOnInit() {
+    constructor(private categoryService: CategoryService) {
+        this.categoryService.subject.subscribe(this.categoriesReceived);
   }
 
-}
+    categoriesReceived = (data: ICategory[]) => {
+        this.categories = data;
+  }
 
-interface ICategory {
-    IdCategory: string;
-    NameCategory: string;
+  ngOnInit() {
+      this.categoryService.getCategories();
+  }
+
 }

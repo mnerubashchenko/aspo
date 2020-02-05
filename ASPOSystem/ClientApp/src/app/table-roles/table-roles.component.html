@@ -1,11 +1,17 @@
 <dx-data-grid id="gridContainer"
               [dataSource]="roles"
-              [columns]="['idRole', 'nameRole']"
               [showBorders]="true"
               keyExpr="idRole">
-  <dxo-editing mode="row"
+  <dxi-column dataField="nameRole" caption="Название роли"></dxi-column>
+  <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"
                [allowAdding]="true">
+    <dxo-popup title="Роли"
+               [showTitle]="true"
+               [width]="500"
+               [height]="225"
+               [position]="{ my: 'top', at: 'top', of: window }">
+    </dxo-popup>
   </dxo-editing>
 </dx-data-grid>

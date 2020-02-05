@@ -1,11 +1,17 @@
 <dx-data-grid id="gridContainer"
               [dataSource]="brands"
-              [columns]="['idBrand', 'nameBrand']"
               [showBorders]="true"
               keyExpr="idBrand">
-  <dxo-editing mode="row"
+  <dxi-column dataField="nameBrand" caption="Название бренда"></dxi-column>
+  <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"
                [allowAdding]="true">
+    <dxo-popup title="Бренды устройств"
+               [showTitle]="true"
+               [width]="500"
+               [height]="225"
+               [position]="{ my: 'top', at: 'top', of: window }">
+    </dxo-popup>
   </dxo-editing>
 </dx-data-grid>

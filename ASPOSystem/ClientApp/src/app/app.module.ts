@@ -20,6 +20,15 @@ import { TableTypeMeasureComponent } from './table-type-measure/table-type-measu
 import { TableProgrammCommandsComponent } from './table-programm-commands/table-programm-commands.component';
 import { TableTelemetryComponent } from './table-telemetry/table-telemetry.component';
 import { HandbooksComponent } from './handbooks/handbooks.component';
+import { PostService } from './table-posts/PostService';
+import { BrandService } from './table-brands/BrandService';
+import { PrCommandsService } from './table-programm-commands/PrCommandsService';
+import { RoleService } from './table-roles/RoleService';
+import { TelemetryService } from './table-telemetry/TelemetryService';
+import { TypedevService } from './table-type-dev/TypedevService';
+import { TypeinterService } from './table-type-inter/TypeinterService';
+import { TypemeasureService } from './table-type-measure/TypemeasureService';
+import { CategoryService } from './table-view/CategoryService';
 
 
 @NgModule({
@@ -44,7 +53,7 @@ import { HandbooksComponent } from './handbooks/handbooks.component';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
       FormsModule,
-    DxDataGridModule,
+      DxDataGridModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
@@ -61,7 +70,15 @@ import { HandbooksComponent } from './handbooks/handbooks.component';
         { path: 'table-view', component: TableViewComponent }
     ])
   ],
-  providers: [],
+    providers: [PostService,
+        BrandService,
+        PrCommandsService,
+        RoleService,
+        TelemetryService,
+        TypedevService,
+        TypeinterService,
+        TypemeasureService,
+        CategoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

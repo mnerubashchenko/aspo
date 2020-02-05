@@ -1,25 +1,23 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { ITypedev, TypedevService } from './TypedevService';
 
 @Component({
   selector: 'app-table-type-dev',
-  templateUrl: './table-type-dev.component.html',
-  styleUrls: ['./table-type-dev.component.css']
+    templateUrl: './table-type-dev.component.html',
+    styleUrls: ['./table-type-dev.component.css']
 })
-export class TableTypeDevComponent implements OnInit {
+export class TableTypeDevComponent {
     public typesdev: ITypedev[];
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<any>(baseUrl + 'api/Typedev/GetTypedev').subscribe(result => {
-        this.typesdev = result as ITypedev[];
-    }, error => console.error(error));
+    constructor(private typedevService: TypedevService) {
+        this.typedevService.subject.subscribe(this.typesdevReceived);
+  }
+
+    typesdevReceived = (data: ITypedev[]) => {
+        this.typesdev = data;
   }
 
   ngOnInit() {
+      this.typedevService.getTypedev();
   }
 
-}
-
-interface ITypedev {
-    IdTypedev: string;
-    NameTypedev: string;
 }

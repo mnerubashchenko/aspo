@@ -16,7 +16,7 @@ namespace ASPOSystem.Controllers
             List<Programmcommands> commands;
             using (RSSContext db = new RSSContext())
             {
-                commands = db.Programmcommands.ToList();
+                commands = db.Programmcommands.Where(p => p.IdCommand.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
             }
 
             return commands;

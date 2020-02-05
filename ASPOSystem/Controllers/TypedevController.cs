@@ -16,7 +16,7 @@ namespace ASPOSystem.Controllers
             List<Typedev> typesdev;
             using (RSSContext db = new RSSContext())
             {
-                typesdev = db.Typedev.ToList();
+                typesdev = db.Typedev.Where(p => p.IdTypedev.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
             }
 
             return typesdev;

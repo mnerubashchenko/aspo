@@ -16,7 +16,7 @@ namespace ASPOSystem.Controllers
             List<Roles> roles;
             using (RSSContext db = new RSSContext())
             {
-                roles = db.Roles.ToList();
+                roles = db.Roles.Where(p => p.IdRole.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
             }
 
             return roles;

@@ -1,11 +1,17 @@
 <dx-data-grid id="gridContainer"
               [dataSource]="categories"
-              [columns]="['idCategory', 'nameCategory']"
               [showBorders]="true"
               keyExpr="idCategory">
-  <dxo-editing mode="row"
+  <dxi-column dataField="nameCategory" caption="Категория проекта"></dxi-column>
+  <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"
                [allowAdding]="true">
+    <dxo-popup title="Категория проекта"
+               [showTitle]="true"
+               [width]="500"
+               [height]="225"
+               [position]="{ my: 'top', at: 'top', of: window }">
+    </dxo-popup>
   </dxo-editing>
 </dx-data-grid>

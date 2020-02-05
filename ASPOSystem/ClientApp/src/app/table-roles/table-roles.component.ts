@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { IRoles, RoleService } from './RoleService';
 
 @Component({
   selector: 'app-table-roles',
@@ -8,18 +8,16 @@ import { HttpClient } from '@angular/common/http';
 })
 export class TableRolesComponent {
     public roles: IRoles[];
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<any>(baseUrl + 'api/Roles/GetRole').subscribe(result => {
-        this.roles = result as IRoles[];
-    }, error => console.error(error));
-  }
+    constructor(private roleService: RoleService) {
+        this.roleService.subject.subscribe(this.rolesReceived);
+    }
 
-  ngOnInit() {
-  }
+    rolesReceived = (data: IRoles[]) => {
+        this.roles = data;
+    }
 
-}
+    ngOnInit() {
+        this.roleService.getRoles();
+    }
 
-interface IRoles {
-    IdRole: string;
-    NameRole: string;
 }

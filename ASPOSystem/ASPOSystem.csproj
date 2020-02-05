@@ -26,6 +26,30 @@
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\table-brands\BrandService.ts" />
+    <None Remove="ClientApp\src\app\table-posts\PostService.ts" />
+    <None Remove="ClientApp\src\app\table-programm-commands\PrCommandsService.ts" />
+    <None Remove="ClientApp\src\app\table-roles\RoleService.ts" />
+    <None Remove="ClientApp\src\app\table-telemetry\TelemetryService.ts" />
+    <None Remove="ClientApp\src\app\table-type-dev\TypedevService.ts" />
+    <None Remove="ClientApp\src\app\table-type-inter\TypeinterService.ts" />
+    <None Remove="ClientApp\src\app\table-type-measure\TypemeasureService.ts" />
+    <None Remove="ClientApp\src\app\table-view\CategoryService.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\table-brands\BrandService.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\table-posts\PostService.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\table-programm-commands\PrCommandsService.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\table-roles\RoleService.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\table-telemetry\TelemetryService.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\table-type-dev\TypedevService.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\table-type-inter\TypeinterService.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\table-type-measure\TypemeasureService.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\table-view\CategoryService.ts" />
+  </ItemGroup>
+
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">

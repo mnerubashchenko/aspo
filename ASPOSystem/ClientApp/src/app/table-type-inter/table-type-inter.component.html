@@ -1,11 +1,17 @@
 <dx-data-grid id="gridContainer"
               [dataSource]="typesinter"
-              [columns]="['idTypeinter', 'nameTypeinter']"
               [showBorders]="true"
               keyExpr="idTypeinter">
-  <dxo-editing mode="row"
+  <dxi-column dataField="nameTypeinter" caption="Тип интерфейса"></dxi-column>
+  <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"
                [allowAdding]="true">
+    <dxo-popup title="Тип интерфейса"
+               [showTitle]="true"
+               [width]="500"
+               [height]="225"
+               [position]="{ my: 'top', at: 'top', of: window }">
+    </dxo-popup>
   </dxo-editing>
 </dx-data-grid>

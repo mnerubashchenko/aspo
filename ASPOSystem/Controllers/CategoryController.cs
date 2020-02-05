@@ -16,7 +16,7 @@ namespace ASPOSystem.Controllers
             List<Category> categories;
             using (RSSContext db = new RSSContext())
             {
-                categories = db.Category.ToList();
+                categories = db.Category.Where(p=> p.IdCategory.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
             }
 
             return categories;

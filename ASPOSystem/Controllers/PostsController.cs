@@ -16,7 +16,7 @@ namespace ASPOSystem.Controllers
             List<Posts> posts;
             using (RSSContext db = new RSSContext())
             {
-                posts = db.Posts.ToList();
+                posts = db.Posts.Where(p => p.IdPost.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
             }
 
             return posts;

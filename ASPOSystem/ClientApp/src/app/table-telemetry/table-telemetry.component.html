@@ -1,11 +1,22 @@
 <dx-data-grid id="gridContainer"
               [dataSource]="telemetries"
-              [columns]="['idTelemetry', 'longNameTelemetry', 'shortNameTelemetry', 'byteNumberTelemetry', 'startBitTelemetry', 'lenghtTelemetry', 'possibleValuesTelemetry']"
               [showBorders]="true"
               keyExpr="idTelemetry">
-  <dxo-editing mode="row"
+  <dxi-column dataField="longNameTelemetry" caption="Полное название"></dxi-column>
+  <dxi-column dataField="shortNameTelemetry" caption="Сокращенное название"></dxi-column>
+  <dxi-column dataField="byteNumberTelemetry" caption="Количество байтов"></dxi-column>
+  <dxi-column dataField="startBitTelemetry" caption="Первый бит"></dxi-column>
+  <dxi-column dataField="lenghtTelemetry" caption="Длина"></dxi-column>
+  <dxi-column dataField="possibleValuesTelemetry" caption="Возможные значения"></dxi-column>
+  <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"
                [allowAdding]="true">
+    <dxo-popup title="Телеметрия"
+               [showTitle]="true"
+               [width]="700"
+               [height]="300"
+               [position]="{ my: 'top', at: 'top', of: window }">
+    </dxo-popup>
   </dxo-editing>
 </dx-data-grid>

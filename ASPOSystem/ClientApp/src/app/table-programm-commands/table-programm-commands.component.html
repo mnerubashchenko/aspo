@@ -1,11 +1,22 @@
 <dx-data-grid id="gridContainer"
               [dataSource]="commands"
-              [columns]="['idCommand', 'codeCommand', 'nameCommand', 'purposeCommand', 'descriptionCommand', 'telemetryCommand']"
               [showBorders]="true"
               keyExpr="idCommand">
-  <dxo-editing mode="row"
+  <dxi-column dataField="codeCommand" caption="Код команды"></dxi-column>
+  <dxi-column dataField="nameCommand" caption="Название команды"></dxi-column>
+  <dxi-column dataField="purposeCommand" caption="Назначение команды"></dxi-column>
+  <dxi-column dataField="descriptionCommand" caption="Описание команды"></dxi-column>
+  <dxi-column dataField="telemetryCommand" caption="Телеметрия команды"></dxi-column>
+  <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"
                [allowAdding]="true">
+    <dxo-popup
+      title="Программные команды"
+      [showTitle]="true"
+      [width]="700"
+      [height]="300"
+      [position]="{ my: 'top', at: 'top', of: window }">
+    </dxo-popup>
   </dxo-editing>
 </dx-data-grid>

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { ITelemetry, TelemetryService } from './TelemetryService';
 
 @Component({
   selector: 'app-table-telemetry',
@@ -7,24 +7,18 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./table-telemetry.component.css']
 })
 export class TableTelemetryComponent {
-    public telemetries: ITelemetry[];
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<any>(baseUrl + 'api/Telemetry/GetTelemetry').subscribe(result => {
-        this.telemetries = result as ITelemetry[];
-    }, error => console.error(error));
+  public telemetries: ITelemetry[];
+  constructor(private telemetryService: TelemetryService) {
+      this.telemetryService.subject.subscribe(this.telemetryReceived);
+  }
+
+    telemetryReceived = (data: ITelemetry[]) => {
+      this.telemetries = data;
   }
 
   ngOnInit() {
+      this.telemetryService.getTelemetry();
   }
 
 }
 
-interface ITelemetry {
-    IdTelemetry: string;
-    LongNameTelemetry: string;
-    ShortNameTelemetry: string;
-    ByteNumberTelemetry: number;
-    StartBitTelemetry: number;
-    LenghtTelemetry: number;
-    PossibleValuesTelemetry: string;
-}
