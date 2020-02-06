@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASPOSystem.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiController]
+    [Route("[controller]")]
     public class ProgrammCommandsController : Controller
     {
-        [HttpGet("[action]")]
+        [HttpGet]
+        [Route("GetCommand")]
         public List<Programmcommands> GetCommand()
         {
             List<Programmcommands> commands;
@@ -20,6 +22,17 @@ namespace ASPOSystem.Controllers
             }
 
             return commands;
+        }
+
+        [HttpPost]
+        [Route("CreateCommand")]
+        public void CreateCommand([FromBody] Programmcommands command)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                db.Programmcommands.Add(command);
+                db.SaveChanges();
+            }
         }
     }
 }

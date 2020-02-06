@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASPOSystem.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiController]
+    [Route("[controller]")]
     public class PostsController : Controller
     {
-        [HttpGet("[action]")]
+        [HttpGet]
+        [Route("GetPost")]
         public List<Posts> GetPost()
         {
             List<Posts> posts;
@@ -20,6 +22,17 @@ namespace ASPOSystem.Controllers
             }
 
             return posts;
+        }
+
+        [HttpPost]
+        [Route("CreatePost")]
+        public void CreatePost([FromBody] Posts post)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                db.Posts.Add(post);
+                db.SaveChanges();
+            }
         }
     }
 }

@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASPOSystem.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiController]
+    [Route("[controller]")]
     public class RolesController : Controller
     {
-        [HttpGet("[action]")]
+        [HttpGet]
+        [Route("GetRole")]
         public List<Roles> GetRole()
         {
             List<Roles> roles;
@@ -20,6 +22,17 @@ namespace ASPOSystem.Controllers
             }
 
             return roles;
+        }
+
+        [HttpPost]
+        [Route("CreateRole")]
+        public void CreateRole([FromBody] Roles role)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                db.Roles.Add(role);
+                db.SaveChanges();
+            }
         }
     }
 }

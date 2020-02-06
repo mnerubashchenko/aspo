@@ -1,5 +1,5 @@
 <dx-data-grid id="gridContainer"
-              [dataSource]="brands"
+              [dataSource]="store"
               [showBorders]="true"
               keyExpr="idBrand">
   <dxi-column dataField="nameBrand" caption="Название бренда"></dxi-column>
@@ -13,5 +13,10 @@
                [height]="225"
                [position]="{ my: 'top', at: 'top', of: window }">
     </dxo-popup>
+    <dxo-form>
+      <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
+        <dxi-item dataField="nameBrand"></dxi-item>
+      </dxi-item> 
+    </dxo-form>
   </dxo-editing>
 </dx-data-grid>

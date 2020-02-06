@@ -29,6 +29,18 @@ import { TypedevService } from './table-type-dev/TypedevService';
 import { TypeinterService } from './table-type-inter/TypeinterService';
 import { TypemeasureService } from './table-type-measure/TypemeasureService';
 import { CategoryService } from './table-view/CategoryService';
+import { locale, loadMessages } from 'devextreme/localization';
+declare var require: any;
+let messagesDe = require("devextreme/localization/messages/de.json"),
+  messagesJa = require("devextreme/localization/messages/ja.json"),
+  messagesRu = require("devextreme/localization/messages/ru.json");
+
+loadMessages(messagesRu);
+loadMessages(messagesDe);
+loadMessages(messagesJa);
+
+locale(navigator.language);
+
 
 
 @NgModule({

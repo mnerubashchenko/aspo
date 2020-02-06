@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASPOSystem.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiController]
+    [Route("[controller]")]
     public class TypedevController : Controller
     {
-        [HttpGet("[action]")]
+        [HttpGet]
+        [Route("GetTypedev")]
         public List<Typedev> GetTypedev()
         {
             List<Typedev> typesdev;
@@ -20,6 +22,17 @@ namespace ASPOSystem.Controllers
             }
 
             return typesdev;
+        }
+
+        [HttpPost]
+        [Route("CreateTypedev")]
+        public void CreateTypedev([FromBody] Typedev td)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                db.Typedev.Add(td);
+                db.SaveChanges();
+            }
         }
     }
 }

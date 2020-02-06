@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASPOSystem.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiController]
+    [Route("[controller]")]
     public class BrandsController : Controller
     {
-        [HttpGet("[action]")]
+        [HttpGet]
+        [Route("GetBrand")]
         public List<Brands> GetBrand()
         {
             List<Brands> brands;
@@ -20,6 +22,17 @@ namespace ASPOSystem.Controllers
             }
 
             return brands;
+        }
+
+        [HttpPost]
+        [Route("CreateBrand")]
+        public void CreateBrand([FromBody] Brands brand)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                db.Brands.Add(brand);
+                db.SaveChanges();
+            }
         }
     }
 }
