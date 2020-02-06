@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASPOSystem.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiController]
+    [Route("[controller]")]
     public class TypeinterController : Controller
     {
-        [HttpGet("[action]")]
+        [HttpGet]
+        [Route("GetTypeinter")]
         public List<Typeinter> GetTypeinter()
         {
             List<Typeinter> typesinter;
@@ -20,6 +22,17 @@ namespace ASPOSystem.Controllers
             }
 
             return typesinter;
+        }
+
+        [HttpPost]
+        [Route("CreateTypeinter")]
+        public void CreateTypeinter([FromBody] Typeinter ti)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                db.Typeinter.Add(ti);
+                db.SaveChanges();
+            }
         }
     }
 }

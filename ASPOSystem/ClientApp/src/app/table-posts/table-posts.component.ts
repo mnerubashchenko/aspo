@@ -11,10 +11,11 @@ import CustomStore from "devextreme/data/custom_store";
 })
 export class TablePostsComponent {
     public posts: IPosts[];
-    @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
+    @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
-    constructor(private postService: PostService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
+  constructor(private postService: PostService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
+        sessionStorage.setItem("locale", 'ru');
         this.postService.subject.subscribe(this.postsReceived);
         this.postService.getPosts();
         this.baseUrl = baseUrl;

@@ -11,10 +11,11 @@ import { DxDataGridComponent } from 'devextreme-angular';
 })
 export class TableProgrammCommandsComponent {
     public commands: IProgrammcommands[];
-    @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
+    @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
     constructor(private commandService: PrCommandsService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
+        sessionStorage.setItem("locale", 'ru');
         this.commandService.subject.subscribe(this.commandReceived);
         this.commandService.getCommand();
         this.baseUrl = baseUrl;

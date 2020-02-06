@@ -11,16 +11,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class TableTypeDevComponent {
     public typesdev: ITypedev[];
-    @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
+    @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
     constructor(private typedevService: TypedevService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
+        sessionStorage.setItem("locale", 'ru');
         this.typedevService.subject.subscribe(this.typesdevReceived);
         this.typedevService.getTypedev();
         this.baseUrl = baseUrl;
         this.headers = new HttpHeaders().set('content-type', 'application/json');
         this.store = new CustomStore({
-            key: "idTypedev",
+          key: "idTypedev",
             load: () => this.typesdev,
             insert: (values) => this.http.post<any>(this.baseUrl + 'Typedev/CreateTypedev', JSON.stringify(values as ITypedev), { headers: this.headers }).subscribe(
               () => { this.typedevService.getTypedev(); }),

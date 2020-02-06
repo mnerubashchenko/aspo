@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASPOSystem.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiController]
+    [Route("[controller]")]
     public class CategoryController : Controller
     {
-        [HttpGet("[action]")]
+        [HttpGet]
+        [Route("GetCategory")]
         public List<Category> GetCategory()
         {
             List<Category> categories;
@@ -20,6 +22,17 @@ namespace ASPOSystem.Controllers
             }
 
             return categories;
+        }
+
+        [HttpPost]
+        [Route("CreateCategory")]
+        public void CreateCategory([FromBody] Category category)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                db.Category.Add(category);
+                db.SaveChanges();
+            }
         }
     }
 }

@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASPOSystem.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiController]
+    [Route("[controller]")]
     public class TypemeasureController : Controller
     {
-        [HttpGet("[action]")]
+        [HttpGet]
+        [Route("GetTypemeasure")]
         public List<Typemeasure> GetTypemeasure()
         {
             List<Typemeasure> typesmeasure;
@@ -20,6 +22,17 @@ namespace ASPOSystem.Controllers
             }
 
             return typesmeasure;
+        }
+
+        [HttpPost]
+        [Route("CreateTypemeasure")]
+        public void CreateTypemeasure([FromBody] Typemeasure tm)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                db.Typemeasure.Add(tm);
+                db.SaveChanges();
+            }
         }
     }
 }

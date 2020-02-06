@@ -11,10 +11,11 @@ import { DxDataGridComponent } from 'devextreme-angular';
 })
 export class TableTelemetryComponent {
     public telemetries: ITelemetry[];
-    @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
+    @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
     constructor(private telemetryService: TelemetryService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
+        sessionStorage.setItem("locale", 'ru');
         this.telemetryService.subject.subscribe(this.telemetryReceived);
         this.telemetryService.getTelemetry();
         this.baseUrl = baseUrl;

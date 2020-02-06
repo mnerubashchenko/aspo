@@ -11,10 +11,11 @@ import { DxDataGridComponent } from 'devextreme-angular';
 })
 export class TableRolesComponent {
     public roles: IRoles[];
-    @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
+    @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
     constructor(private roleService: RoleService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
+        sessionStorage.setItem("locale", 'ru');
         this.roleService.subject.subscribe(this.rolesReceived);
         this.roleService.getRoles();
         this.baseUrl = baseUrl;
