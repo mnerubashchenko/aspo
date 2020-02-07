@@ -1,0 +1,10 @@
+<select name="select"  #selectedtable>
+  <option value="users">Пользователи</option>
+  <option value="roles">Роли</option>
+  <option value="posts">Должности</option>
+</select>
+<h1></h1>
+<app-table-users *ngIf ="selectedtable.value == 'users'"></app-table-users>
+<app-table-roles *ngIf="selectedtable.value == 'roles'"></app-table-roles>
+<app-table-posts *ngIf="selectedtable.value == 'posts'"></app-table-posts>
+

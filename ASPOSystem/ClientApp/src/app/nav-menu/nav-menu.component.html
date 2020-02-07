@@ -32,6 +32,11 @@
                 <span class='glyphicon glyphicon-th-list'></span> Справочники
               </a>
             </li>
+            <li [routerLinkActive]='["link-active"]'>
+              <a [routerLink]='["/people"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-th-list'></span> Люди
+              </a>
+            </li>
           </ul>
         </div>
     </div>

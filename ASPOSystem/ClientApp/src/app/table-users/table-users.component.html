@@ -1,0 +1,23 @@
+<dx-data-grid id="gridContainer"
+              [dataSource]="store"
+              [showBorders]="true"
+              keyExpr="idUser"
+              (onRowUpdating)="onRowUpdating($event)">
+  <dxi-column dataField="nameUser" caption="Имя"></dxi-column>
+  <dxi-column dataField="middlenameUser" caption="Фамилия"></dxi-column>
+  <dxi-column dataField="lastnameUser" caption="Отчество"></dxi-column>
+  <dxi-column dataField="loginUser" caption="Логин"></dxi-column>
+  <dxi-column dataField="postUser" caption="Должность"></dxi-column>
+  <dxi-column dataField="roleUser" caption="Роль"></dxi-column>
+  <dxo-editing mode="popup"
+               [allowUpdating]="true"
+               [allowDeleting]="true"
+               [allowAdding]="true">
+    <dxo-popup title="Должности"
+               [showTitle]="true"
+               [width]="700"
+               [height]="300"
+               [position]="{ my: 'top', at: 'top', of: window }">
+    </dxo-popup>
+  </dxo-editing>
+</dx-data-grid>

@@ -1,8 +1,6 @@
 <select name="select"  #selectedtable>
-  <option value="posts">Должности</option>
   <option value="brands">Бренды устройств</option>
   <option value="programmCommands">Программные команды</option>
-  <option value="roles">Роли</option>
   <option value="telemetry">Телеметрии</option>
   <option value="typeInter">Типы интерфейсов</option>
   <option value="typeDev">Типы устройств</option>
@@ -10,10 +8,8 @@
   <option value="category">Категории проектов</option>
 </select>
 <h1></h1>
-<app-table-posts *ngIf ="selectedtable.value == 'posts'"></app-table-posts>
 <app-table-brands *ngIf ="selectedtable.value == 'brands'"></app-table-brands>
 <app-table-programm-commands *ngIf ="selectedtable.value == 'programmCommands'"></app-table-programm-commands>
-<app-table-roles *ngIf ="selectedtable.value == 'roles'"></app-table-roles>
 <app-table-telemetry *ngIf ="selectedtable.value == 'telemetry'"></app-table-telemetry>
 <app-table-type-inter *ngIf ="selectedtable.value == 'typeInter'"></app-table-type-inter>
 <app-table-type-dev *ngIf ="selectedtable.value == 'typeDev'"></app-table-type-dev>

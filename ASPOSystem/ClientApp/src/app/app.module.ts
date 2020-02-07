@@ -29,7 +29,10 @@ import { TypedevService } from './table-type-dev/TypedevService';
 import { TypeinterService } from './table-type-inter/TypeinterService';
 import { TypemeasureService } from './table-type-measure/TypemeasureService';
 import { CategoryService } from './table-view/CategoryService';
+import { UsersService } from './table-users/UsersService';
 import { locale, loadMessages } from 'devextreme/localization';
+import { TableUsersComponent } from './table-users/table-users.component';
+import { PeopleComponent } from './people/people.component';
 declare var require: any;
 let messagesDe = require("devextreme/localization/messages/de.json"),
   messagesJa = require("devextreme/localization/messages/ja.json"),
@@ -59,7 +62,9 @@ locale(navigator.language);
     TableTypeMeasureComponent,
     TableProgrammCommandsComponent,
     TableTelemetryComponent,
-    HandbooksComponent
+    HandbooksComponent,
+    TableUsersComponent,
+    PeopleComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -79,6 +84,7 @@ locale(navigator.language);
         { path: 'table-telemetry', component: TableTelemetryComponent },
         { path: 'table-programm-commands', component: TableProgrammCommandsComponent },
         { path: 'handbooks', component: HandbooksComponent },
+        { path: 'people', component: PeopleComponent },
         { path: 'table-view', component: TableViewComponent }
     ])
   ],
@@ -90,7 +96,8 @@ locale(navigator.language);
         TypedevService,
         TypeinterService,
         TypemeasureService,
-        CategoryService],
+        CategoryService,
+        UsersService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

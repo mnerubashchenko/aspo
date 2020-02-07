@@ -18,9 +18,6 @@ export class CategoryService {
     }, error => console.error(error));
   }
 
-  createCategory(category: ICategory) {
-    return this.http.post<any>(this.baseUrl + 'Category/CreateCategory', JSON.stringify(category), { headers: this.headers });
-  }
 }
 
 export interface ICategory {
