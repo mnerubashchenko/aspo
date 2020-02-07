@@ -1,6 +1,6 @@
 import { Component, enableProdMode, ViewChild, Inject } from '@angular/core';
 import { IProgrammcommands, PrCommandsService } from './PrCommandsService';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import CustomStore from "devextreme/data/custom_store";
 import { DxDataGridComponent } from 'devextreme-angular';
 
@@ -25,14 +25,20 @@ export class TableProgrammCommandsComponent {
           load: () => this.commands,
             insert: (values) => this.http.post<any>(this.baseUrl + 'ProgrammCommands/CreateCommand', JSON.stringify(values as IProgrammcommands), { headers: this.headers }).subscribe(
               () => { this.commandService.getCommand(); }),
-          //update: (key, values) => {
-          //  console.log(key,values);
-          //},
-          //remove: (key) => {
-          //  console.log(key);
-          //}
+          update: (key, values) =>
+              this.http.put<any>(this.baseUrl + 'ProgrammCommands/UpdateCommand', JSON.stringify(values as IProgrammcommands), { headers: this.headers }).subscribe(
+                () => { this.commandService.getCommand(); }),
+            remove: (key) => this.http.delete<any>(this.baseUrl + 'ProgrammCommands/DeleteCommand', { params: new HttpParams().set('idCommand', key) }).subscribe(() => { this.commandService.getCommand(); })
         });
-  }
+    }
+
+    onRowUpdating(e) {
+      for (var property in e.oldData) {
+        if (!e.newData.hasOwnProperty(property)) {
+          e.newData[property] = e.oldData[property];
+        }
+      }
+    }
 
     commandReceived = (data: IProgrammcommands[]) => {
         this.commands = data;

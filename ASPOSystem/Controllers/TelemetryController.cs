@@ -26,11 +26,34 @@ namespace ASPOSystem.Controllers
 
         [HttpPost]
         [Route("CreateTelemetry")]
-        public void CreateTelemetry([FromBody] Telemetry telemetry)
+        public void CreateTelemetry([FromBody] Telemetry newTelemetry)
         {
             using (RSSContext db = new RSSContext())
             {
-                db.Telemetry.Add(telemetry);
+                db.Telemetry.Add(newTelemetry);
+                db.SaveChanges();
+            }
+        }
+
+        [HttpPut]
+        [Route("UpdateTelemetry")]
+        public void UpdateTelemetry([FromBody] Telemetry updatedTelemetry)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                db.Telemetry.Update(updatedTelemetry);
+                db.SaveChanges();
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteTelemetry")]
+        public void DeleteRole(Guid idTelemetry)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                Telemetry deletedTelemetry = db.Telemetry.Find(idTelemetry);
+                db.Telemetry.Remove(deletedTelemetry);
                 db.SaveChanges();
             }
         }

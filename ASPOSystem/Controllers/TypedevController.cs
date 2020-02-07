@@ -26,11 +26,34 @@ namespace ASPOSystem.Controllers
 
         [HttpPost]
         [Route("CreateTypedev")]
-        public void CreateTypedev([FromBody] Typedev td)
+        public void CreateTypedev([FromBody] Typedev newTypedev)
         {
             using (RSSContext db = new RSSContext())
             {
-                db.Typedev.Add(td);
+                db.Typedev.Add(newTypedev);
+                db.SaveChanges();
+            }
+        }
+
+        [HttpPut]
+        [Route("UpdateTypedev")]
+        public void UpdateTypedev([FromBody] Typedev updatedTypedev)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                db.Typedev.Update(updatedTypedev);
+                db.SaveChanges();
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteTypedev")]
+        public void DeleteRole(Guid idTypedev)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                Typedev deletedTypedev = db.Typedev.Find(idTypedev);
+                db.Typedev.Remove(deletedTypedev);
                 db.SaveChanges();
             }
         }

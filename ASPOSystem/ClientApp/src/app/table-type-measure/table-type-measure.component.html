@@ -1,18 +1,23 @@
 <dx-data-grid id="gridContainer"
               [dataSource]="store"
               [showBorders]="true"
-              keyExpr="idTypemeasure">
+              keyExpr="idTypemeasure"
+              (onRowUpdating)="onRowUpdating($event)">
   <dxi-column dataField="nameTypemeasure" caption="Тип измерения"></dxi-column>
   <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"
                [allowAdding]="true">
-    <dxo-popup
-      title="Типы измерений"
-      [showTitle]="true"
-      [width]="500"
-      [height]="225"
-      [position]="{ my: 'top', at: 'top', of: window }">
+    <dxo-popup title="Типы измерений"
+               [showTitle]="true"
+               [width]="500"
+               [height]="225"
+               [position]="{ my: 'top', at: 'top', of: window }">
     </dxo-popup>
+    <dxo-form>
+      <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
+        <dxi-item dataField="nameTypemeasure"></dxi-item>
+      </dxi-item>
+    </dxo-form>
   </dxo-editing>
 </dx-data-grid>

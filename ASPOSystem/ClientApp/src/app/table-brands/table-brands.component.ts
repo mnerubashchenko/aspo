@@ -2,7 +2,7 @@ import { Component, enableProdMode, ViewChild, Inject } from '@angular/core';
 import { BrandService, IBrands } from './BrandService';
 import CustomStore from "devextreme/data/custom_store";
 import { DxDataGridComponent } from 'devextreme-angular';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Component({
     selector: 'app-table-brands',
@@ -25,13 +25,18 @@ export class TableBrandsComponent {
           load: () => this.brands,
           insert: (values) => this.http.post<any>(this.baseUrl + 'Brands/CreateBrand', JSON.stringify(values as IBrands), { headers: this.headers }).subscribe(
                 () => { this.brandService.getBrands();}),
-          //update: (key, values) => {
-          //  console.log(key,values);
-          //},
-          //remove: (key) => {
-          //  console.log(key);
-          //}
+            update: (key, values) =>
+              this.http.put<any>(this.baseUrl + 'Brands/UpdateBrand', JSON.stringify(values as IBrands), { headers: this.headers }).subscribe(
+            () => { this.brandService.getBrands(); }),
+            remove: (key) => this.http.delete<any>(this.baseUrl + 'Brands/DeleteBrand', { params: new HttpParams().set('idBrand', key) }).subscribe(() => { this.brandService.getBrands(); })
         });
+    }
+    onRowUpdating(e) {
+      for (var property in e.oldData) {
+        if (!e.newData.hasOwnProperty(property)) {
+          e.newData[property] = e.oldData[property];
+        }
+      }
     }
 
 

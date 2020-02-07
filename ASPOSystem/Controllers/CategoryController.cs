@@ -26,11 +26,34 @@ namespace ASPOSystem.Controllers
 
         [HttpPost]
         [Route("CreateCategory")]
-        public void CreateCategory([FromBody] Category category)
+        public void CreateCategory([FromBody] Category newCategory)
         {
             using (RSSContext db = new RSSContext())
             {
-                db.Category.Add(category);
+                db.Category.Add(newCategory);
+                db.SaveChanges();
+            }
+        }
+
+        [HttpPut]
+        [Route("UpdateCategory")]
+        public void UpdateCategory([FromBody] Category updatedCategory)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                db.Category.Update(updatedCategory);
+                db.SaveChanges();
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteCategory")]
+        public void DeleteCategory(Guid idCategory)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                Category deletedCategory = db.Category.Find(idCategory);
+                db.Category.Remove(deletedCategory);
                 db.SaveChanges();
             }
         }

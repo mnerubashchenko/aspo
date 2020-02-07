@@ -1,7 +1,8 @@
 <dx-data-grid id="gridContainer"
               [dataSource]="store"
               [showBorders]="true"
-              keyExpr="idTelemetry">
+              keyExpr="idTelemetry"
+              (onRowUpdating)="onRowUpdating($event)">
   <dxi-column dataField="longNameTelemetry" caption="Полное название"></dxi-column>
   <dxi-column dataField="shortNameTelemetry" caption="Сокращенное название"></dxi-column>
   <dxi-column dataField="byteNumberTelemetry" caption="Количество байтов"></dxi-column>

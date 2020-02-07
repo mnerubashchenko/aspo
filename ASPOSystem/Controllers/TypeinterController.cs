@@ -26,11 +26,34 @@ namespace ASPOSystem.Controllers
 
         [HttpPost]
         [Route("CreateTypeinter")]
-        public void CreateTypeinter([FromBody] Typeinter ti)
+        public void CreateTypeinter([FromBody] Typeinter newTypeinter)
         {
             using (RSSContext db = new RSSContext())
             {
-                db.Typeinter.Add(ti);
+                db.Typeinter.Add(newTypeinter);
+                db.SaveChanges();
+            }
+        }
+
+        [HttpPut]
+        [Route("UpdateTypeinter")]
+        public void UpdateTypeinter([FromBody] Typeinter updatedTypeinter)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                db.Typeinter.Update(updatedTypeinter);
+                db.SaveChanges();
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteTypeinter")]
+        public void DeleteTypeinter(Guid idTypeinter)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                Typeinter deletedTypeinter = db.Typeinter.Find(idTypeinter);
+                db.Typeinter.Remove(deletedTypeinter);
                 db.SaveChanges();
             }
         }

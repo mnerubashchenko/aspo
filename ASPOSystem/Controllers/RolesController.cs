@@ -26,13 +26,37 @@ namespace ASPOSystem.Controllers
 
         [HttpPost]
         [Route("CreateRole")]
-        public void CreateRole([FromBody] Roles role)
+        public void CreateRole([FromBody] Roles newRole)
         {
             using (RSSContext db = new RSSContext())
             {
-                db.Roles.Add(role);
+                db.Roles.Add(newRole);
                 db.SaveChanges();
             }
         }
+
+        [HttpPut]
+        [Route("UpdateRole")]
+        public void UpdateRole([FromBody] Roles updatedRole)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                db.Roles.Update(updatedRole);
+                db.SaveChanges();
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteRole")]
+        public void DeleteRole(Guid idRole)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                Roles deletedRole = db.Roles.Find(idRole);
+                db.Roles.Remove(deletedRole);
+                db.SaveChanges();
+            }
+        }
+
     }
 }

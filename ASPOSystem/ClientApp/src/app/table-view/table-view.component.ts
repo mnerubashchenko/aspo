@@ -1,6 +1,6 @@
 import { Component, enableProdMode, ViewChild, Inject } from '@angular/core';
 import { ICategory, CategoryService } from './CategoryService';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import CustomStore from "devextreme/data/custom_store";
 import { DxDataGridComponent } from 'devextreme-angular';
 
@@ -25,13 +25,19 @@ export class TableViewComponent {
       load: () => this.categories,
       insert: (values) => this.http.post<any>(this.baseUrl + 'Category/CreateCategory', JSON.stringify(values as ICategory), { headers: this.headers }).subscribe(
         () => { this.categoryService.getCategories(); }),
-      //update: (key, values) => {
-      //  console.log(key,values);
-      //},
-      //remove: (key) => {
-      //  console.log(key);
-      //}
+      update: (key, values) =>
+          this.http.put<any>(this.baseUrl + 'Category/UpdateCategory', JSON.stringify(values as ICategory), { headers: this.headers }).subscribe(
+            () => { this.categoryService.getCategories(); }),
+        remove: (key) => this.http.delete<any>(this.baseUrl + 'Category/DeleteCategory', { params: new HttpParams().set('idCategory', key) }).subscribe(() => { this.categoryService.getCategories(); })
     });
+    }
+
+  onRowUpdating(e) {
+    for (var property in e.oldData) {
+      if (!e.newData.hasOwnProperty(property)) {
+        e.newData[property] = e.oldData[property];
+      }
+    }
   }
 
     categoriesReceived = (data: ICategory[]) => {

@@ -21,6 +21,7 @@ export class BrandService {
     createBrand(brand: IBrands) {
       return this.http.post<any>(this.baseUrl + 'Brands/CreateBrand', JSON.stringify(brand),{ headers: this.headers });
     }
+
 }
 
 export interface IBrands {

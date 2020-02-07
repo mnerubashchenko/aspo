@@ -2,7 +2,7 @@ import { Component, enableProdMode, ViewChild, Inject } from '@angular/core';
 import { ITypedev, TypedevService } from './TypedevService';
 import CustomStore from "devextreme/data/custom_store";
 import { DxDataGridComponent } from 'devextreme-angular';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-table-type-dev',
@@ -25,14 +25,20 @@ export class TableTypeDevComponent {
             load: () => this.typesdev,
             insert: (values) => this.http.post<any>(this.baseUrl + 'Typedev/CreateTypedev', JSON.stringify(values as ITypedev), { headers: this.headers }).subscribe(
               () => { this.typedevService.getTypedev(); }),
-          //update: (key, values) => {
-          //  console.log(key,values);
-          //},
-          //remove: (key) => {
-          //  console.log(key);
-          //}
+          update: (key, values) =>
+              this.http.put<any>(this.baseUrl + 'Typedev/UpdateTypedev', JSON.stringify(values as ITypedev), { headers: this.headers }).subscribe(
+                () => { this.typedevService.getTypedev(); }),
+            remove: (key) => this.http.delete<any>(this.baseUrl + 'Typedev/DeleteTypedev', { params: new HttpParams().set('idTypedev', key) }).subscribe(() => { this.typedevService.getTypedev(); })
         });
-  }
+    }
+
+    onRowUpdating(e) {
+      for (var property in e.oldData) {
+        if (!e.newData.hasOwnProperty(property)) {
+          e.newData[property] = e.oldData[property];
+        }
+      }
+    }
 
     typesdevReceived = (data: ITypedev[]) => {
         this.typesdev = data;

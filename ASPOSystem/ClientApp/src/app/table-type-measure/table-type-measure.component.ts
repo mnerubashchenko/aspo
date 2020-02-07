@@ -1,6 +1,6 @@
 import { Component, enableProdMode, ViewChild, Inject } from '@angular/core';
 import { ITypemeasure, TypemeasureService } from './TypemeasureService';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import CustomStore from "devextreme/data/custom_store";
 import { DxDataGridComponent } from 'devextreme-angular';
 
@@ -25,13 +25,21 @@ export class TableTypeMeasureComponent {
       load: () => this.typesmeasure,
       insert: (values) => this.http.post<any>(this.baseUrl + 'Typemeasure/CreateTypemeasure', JSON.stringify(values as ITypemeasure), { headers: this.headers }).subscribe(
         () => { this.typeMeasureService.getTypemeasure(); }),
-      //update: (key, values) => {
-      //  console.log(key,values);
-      //},
-      //remove: (key) => {
-      //  console.log(key);
-      //}
+      update: (key, values) =>
+          this.http.put<any>(this.baseUrl + 'Typemeasure/UpdateTypemeasure', JSON.stringify(values as ITypemeasure), { headers: this.headers }).subscribe(
+              () => { this.typeMeasureService.getTypemeasure(); }),
+        remove: (key) => this.http.delete<any>(this.baseUrl + 'Typemeasure/DeleteTypemeasure', { params: new HttpParams().set('idTypemeasure', key) }).subscribe(() => {
+          this.typeMeasureService.getTypemeasure();
+        })
     });
+    }
+
+  onRowUpdating(e) {
+    for (var property in e.oldData) {
+      if (!e.newData.hasOwnProperty(property)) {
+        e.newData[property] = e.oldData[property];
+      }
+    }
   }
 
     typesmeasureReceived = (data: ITypemeasure[]) => {

@@ -26,13 +26,36 @@ namespace ASPOSystem.Controllers
 
         [HttpPost]
         [Route("CreatePost")]
-        public void CreatePost([FromBody] Posts post)
+        public void CreatePost([FromBody] Posts newPost)
         {
             using (RSSContext db = new RSSContext())
             {
-                db.Posts.Add(post);
+                db.Posts.Add(newPost);
                 db.SaveChanges();
             }
         }
+
+        [HttpPut]
+        [Route("UpdatePost")]
+        public void UpdatePost([FromBody] Posts updatedPost)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                db.Posts.Update(updatedPost);
+                db.SaveChanges();
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeletePost")]
+        public void DeletePost(Guid idPost)
+        {
+            using (RSSContext db = new RSSContext())
+            {       Posts deletedPost = db.Posts.Find(idPost);
+                db.Posts.Remove(deletedPost);
+                db.SaveChanges();
+            }
+        }
+         
     }
 }

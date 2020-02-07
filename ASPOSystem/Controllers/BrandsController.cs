@@ -26,11 +26,34 @@ namespace ASPOSystem.Controllers
 
         [HttpPost]
         [Route("CreateBrand")]
-        public void CreateBrand([FromBody] Brands brand)
+        public void CreateBrand([FromBody] Brands newBrand)
         {
             using (RSSContext db = new RSSContext())
             {
-                db.Brands.Add(brand);
+                db.Brands.Add(newBrand);
+                db.SaveChanges();
+            }
+        }
+
+        [HttpPut]
+        [Route("UpdateBrand")]
+        public void UpdateBrand([FromBody] Brands updatedBrand)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                db.Brands.Update(updatedBrand);
+                db.SaveChanges();
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteBrand")]
+        public void DeleteBrand(Guid idBrand)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                Brands deletedBrand = db.Brands.Find(idBrand);
+                db.Brands.Remove(deletedBrand);
                 db.SaveChanges();
             }
         }

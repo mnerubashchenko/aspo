@@ -26,11 +26,34 @@ namespace ASPOSystem.Controllers
 
         [HttpPost]
         [Route("CreateTypemeasure")]
-        public void CreateTypemeasure([FromBody] Typemeasure tm)
+        public void CreateTypemeasure([FromBody] Typemeasure newTypemeasure)
         {
             using (RSSContext db = new RSSContext())
             {
-                db.Typemeasure.Add(tm);
+                db.Typemeasure.Add(newTypemeasure);
+                db.SaveChanges();
+            }
+        }
+
+        [HttpPut]
+        [Route("UpdateTypemeasure")]
+        public void UpdateTypemeasure([FromBody] Typemeasure updatedTypemeasure)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                db.Typemeasure.Update(updatedTypemeasure);
+                db.SaveChanges();
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteTypemeasure")]
+        public void DeleteTypemeasure(Guid idTypemeasure)
+        {
+            using (RSSContext db = new RSSContext())
+            {
+                Typemeasure deletedTypemeasure = db.Typemeasure.Find(idTypemeasure);
+                db.Typemeasure.Remove(deletedTypemeasure);
                 db.SaveChanges();
             }
         }

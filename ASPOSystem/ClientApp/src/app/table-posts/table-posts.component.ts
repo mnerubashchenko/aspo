@@ -1,6 +1,6 @@
 import { Component, enableProdMode, ViewChild, Inject } from '@angular/core';
 import { IPosts, PostService } from './PostService';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { DxDataGridComponent } from 'devextreme-angular';
 import CustomStore from "devextreme/data/custom_store";
 
@@ -25,14 +25,20 @@ export class TablePostsComponent {
           load: () => this.posts,
           insert: (values) => this.http.post<any>(this.baseUrl + 'Posts/CreatePost', JSON.stringify(values as IPosts), { headers: this.headers }).subscribe(
             () => { this.postService.getPosts(); }),
-          //update: (key, values) => {
-          //  console.log(key,values);
-          //},
-          //remove: (key) => {
-          //  console.log(key);
-          //}
+          update: (key, values) =>
+              this.http.put<any>(this.baseUrl + 'Posts/UpdatePost', JSON.stringify(values as IPosts), { headers: this.headers }).subscribe(
+                () => { this.postService.getPosts(); }),
+            remove: (key) => this.http.delete<any>(this.baseUrl + 'Posts/DeletePost', { params: new HttpParams().set('idPost', key) }).subscribe(() => { this.postService.getPosts(); })
         });
     }
+
+  onRowUpdating(e) {
+    for (var property in e.oldData) {
+      if (!e.newData.hasOwnProperty(property)) {
+        e.newData[property] = e.oldData[property];
+      }
+    }
+  }
 
     postsReceived = (data: IPosts[]) => {
         this.posts = data;
@@ -40,7 +46,7 @@ export class TablePostsComponent {
     }
 
     ngOnInit() {
-      //this.postService.getPosts();
+
     }
 
 }
