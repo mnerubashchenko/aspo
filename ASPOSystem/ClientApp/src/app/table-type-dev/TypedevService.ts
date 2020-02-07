@@ -18,9 +18,6 @@ export class TypedevService {
     }, error => console.error(error));
     }
 
-  createTypedev(td: ITypedev) {
-    return this.http.post<any>(this.baseUrl + 'Typedev/CreateTypedev', JSON.stringify(td), { headers: this.headers });
-  }
 }
 
 export interface ITypedev {

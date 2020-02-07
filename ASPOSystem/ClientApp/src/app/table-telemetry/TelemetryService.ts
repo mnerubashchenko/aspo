@@ -18,10 +18,6 @@ export class TelemetryService {
     }, error => console.error(error));
     }
 
-  createCommand(telemetry: ITelemetry) {
-      return this.http.post<any>(this.baseUrl + 'Telemetry/CreateTelemetry', JSON.stringify(telemetry), { headers: this.headers });
-    }
-
 }
 
 export interface ITelemetry {

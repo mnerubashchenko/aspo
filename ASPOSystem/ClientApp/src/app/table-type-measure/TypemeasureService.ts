@@ -18,9 +18,6 @@ export class TypemeasureService {
     }, error => console.error(error));
   }
 
-  createTypemeasure(tm: ITypemeasure) {
-    return this.http.post<any>(this.baseUrl + 'Typemeasure/CreateTypemeasure', JSON.stringify(tm), { headers: this.headers });
-  }
 }
 
 export interface ITypemeasure {

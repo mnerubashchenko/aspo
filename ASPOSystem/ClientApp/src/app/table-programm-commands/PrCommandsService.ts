@@ -17,10 +17,6 @@ export class PrCommandsService {
         this.subject.next(this.commands);
     }, error => console.error(error));
     }
-
-    createCommand(command: IProgrammcommands) {
-        return this.http.post<any>(this.baseUrl + 'ProgrammCommands/CreateCommand', JSON.stringify(command), { headers: this.headers });
-    }
 }
 
 export interface IProgrammcommands {

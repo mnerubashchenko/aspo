@@ -17,10 +17,6 @@ export class RoleService {
         this.subject.next(this.roles);
     }, error => console.error(error));
     }
-
-  createRole(role: IRoles) {
-    return this.http.post<any>(this.baseUrl + 'Roles/CreateRole', JSON.stringify(role), { headers: this.headers });
-  }
 }
 
 export interface IRoles {

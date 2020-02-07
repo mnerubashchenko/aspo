@@ -18,9 +18,6 @@ export class TypeinterService {
     }, error => console.error(error));
   }
 
-  createTypeinter(ti: ITypeinter) {
-    return this.http.post<any>(this.baseUrl + 'Typeinter/CreateTypeinter', JSON.stringify(ti), { headers: this.headers });
-  }
 }
 
 export interface ITypeinter {

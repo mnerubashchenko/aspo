@@ -17,10 +17,6 @@ export class PostService {
           this.subject.next(this.posts);
       }, error => console.error(error));
     }
-
-    createPost(post: IPosts) {
-      return this.http.post<any>(this.baseUrl + 'Posts/CreatePost', JSON.stringify(post), { headers: this.headers });
-    }
 }
 
 export interface IPosts {
