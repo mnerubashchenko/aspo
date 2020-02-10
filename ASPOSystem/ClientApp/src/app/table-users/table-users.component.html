@@ -7,8 +7,24 @@
   <dxi-column dataField="middlenameUser" caption="Фамилия"></dxi-column>
   <dxi-column dataField="lastnameUser" caption="Отчество"></dxi-column>
   <dxi-column dataField="loginUser" caption="Логин"></dxi-column>
-  <dxi-column dataField="postUser" caption="Должность"></dxi-column>
-  <dxi-column dataField="roleUser" caption="Роль"></dxi-column>
+  <dxi-column
+    dataField="postUser"
+    caption="Должность">
+    <dxo-lookup
+      [dataSource]="posts"
+      displayExpr="namePost"
+      valueExpr="idPost">
+    </dxo-lookup>
+  </dxi-column>
+  <dxi-column
+    dataField="roleUser"
+    caption="Роль">
+  <dxo-lookup
+      [dataSource]="roles"
+      displayExpr="nameRole"
+      valueExpr="idRole">
+    </dxo-lookup>
+  </dxi-column>
   <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"
