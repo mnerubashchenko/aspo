@@ -1,0 +1,43 @@
+<dx-data-grid id="gridContainer"
+              [dataSource]="store"
+              [showBorders]="true"
+              keyExpr="idDevice"
+              (onRowUpdating)="onRowUpdating($event)">
+  <dxi-column dataField="interfaceDevice"
+              caption="Интерфейс">
+    <dxo-lookup [dataSource]="interfaces"
+                displayExpr="nameInterface"
+                valueExpr="idInterface">
+    </dxo-lookup>
+  </dxi-column>
+  <dxi-column dataField="brandDevice"
+              caption="Бренд">
+    <dxo-lookup [dataSource]="brands"
+                displayExpr="nameBrand"
+                valueExpr="idBrand">
+    </dxo-lookup>
+  </dxi-column>
+<dxi-column dataField="modelDevice" caption="Модель"></dxi-column>
+<dxi-column dataField="ipInputDevice" caption="Базовый IP"></dxi-column>
+<dxi-column dataField="actualIpDevice" caption="Актуальный IP"></dxi-column>
+<dxi-column dataField="portDevice" caption="Порт"></dxi-column>
+<dxi-column dataField="actualIpDevice" caption="Актуальный IP"></dxi-column>
+  <dxi-column dataField="typeDevice"
+              caption="Тип">
+    <dxo-lookup [dataSource]="types"
+                displayExpr="nameTypedev"
+                valueExpr="idTypedev">
+    </dxo-lookup>
+  </dxi-column>
+  <dxo-editing mode="popup"
+               [allowUpdating]="true"
+               [allowDeleting]="true"
+               [allowAdding]="true">
+    <dxo-popup title="Устройства"
+               [showTitle]="true"
+               [width]="700"
+               [height]="300"
+               [position]="{ my: 'top', at: 'top', of: window }">
+    </dxo-popup>
+  </dxo-editing>
+</dx-data-grid>

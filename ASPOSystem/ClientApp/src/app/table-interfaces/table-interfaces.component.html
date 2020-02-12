@@ -1,0 +1,30 @@
+<dx-data-grid id="gridContainer"
+              [dataSource]="store"
+              [showBorders]="true"
+              keyExpr="idInterface"
+              (onRowUpdating)="onRowUpdating($event)">
+  <dxi-column dataField="nameInterface" caption="Название"></dxi-column>
+  <dxi-column dataField="isReadyStatusInterface" caption="Статус готовности"></dxi-column>
+  <dxi-column dataField="isUsedInterface" caption="Статус использования"></dxi-column>
+  <dxi-column dataField="selectedPortInterface" caption="Выбранный порт"></dxi-column>
+  <dxi-column dataField="typeInterface"
+              caption="Тип">
+    <dxo-lookup [dataSource]="types"
+                displayExpr="nameTypeinter"
+                valueExpr="idTypeinter">
+    </dxo-lookup>
+  </dxi-column>
+  <dxi-column dataField="ipInputInterface" caption="Базовый IP"></dxi-column>
+  <dxi-column dataField="actualIpInterface" caption="Актуальный IP"></dxi-column>
+  <dxo-editing mode="popup"
+               [allowUpdating]="true"
+               [allowDeleting]="true"
+               [allowAdding]="true">
+    <dxo-popup title="Проекты"
+               [showTitle]="true"
+               [width]="700"
+               [height]="300"
+               [position]="{ my: 'top', at: 'top', of: window }">
+    </dxo-popup>
+  </dxo-editing>
+</dx-data-grid>

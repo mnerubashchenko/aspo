@@ -37,6 +37,11 @@
                 <span class='glyphicon glyphicon-th-list'></span> Люди
               </a>
             </li>
+            <li [routerLinkActive]='["link-active"]'>
+              <a [routerLink]='["/main-information"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-th-list'></span> Основные таблицы
+              </a>
+            </li>
           </ul>
         </div>
     </div>

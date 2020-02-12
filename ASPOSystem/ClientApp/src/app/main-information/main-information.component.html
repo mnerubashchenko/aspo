@@ -1,0 +1,23 @@
+<select name="select" #selectedtable>
+  <option value="projects">Проекты</option>
+  <option value="protocols">Протоколы</option>
+  <option value="projects-protocols">Проекты-Протоколы</option>
+  <option value="interfaces">Интерфейсы</option>
+  <option value="devices">Устройства</option>
+  <option value="measures">Измерения</option>
+  <option value="devices-measure">Устройства-Измерения</option>
+  <option value="measure-protocol">Протоколы-Измерения</option>
+  <option value="telemetry-protocol">Протоколы-Телеметрия</option>
+  <option value="commands-protocol">Протоколы-Программные команды</option>
+</select>
+<h1></h1>
+<app-table-projects *ngIf ="selectedtable.value == 'projects'"></app-table-projects>
+<app-table-protocol *ngIf="selectedtable.value == 'protocols'"></app-table-protocol>
+<app-table-project-protocol *ngIf="selectedtable.value == 'projects-protocols'"></app-table-project-protocol>
+<app-table-interfaces *ngIf="selectedtable.value == 'interfaces'"></app-table-interfaces>
+<app-table-devices *ngIf="selectedtable.value == 'devices'"></app-table-devices>
+<app-table-measures *ngIf="selectedtable.value == 'measures'"></app-table-measures>
+<app-table-devices-measure *ngIf="selectedtable.value == 'devices-measure'"></app-table-devices-measure>
+<app-table-measure-protocol *ngIf="selectedtable.value == 'measure-protocol'"></app-table-measure-protocol>
+<app-table-telemetry-protocol *ngIf="selectedtable.value == 'telemetry-protocol'"></app-table-telemetry-protocol>
+<app-table-commands-protocol *ngIf="selectedtable.value == 'commands-protocol'"></app-table-commands-protocol>

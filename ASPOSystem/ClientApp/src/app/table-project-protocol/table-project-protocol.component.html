@@ -1,0 +1,31 @@
+<dx-data-grid id="gridContainer"
+              [dataSource]="store"
+              [showBorders]="true"
+              keyExpr="idProjprot"
+              (onRowUpdating)="onRowUpdating($event)">
+  <dxi-column dataField="projectLink"
+              caption="Проект">
+    <dxo-lookup [dataSource]="projects"
+                displayExpr="nameProject"
+                valueExpr="idProject">
+    </dxo-lookup>
+  </dxi-column>
+  <dxi-column dataField="protocolProjectLink"
+              caption="Протокол">
+    <dxo-lookup [dataSource]="protocols"
+                displayExpr="nameProtocol"
+                valueExpr="idProtocol">
+    </dxo-lookup>
+  </dxi-column>
+  <dxo-editing mode="popup"
+               [allowUpdating]="true"
+               [allowDeleting]="true"
+               [allowAdding]="true">
+    <dxo-popup title="Проекты-протоколы"
+               [showTitle]="true"
+               [width]="700"
+               [height]="300"
+               [position]="{ my: 'top', at: 'top', of: window }">
+    </dxo-popup>
+  </dxo-editing>
+</dx-data-grid>

@@ -30,9 +30,30 @@ import { TypeinterService } from './table-type-inter/TypeinterService';
 import { TypemeasureService } from './table-type-measure/TypemeasureService';
 import { CategoryService } from './table-view/CategoryService';
 import { UsersService } from './table-users/UsersService';
+import { ProjectService } from './table-projects/ProjectService';
+import { ProtocolService } from './table-protocol/ProtocolService';
+import { ProjectProtocolService } from './table-project-protocol/ProjectProtocolService';
+import { InterfaceService } from './table-interfaces/InterfaceService';
+import { DevicesService } from './table-devices/DevicesService';
+import { MeasureService } from './table-measures/MeasureService';
+import { DevicesMeasureService } from './table-devices-measure/DevicesMeasureService';
+import { MeasureProtocolService } from './table-measure-protocol/MeasureProtocolService';
+import { TelemetryProtocolService } from './table-telemetry-protocol/TelemetryProtocolService';
+import { CommandsProtocolService } from './table-commands-protocol/CommandsProtocolService';
 import { locale, loadMessages } from 'devextreme/localization';
 import { TableUsersComponent } from './table-users/table-users.component';
 import { PeopleComponent } from './people/people.component';
+import { MainInformationComponent } from './main-information/main-information.component';
+import { TableProjectsComponent } from './table-projects/table-projects.component';
+import { TableProtocolComponent } from './table-protocol/table-protocol.component';
+import { TableProjectProtocolComponent } from './table-project-protocol/table-project-protocol.component';
+import { TableInterfacesComponent } from './table-interfaces/table-interfaces.component';
+import { TableDevicesComponent } from './table-devices/table-devices.component';
+import { TableMeasuresComponent } from './table-measures/table-measures.component';
+import { TableDevicesMeasureComponent } from './table-devices-measure/table-devices-measure.component';
+import { TableMeasureProtocolComponent } from './table-measure-protocol/table-measure-protocol.component';
+import { TableTelemetryProtocolComponent } from './table-telemetry-protocol/table-telemetry-protocol.component';
+import { TableCommandsProtocolComponent } from './table-commands-protocol/table-commands-protocol.component';
 declare var require: any;
 let messagesDe = require("devextreme/localization/messages/de.json"),
   messagesJa = require("devextreme/localization/messages/ja.json"),
@@ -64,7 +85,18 @@ locale(navigator.language);
     TableTelemetryComponent,
     HandbooksComponent,
     TableUsersComponent,
-    PeopleComponent
+    PeopleComponent,
+    MainInformationComponent,
+    TableProjectsComponent,
+    TableProtocolComponent,
+    TableProjectProtocolComponent,
+    TableInterfacesComponent,
+    TableDevicesComponent,
+    TableMeasuresComponent,
+    TableDevicesMeasureComponent,
+    TableMeasureProtocolComponent,
+    TableTelemetryProtocolComponent,
+    TableCommandsProtocolComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -85,6 +117,7 @@ locale(navigator.language);
         { path: 'table-programm-commands', component: TableProgrammCommandsComponent },
         { path: 'handbooks', component: HandbooksComponent },
         { path: 'people', component: PeopleComponent },
+        { path: 'main-information', component: MainInformationComponent },
         { path: 'table-view', component: TableViewComponent }
     ])
   ],
@@ -97,7 +130,17 @@ locale(navigator.language);
         TypeinterService,
         TypemeasureService,
         CategoryService,
-        UsersService],
+        UsersService,
+        ProjectService,
+        ProtocolService,
+        ProjectProtocolService,
+        InterfaceService,
+        DevicesService,
+        MeasureService,
+        DevicesMeasureService,
+        MeasureProtocolService,
+        TelemetryProtocolService,
+        CommandsProtocolService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

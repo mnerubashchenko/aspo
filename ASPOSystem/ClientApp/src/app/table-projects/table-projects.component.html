@@ -1,0 +1,34 @@
+<dx-data-grid id="gridContainer"
+              [dataSource]="store"
+              [showBorders]="true"
+              keyExpr="idProject"
+              (onRowUpdating)="onRowUpdating($event)">
+  <dxi-column dataField="nameProject" caption="Название"></dxi-column>
+  <dxi-column dataField="directorProject"
+              caption="Руководитель">
+    <dxo-lookup [dataSource]="users"
+                displayExpr="middlenameUser"
+                valueExpr="idUser">
+    </dxo-lookup>
+  </dxi-column>
+  <dxi-column dataField="categoryProject"
+              caption="Категория">
+    <dxo-lookup [dataSource]="categories"
+                displayExpr="nameCategory"
+                valueExpr="idCategory">
+    </dxo-lookup>
+  </dxi-column>
+  <dxi-column dataField="descriptionProject" caption="Описание"></dxi-column>
+  <dxi-column dataField="dateCreateProject" caption="Дата создания" dataType="datetime"></dxi-column>
+  <dxo-editing mode="popup"
+               [allowUpdating]="true"
+               [allowDeleting]="true"
+               [allowAdding]="true">
+    <dxo-popup title="Проекты"
+               [showTitle]="true"
+               [width]="700"
+               [height]="300"
+               [position]="{ my: 'top', at: 'top', of: window }">
+    </dxo-popup>
+  </dxo-editing>
+</dx-data-grid>

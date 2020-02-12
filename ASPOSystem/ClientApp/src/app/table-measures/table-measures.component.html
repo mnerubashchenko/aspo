@@ -1,0 +1,36 @@
+<dx-data-grid id="gridContainer"
+              [dataSource]="store"
+              [showBorders]="true"
+              keyExpr="idMeasure"
+              (onRowUpdating)="onRowUpdating($event)">
+  <dxi-column dataField="groupMeasure" caption="Группа"></dxi-column>
+  <dxi-column dataField="nameMeasure" caption="Название"></dxi-column>
+  <dxi-column dataField="isCheckMeasure" caption="Результат проверки"></dxi-column>
+  <dxi-column dataField="statusMeasure" caption="Статус"></dxi-column>
+  <dxi-column dataField="typeMeasure"
+              caption="Тип">
+    <dxo-lookup [dataSource]="types"
+                displayExpr="nameTypemeasure"
+                valueExpr="idTypemeasure">
+    </dxo-lookup>
+  </dxi-column>
+  <dxi-column dataField="manualMeasure" caption="Ручное измерение"></dxi-column>
+  <dxi-column dataField="interfaceMeasure"
+              caption="Интерфейс">
+    <dxo-lookup [dataSource]="interfaces"
+                displayExpr="nameInterface"
+                valueExpr="idInterface">
+    </dxo-lookup>
+  </dxi-column>
+  <dxo-editing mode="popup"
+               [allowUpdating]="true"
+               [allowDeleting]="true"
+               [allowAdding]="true">
+    <dxo-popup title="Измерения"
+               [showTitle]="true"
+               [width]="700"
+               [height]="300"
+               [position]="{ my: 'top', at: 'top', of: window }">
+    </dxo-popup>
+  </dxo-editing>
+</dx-data-grid>

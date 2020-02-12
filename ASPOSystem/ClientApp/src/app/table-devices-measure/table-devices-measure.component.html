@@ -1,0 +1,31 @@
+<dx-data-grid id="gridContainer"
+              [dataSource]="store"
+              [showBorders]="true"
+              keyExpr="idDevmeas"
+              (onRowUpdating)="onRowUpdating($event)">
+  <dxi-column dataField="deviceLink"
+              caption="Устройство">
+    <dxo-lookup [dataSource]="devices"
+                displayExpr="modelDevice"
+                valueExpr="idDevice">
+    </dxo-lookup>
+  </dxi-column>
+  <dxi-column dataField="measureLink"
+              caption="Измерение">
+    <dxo-lookup [dataSource]="measures"
+                displayExpr="nameMeasure"
+                valueExpr="idMeasure">
+    </dxo-lookup>
+  </dxi-column>
+  <dxo-editing mode="popup"
+               [allowUpdating]="true"
+               [allowDeleting]="true"
+               [allowAdding]="true">
+    <dxo-popup title="Устройства-Измерения"
+               [showTitle]="true"
+               [width]="700"
+               [height]="300"
+               [position]="{ my: 'top', at: 'top', of: window }">
+    </dxo-popup>
+  </dxo-editing>
+</dx-data-grid>
