@@ -1,0 +1,33 @@
+<dx-data-grid id="gridContainer"
+              [dataSource]="store"
+              [showBorders]="true"
+              keyExpr="idComment"
+              (onRowUpdating)="onRowUpdating($event)">
+  <dxi-column dataField="textComment" caption="Текст"></dxi-column>
+  <dxi-column dataField="protocolComment"
+              caption="Протокол">
+    <dxo-lookup [dataSource]="protocols"
+                displayExpr="nameProtocol"
+                valueExpr="idProtocol">
+    </dxo-lookup>
+  </dxi-column>
+  <dxi-column dataField="authorComment"
+              caption="Автор">
+    <dxo-lookup [dataSource]="users"
+                displayExpr="middlenameUser"
+                valueExpr="idUser">
+    </dxo-lookup>
+  </dxi-column>
+  <dxi-column dataField="dateTimeComment" caption="Дата и время добавления" dataType="datetime"></dxi-column>
+  <dxo-editing mode="popup"
+               [allowUpdating]="true"
+               [allowDeleting]="true"
+               [allowAdding]="true">
+    <dxo-popup title="Измерения"
+               [showTitle]="true"
+               [width]="700"
+               [height]="300"
+               [position]="{ my: 'top', at: 'top', of: window }">
+    </dxo-popup>
+  </dxo-editing>
+</dx-data-grid>

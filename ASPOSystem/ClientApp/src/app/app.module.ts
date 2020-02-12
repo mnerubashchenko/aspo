@@ -40,6 +40,7 @@ import { DevicesMeasureService } from './table-devices-measure/DevicesMeasureSer
 import { MeasureProtocolService } from './table-measure-protocol/MeasureProtocolService';
 import { TelemetryProtocolService } from './table-telemetry-protocol/TelemetryProtocolService';
 import { CommandsProtocolService } from './table-commands-protocol/CommandsProtocolService';
+import { CommentsService } from './table-comments/CommentsService';
 import { locale, loadMessages } from 'devextreme/localization';
 import { TableUsersComponent } from './table-users/table-users.component';
 import { PeopleComponent } from './people/people.component';
@@ -54,6 +55,7 @@ import { TableDevicesMeasureComponent } from './table-devices-measure/table-devi
 import { TableMeasureProtocolComponent } from './table-measure-protocol/table-measure-protocol.component';
 import { TableTelemetryProtocolComponent } from './table-telemetry-protocol/table-telemetry-protocol.component';
 import { TableCommandsProtocolComponent } from './table-commands-protocol/table-commands-protocol.component';
+import { TableCommentsComponent } from './table-comments/table-comments.component';
 declare var require: any;
 let messagesDe = require("devextreme/localization/messages/de.json"),
   messagesJa = require("devextreme/localization/messages/ja.json"),
@@ -96,7 +98,8 @@ locale(navigator.language);
     TableDevicesMeasureComponent,
     TableMeasureProtocolComponent,
     TableTelemetryProtocolComponent,
-    TableCommandsProtocolComponent
+    TableCommandsProtocolComponent,
+    TableCommentsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -140,7 +143,8 @@ locale(navigator.language);
         DevicesMeasureService,
         MeasureProtocolService,
         TelemetryProtocolService,
-        CommandsProtocolService],
+        CommandsProtocolService,
+        CommentsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

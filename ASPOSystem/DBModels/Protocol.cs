@@ -7,7 +7,7 @@ namespace ASPOSystem.DBModels
     {
         public Protocol()
         {
-            CommentsProtocol = new HashSet<CommentsProtocol>();
+            Comments = new HashSet<Comments>();
             MeasureProtocol = new HashSet<MeasureProtocol>();
             PrcommandsProtocol = new HashSet<PrcommandsProtocol>();
             ProjectProtocol = new HashSet<ProjectProtocol>();
@@ -18,7 +18,7 @@ namespace ASPOSystem.DBModels
         public string NameProtocol { get; set; }
         public DateTime? DateCreateProtocol { get; set; }
 
-        public ICollection<CommentsProtocol> CommentsProtocol { get; set; }
+        public ICollection<Comments> Comments { get; set; }
         public ICollection<MeasureProtocol> MeasureProtocol { get; set; }
         public ICollection<PrcommandsProtocol> PrcommandsProtocol { get; set; }
         public ICollection<ProjectProtocol> ProjectProtocol { get; set; }

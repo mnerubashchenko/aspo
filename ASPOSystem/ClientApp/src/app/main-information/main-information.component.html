@@ -9,6 +9,7 @@
   <option value="measure-protocol">Протоколы-Измерения</option>
   <option value="telemetry-protocol">Протоколы-Телеметрия</option>
   <option value="commands-protocol">Протоколы-Программные команды</option>
+  <option value="comments">Комментарии к протоколам</option>
 </select>
 <h1></h1>
 <app-table-projects *ngIf ="selectedtable.value == 'projects'"></app-table-projects>
@@ -21,3 +22,4 @@
 <app-table-measure-protocol *ngIf="selectedtable.value == 'measure-protocol'"></app-table-measure-protocol>
 <app-table-telemetry-protocol *ngIf="selectedtable.value == 'telemetry-protocol'"></app-table-telemetry-protocol>
 <app-table-commands-protocol *ngIf="selectedtable.value == 'commands-protocol'"></app-table-commands-protocol>
+<app-table-comments *ngIf="selectedtable.value == 'comments'"></app-table-comments>

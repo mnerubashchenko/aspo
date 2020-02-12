@@ -29,6 +29,7 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\table-brands\BrandService.ts" />
     <None Remove="ClientApp\src\app\table-commands-protocol\CommandsProtocolService.ts" />
+    <None Remove="ClientApp\src\app\table-comments\CommentsService.ts" />
     <None Remove="ClientApp\src\app\table-devices-measure\DevicesMeasureService.ts" />
     <None Remove="ClientApp\src\app\table-devices\DevicesService.ts" />
     <None Remove="ClientApp\src\app\table-interfaces\InterfaceService.ts" />
@@ -52,6 +53,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\table-brands\BrandService.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\table-commands-protocol\CommandsProtocolService.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\table-comments\CommentsService.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\table-devices-measure\DevicesMeasureService.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\table-devices\DevicesService.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\table-interfaces\InterfaceService.ts" />
