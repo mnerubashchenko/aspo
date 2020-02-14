@@ -12,39 +12,29 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class DevicesController : Controller
     {
+        private RSSContext db = new RSSContext();
+
         [HttpGet]
         [Route("GetDevices")]
         public List<Devices> GetDevices()
         {
-            List<Devices> devices;
-            using (RSSContext db = new RSSContext())
-            {
-                devices = db.Devices.Where(p => p.IdDevice.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
-            }
-
-            return devices;
+            return db.Devices.Where(p => p.IdDevice.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]
         [Route("CreateDevice")]
         public void CreateDevice([FromBody] Devices newDevice)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.Devices.Add(newDevice);
-                db.SaveChanges();
-            }
+            db.Devices.Add(newDevice);
+            db.SaveChanges();
         }
 
         [HttpPut]
         [Route("UpdateDevice")]
         public void UpdateDevice([FromBody] Devices updatedDevice)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.Devices.Update(updatedDevice);
-                db.SaveChanges();
-            }
+            db.Devices.Update(updatedDevice);
+            db.SaveChanges();
         }
 
         [HttpDelete]
@@ -53,8 +43,7 @@ namespace ASPOSystem.Controllers
         {
             using (RSSContext db = new RSSContext())
             {
-                Devices deletedDevice = db.Devices.Find(idDevice);
-                db.Devices.Remove(deletedDevice);
+                db.Devices.Remove(db.Devices.Find(idDevice));
                 db.SaveChanges();
             }
         }

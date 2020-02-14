@@ -11,51 +11,37 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class PostsController : Controller
     {
+        private RSSContext db = new RSSContext();
+
         [HttpGet]
         [Route("GetPost")]
         public List<Posts> GetPost()
         {
-            List<Posts> posts;
-            using (RSSContext db = new RSSContext())
-            {
-                posts = db.Posts.Where(p => p.IdPost.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
-            }
-
-            return posts;
+            return db.Posts.Where(p => p.IdPost.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]
         [Route("CreatePost")]
         public void CreatePost([FromBody] Posts newPost)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.Posts.Add(newPost);
-                db.SaveChanges();
-            }
+            db.Posts.Add(newPost);
+            db.SaveChanges();
         }
 
         [HttpPut]
         [Route("UpdatePost")]
         public void UpdatePost([FromBody] Posts updatedPost)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.Posts.Update(updatedPost);
-                db.SaveChanges();
-            }
+            db.Posts.Update(updatedPost);
+            db.SaveChanges();
         }
 
         [HttpDelete]
         [Route("DeletePost")]
         public void DeletePost(Guid idPost)
         {
-            using (RSSContext db = new RSSContext())
-            {       Posts deletedPost = db.Posts.Find(idPost);
-                db.Posts.Remove(deletedPost);
-                db.SaveChanges();
-            }
+            db.Posts.Remove(db.Posts.Find(idPost));
+            db.SaveChanges();
         }
-         
     }
 }

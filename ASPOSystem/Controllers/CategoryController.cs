@@ -11,51 +11,38 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class CategoryController : Controller
     {
+        private RSSContext db = new RSSContext();
+
         [HttpGet]
         [Route("GetCategory")]
         public List<Category> GetCategory()
         {
-            List<Category> categories;
-            using (RSSContext db = new RSSContext())
-            {
-                categories = db.Category.Where(p=> p.IdCategory.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
-            }
-
-            return categories;
+            return db.Category.Where(p => p.IdCategory.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]
         [Route("CreateCategory")]
         public void CreateCategory([FromBody] Category newCategory)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.Category.Add(newCategory);
-                db.SaveChanges();
-            }
+            db.Category.Add(newCategory);
+            db.SaveChanges();
+
         }
 
         [HttpPut]
         [Route("UpdateCategory")]
         public void UpdateCategory([FromBody] Category updatedCategory)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.Category.Update(updatedCategory);
-                db.SaveChanges();
-            }
+            db.Category.Update(updatedCategory);
+            db.SaveChanges();
         }
 
         [HttpDelete]
         [Route("DeleteCategory")]
         public void DeleteCategory(Guid idCategory)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                Category deletedCategory = db.Category.Find(idCategory);
-                db.Category.Remove(deletedCategory);
-                db.SaveChanges();
-            }
+            db.Category.Remove(db.Category.Find(idCategory));
+            db.SaveChanges();
         }
     }
 }

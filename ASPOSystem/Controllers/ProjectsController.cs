@@ -11,51 +11,37 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class ProjectsController : Controller
     {
+        private RSSContext db = new RSSContext();
+
         [HttpGet]
         [Route("GetProjects")]
         public List<Project> GetProjects()
         {
-            List<Project> projects;
-            using (RSSContext db = new RSSContext())
-            {
-                projects = db.Project.ToList();
-            }
-
-            return projects;
+            return db.Project.ToList();
         }
 
         [HttpPost]
         [Route("CreateProject")]
         public void CreateProject([FromBody] Project newProject)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.Project.Add(newProject);
-                db.SaveChanges();
-            }
+            db.Project.Add(newProject);
+            db.SaveChanges();
         }
 
         [HttpPut]
         [Route("UpdateProject")]
         public void UpdateProject([FromBody] Project updatedProject)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.Project.Update(updatedProject);
-                db.SaveChanges();
-            }
+            db.Project.Update(updatedProject);
+            db.SaveChanges();
         }
 
         [HttpDelete]
         [Route("DeleteProject")]
         public void DeleteProject(Guid idProject)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                Project deletedProject = db.Project.Find(idProject);
-                db.Project.Remove(deletedProject);
-                db.SaveChanges();
-            }
+            db.Project.Remove(db.Project.Find(idProject));
+            db.SaveChanges();
         }
     }
 }

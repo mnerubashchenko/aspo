@@ -11,51 +11,37 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class DevicesMeasureController : Controller
     {
+        private RSSContext db = new RSSContext();
+
         [HttpGet]
         [Route("GetLinks")]
         public List<DevicesMeasure> GetLinks()
         {
-            List<DevicesMeasure> links;
-            using (RSSContext db = new RSSContext())
-            {
-                links = db.DevicesMeasure.ToList();
-            }
-
-            return links;
+            return db.DevicesMeasure.ToList();
         }
 
         [HttpPost]
         [Route("CreateLink")]
         public void CreateLink([FromBody] DevicesMeasure newLink)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.DevicesMeasure.Add(newLink);
-                db.SaveChanges();
-            }
+            db.DevicesMeasure.Add(newLink);
+            db.SaveChanges();
         }
 
         [HttpPut]
         [Route("UpdateLink")]
         public void UpdateLink([FromBody] DevicesMeasure updatedLink)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.DevicesMeasure.Update(updatedLink);
-                db.SaveChanges();
-            }
+            db.DevicesMeasure.Update(updatedLink);
+            db.SaveChanges();
         }
 
         [HttpDelete("{id}")]
         [Route("DeleteLink")]
         public void DeleteLink(Guid id)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                DevicesMeasure deletedLink = db.DevicesMeasure.Find(id);
-                db.DevicesMeasure.Remove(deletedLink);
-                db.SaveChanges();
-            }
+            db.DevicesMeasure.Remove(db.DevicesMeasure.Find(id));
+            db.SaveChanges();
         }
     }
 }

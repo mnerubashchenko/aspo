@@ -11,51 +11,37 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class TypeinterController : Controller
     {
+        private RSSContext db = new RSSContext();
+
         [HttpGet]
         [Route("GetTypeinter")]
         public List<Typeinter> GetTypeinter()
         {
-            List<Typeinter> typesinter;
-            using (RSSContext db = new RSSContext())
-            {
-                typesinter = db.Typeinter.Where(p => p.IdTypeinter.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
-            }
-
-            return typesinter;
+            return db.Typeinter.Where(p => p.IdTypeinter.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]
         [Route("CreateTypeinter")]
         public void CreateTypeinter([FromBody] Typeinter newTypeinter)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.Typeinter.Add(newTypeinter);
-                db.SaveChanges();
-            }
+            db.Typeinter.Add(newTypeinter);
+            db.SaveChanges();
         }
 
         [HttpPut]
         [Route("UpdateTypeinter")]
         public void UpdateTypeinter([FromBody] Typeinter updatedTypeinter)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.Typeinter.Update(updatedTypeinter);
-                db.SaveChanges();
-            }
+            db.Typeinter.Update(updatedTypeinter);
+            db.SaveChanges();
         }
 
         [HttpDelete]
         [Route("DeleteTypeinter")]
         public void DeleteTypeinter(Guid idTypeinter)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                Typeinter deletedTypeinter = db.Typeinter.Find(idTypeinter);
-                db.Typeinter.Remove(deletedTypeinter);
-                db.SaveChanges();
-            }
+            db.Typeinter.Remove(db.Typeinter.Find(idTypeinter));
+            db.SaveChanges();
         }
     }
 }

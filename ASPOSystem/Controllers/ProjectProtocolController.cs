@@ -11,51 +11,37 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class ProjectProtocolController : Controller
     {
+        private RSSContext db = new RSSContext();
+
         [HttpGet]
         [Route("GetProjProtLinks")]
         public List<ProjectProtocol> GetProjProtLinks()
         {
-            List<ProjectProtocol> links;
-            using (RSSContext db = new RSSContext())
-            {
-                links = db.ProjectProtocol.ToList();
-            }
-
-            return links;
+            return db.ProjectProtocol.ToList();
         }
 
         [HttpPost]
         [Route("CreateProjProtLink")]
         public void CreateProjProtLink([FromBody] ProjectProtocol newLink)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.ProjectProtocol.Add(newLink);
-                db.SaveChanges();
-            }
+            db.ProjectProtocol.Add(newLink);
+            db.SaveChanges();
         }
 
         [HttpPut]
         [Route("UpdateProjProtLink")]
         public void UpdateProjProtLink([FromBody] ProjectProtocol updatedLink)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.ProjectProtocol.Update(updatedLink);
-                db.SaveChanges();
-            }
+            db.ProjectProtocol.Update(updatedLink);
+            db.SaveChanges();
         }
 
         [HttpDelete("{id}")]
         [Route("DeleteProjProtLink")]
         public void DeleteProjProtLink(Guid id)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                ProjectProtocol deletedLink = db.ProjectProtocol.Find(id);
-                db.ProjectProtocol.Remove(deletedLink);
-                db.SaveChanges();
-            }
+            db.ProjectProtocol.Remove(db.ProjectProtocol.Find(id));
+            db.SaveChanges();
         }
     }
 }

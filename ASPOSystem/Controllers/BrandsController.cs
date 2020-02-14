@@ -11,51 +11,37 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class BrandsController : Controller
     {
+        private RSSContext db = new RSSContext();
+
         [HttpGet]
         [Route("GetBrand")]
         public List<Brands> GetBrand()
         {
-            List<Brands> brands;
-            using (RSSContext db = new RSSContext())
-            {
-                brands = db.Brands.Where(p=> p.IdBrand.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
-            }
-
-            return brands;
+            return db.Brands.Where(p => p.IdBrand.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]
         [Route("CreateBrand")]
         public void CreateBrand([FromBody] Brands newBrand)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.Brands.Add(newBrand);
-                db.SaveChanges();
-            }
+            db.Brands.Add(newBrand);
+            db.SaveChanges();
         }
 
         [HttpPut]
         [Route("UpdateBrand")]
         public void UpdateBrand([FromBody] Brands updatedBrand)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.Brands.Update(updatedBrand);
-                db.SaveChanges();
-            }
+            db.Brands.Update(updatedBrand);
+            db.SaveChanges();
         }
 
         [HttpDelete]
         [Route("DeleteBrand")]
         public void DeleteBrand(Guid idBrand)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                Brands deletedBrand = db.Brands.Find(idBrand);
-                db.Brands.Remove(deletedBrand);
-                db.SaveChanges();
-            }
+            db.Brands.Remove(db.Brands.Find(idBrand));
+            db.SaveChanges();
         }
     }
 }

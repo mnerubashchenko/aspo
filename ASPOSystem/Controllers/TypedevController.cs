@@ -11,51 +11,37 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class TypedevController : Controller
     {
+        private RSSContext db = new RSSContext();
+
         [HttpGet]
         [Route("GetTypedev")]
         public List<Typedev> GetTypedev()
         {
-            List<Typedev> typesdev;
-            using (RSSContext db = new RSSContext())
-            {
-                typesdev = db.Typedev.Where(p => p.IdTypedev.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
-            }
-
-            return typesdev;
+            return db.Typedev.Where(p => p.IdTypedev.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]
         [Route("CreateTypedev")]
         public void CreateTypedev([FromBody] Typedev newTypedev)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.Typedev.Add(newTypedev);
-                db.SaveChanges();
-            }
+            db.Typedev.Add(newTypedev);
+            db.SaveChanges();
         }
 
         [HttpPut]
         [Route("UpdateTypedev")]
         public void UpdateTypedev([FromBody] Typedev updatedTypedev)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.Typedev.Update(updatedTypedev);
-                db.SaveChanges();
-            }
+            db.Typedev.Update(updatedTypedev);
+            db.SaveChanges();
         }
 
         [HttpDelete]
         [Route("DeleteTypedev")]
         public void DeleteRole(Guid idTypedev)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                Typedev deletedTypedev = db.Typedev.Find(idTypedev);
-                db.Typedev.Remove(deletedTypedev);
-                db.SaveChanges();
-            }
+            db.Typedev.Remove(db.Typedev.Find(idTypedev));
+            db.SaveChanges();
         }
     }
 }

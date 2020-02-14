@@ -11,51 +11,37 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class InterfaceController : Controller
     {
+        private RSSContext db = new RSSContext();
+
         [HttpGet]
         [Route("GetInterfaces")]
         public List<Interfaces> GetInterfaces()
         {
-            List<Interfaces> interfaces;
-            using (RSSContext db = new RSSContext())
-            {
-                interfaces = db.Interfaces.ToList();
-            }
-
-            return interfaces;
+            return db.Interfaces.ToList();
         }
 
         [HttpPost]
         [Route("CreateInterface")]
         public void CreateInterface([FromBody] Interfaces newInterface)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.Interfaces.Add(newInterface);
-                db.SaveChanges();
-            }
+            db.Interfaces.Add(newInterface);
+            db.SaveChanges();
         }
 
         [HttpPut]
         [Route("UpdateInterface")]
         public void UpdateInterface([FromBody] Interfaces updatedInterface)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.Interfaces.Update(updatedInterface);
-                db.SaveChanges();
-            }
+            db.Interfaces.Update(updatedInterface);
+            db.SaveChanges();
         }
 
         [HttpDelete]
         [Route("DeleteInterface")]
         public void DeleteInterface(Guid idInterface)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                Interfaces deletedInterface = db.Interfaces.Find(idInterface);
-                db.Interfaces.Remove(deletedInterface);
-                db.SaveChanges();
-            }
+            db.Interfaces.Remove(db.Interfaces.Find(idInterface));
+            db.SaveChanges();
         }
     }
 }

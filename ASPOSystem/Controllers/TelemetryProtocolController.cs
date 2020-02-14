@@ -11,51 +11,37 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class TelemetryProtocolController : Controller
     {
+        private RSSContext db = new RSSContext();
+
         [HttpGet]
         [Route("GetLinks")]
         public List<TelemetryProtocol> GetLinks()
         {
-            List<TelemetryProtocol> links;
-            using (RSSContext db = new RSSContext())
-            {
-                links = db.TelemetryProtocol.ToList();
-            }
-
-            return links;
+            return db.TelemetryProtocol.ToList();
         }
 
         [HttpPost]
         [Route("CreateLink")]
         public void CreateLink([FromBody] TelemetryProtocol newLink)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.TelemetryProtocol.Add(newLink);
-                db.SaveChanges();
-            }
+            db.TelemetryProtocol.Add(newLink);
+            db.SaveChanges();
         }
 
         [HttpPut]
         [Route("UpdateLink")]
         public void UpdateLink([FromBody] TelemetryProtocol updatedLink)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                db.TelemetryProtocol.Update(updatedLink);
-                db.SaveChanges();
-            }
+            db.TelemetryProtocol.Update(updatedLink);
+            db.SaveChanges();
         }
 
         [HttpDelete("{id}")]
         [Route("DeleteLink")]
         public void DeleteLink(Guid id)
         {
-            using (RSSContext db = new RSSContext())
-            {
-                TelemetryProtocol deletedLink = db.TelemetryProtocol.Find(id);
-                db.TelemetryProtocol.Remove(deletedLink);
-                db.SaveChanges();
-            }
+            db.TelemetryProtocol.Remove(db.TelemetryProtocol.Find(id));
+            db.SaveChanges();
         }
     }
 }
