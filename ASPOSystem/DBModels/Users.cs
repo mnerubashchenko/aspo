@@ -16,6 +16,7 @@ namespace ASPOSystem.DBModels
         public string MiddlenameUser { get; set; }
         public string LastnameUser { get; set; }
         public string LoginUser { get; set; }
+        public string PasswordUser { get; set; }
         public Guid? PostUser { get; set; }
         public Guid? RoleUser { get; set; }
 

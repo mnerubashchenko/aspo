@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, InjectionToken } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -56,6 +56,9 @@ import { TableMeasureProtocolComponent } from './table-measure-protocol/table-me
 import { TableTelemetryProtocolComponent } from './table-telemetry-protocol/table-telemetry-protocol.component';
 import { TableCommandsProtocolComponent } from './table-commands-protocol/table-commands-protocol.component';
 import { TableCommentsComponent } from './table-comments/table-comments.component';
+import { LoginComponent } from './login/login.component';
+import { JwtModule } from '@auth0/angular-jwt';
+
 declare var require: any;
 let messagesDe = require("devextreme/localization/messages/de.json"),
   messagesJa = require("devextreme/localization/messages/ja.json"),
@@ -67,7 +70,9 @@ loadMessages(messagesJa);
 
 locale(navigator.language);
 
-
+export function tokenGetter() {
+  return localStorage.getItem("jwt");
+}
 
 @NgModule({
   declarations: [
@@ -99,7 +104,8 @@ locale(navigator.language);
     TableMeasureProtocolComponent,
     TableTelemetryProtocolComponent,
     TableCommandsProtocolComponent,
-    TableCommentsComponent
+    TableCommentsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -121,8 +127,16 @@ locale(navigator.language);
         { path: 'handbooks', component: HandbooksComponent },
         { path: 'people', component: PeopleComponent },
         { path: 'main-information', component: MainInformationComponent },
-        { path: 'table-view', component: TableViewComponent }
-    ])
+        { path: 'table-view', component: TableViewComponent },
+        { path: 'login', component: LoginComponent }
+    ]),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ["localhost:5001"],
+        blacklistedRoutes: []
+      }
+    })
   ],
     providers: [PostService,
         BrandService,
@@ -144,7 +158,8 @@ locale(navigator.language);
         MeasureProtocolService,
         TelemetryProtocolService,
         CommandsProtocolService,
-        CommentsService],
+        CommentsService
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

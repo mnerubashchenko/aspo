@@ -55,7 +55,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("BRANDS");
 
                 entity.HasIndex(e => e.NameBrand)
-                    .HasName("UQ__BRANDS__0ADC6A607B32CC1B")
+                    .HasName("UQ__BRANDS__0ADC6A6010CCCD31")
                     .IsUnique();
 
                 entity.Property(e => e.IdBrand)
@@ -75,7 +75,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("CATEGORY");
 
                 entity.HasIndex(e => e.NameCategory)
-                    .HasName("UQ__CATEGORY__C955470CE72AFA63")
+                    .HasName("UQ__CATEGORY__C955470C89FA830A")
                     .IsUnique();
 
                 entity.Property(e => e.IdCategory)
@@ -347,7 +347,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("POSTS");
 
                 entity.HasIndex(e => e.NamePost)
-                    .HasName("UQ__POSTS__7DAD8A7C502B166F")
+                    .HasName("UQ__POSTS__7DAD8A7C1FE32DAB")
                     .IsUnique();
 
                 entity.Property(e => e.IdPost)
@@ -516,7 +516,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("ROLES");
 
                 entity.HasIndex(e => e.NameRole)
-                    .HasName("UQ__ROLES__28A576BD901C62DB")
+                    .HasName("UQ__ROLES__28A576BD136E77D2")
                     .IsUnique();
 
                 entity.Property(e => e.IdRole)
@@ -595,7 +595,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("TYPEDEV");
 
                 entity.HasIndex(e => e.NameTypedev)
-                    .HasName("UQ__TYPEDEV__417AA4F3401CB45E")
+                    .HasName("UQ__TYPEDEV__417AA4F395CF1910")
                     .IsUnique();
 
                 entity.Property(e => e.IdTypedev)
@@ -615,7 +615,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("TYPEINTER");
 
                 entity.HasIndex(e => e.NameTypeinter)
-                    .HasName("UQ__TYPEINTE__BFCBA776A288ED5A")
+                    .HasName("UQ__TYPEINTE__BFCBA776585B17CC")
                     .IsUnique();
 
                 entity.Property(e => e.IdTypeinter)
@@ -635,7 +635,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("TYPEMEASURE");
 
                 entity.HasIndex(e => e.NameTypemeasure)
-                    .HasName("UQ__TYPEMEAS__9AE04A4881C8CCDB")
+                    .HasName("UQ__TYPEMEAS__9AE04A4836F7D046")
                     .IsUnique();
 
                 entity.Property(e => e.IdTypemeasure)
@@ -655,7 +655,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("USERS");
 
                 entity.HasIndex(e => e.LoginUser)
-                    .HasName("UQ__USERS__81FA3DEDDAAD2169")
+                    .HasName("UQ__USERS__81FA3DEDC8DCE653")
                     .IsUnique();
 
                 entity.Property(e => e.IdUser)
@@ -680,6 +680,11 @@ namespace ASPOSystem.DBModels
                 entity.Property(e => e.NameUser)
                     .HasColumnName("Name_user")
                     .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PasswordUser)
+                    .HasColumnName("Password_user")
+                    .HasMaxLength(40)
                     .IsUnicode(false);
 
                 entity.Property(e => e.PostUser).HasColumnName("Post_user");

@@ -106,11 +106,13 @@ Name_user VARCHAR (30),
 Middlename_user VARCHAR (30),
 Lastname_user VARCHAR (30),
 Login_user VARCHAR(40) UNIQUE,
+Password_user VARCHAR(40),
 Post_user UNIQUEIDENTIFIER FOREIGN KEY REFERENCES POSTS(ID_post),
 Role_user UNIQUEIDENTIFIER FOREIGN KEY REFERENCES ROLES(ID_role));
 
 INSERT INTO USERS (ID_user, Middlename_user, Login_user) VALUES ('00000000-0000-0000-0000-000000000000', '---', '---');
 INSERT INTO USERS (ID_user, Login_user) VALUES ('11111111-1111-1111-1111-111111111111', 'Пользователь удален');
+INSERT INTO USERS (Login_user, Password_user) VALUES ('admin', 'admin');
 
 CREATE TABLE PROJECT 
 (ID_project UNIQUEIDENTIFIER PRIMARY KEY DEFAULT newsequentialid(),

@@ -12,32 +12,42 @@
         <div class='clearfix'></div>
         <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
           <ul class='nav navbar-nav'>
-            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+            <li *ngIf="!isUserAuthenticated()" [routerLinkActive]='["link-active"]'>
+              <a [routerLink]='["/login"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-home'></span> Sign in
+              </a>
+            </li>
+            <li *ngIf="isUserAuthenticated()">
+              <a class="logout" (click)="logOut()">
+                <span class='glyphicon glyphicon-home'></span> Log out
+              </a>
+            </li>
+            <li *ngIf="isUserAuthenticated()" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
               <a [routerLink]='["/"]' (click)='collapse()'>
                 <span class='glyphicon glyphicon-home'></span> Home
               </a>
             </li>
-            <li [routerLinkActive]='["link-active"]'>
+            <li *ngIf="isUserAuthenticated()" [routerLinkActive]='["link-active"]'>
               <a [routerLink]='["/counter"]' (click)='collapse()'>
                 <span class='glyphicon glyphicon-education'></span> Counter
               </a>
             </li>
-            <li [routerLinkActive]='["link-active"]'>
+            <li *ngIf="isUserAuthenticated()" [routerLinkActive]='["link-active"]'>
               <a [routerLink]='["/fetch-data"]' (click)='collapse()'>
                 <span class='glyphicon glyphicon-th-list'></span> Fetch data
               </a>
             </li>
-            <li [routerLinkActive]='["link-active"]'>
+            <li *ngIf="isUserAuthenticated()" [routerLinkActive]='["link-active"]'>
               <a [routerLink]='["/handbooks"]' (click)='collapse()'>
                 <span class='glyphicon glyphicon-th-list'></span> Справочники
               </a>
             </li>
-            <li [routerLinkActive]='["link-active"]'>
+            <li *ngIf="isUserAuthenticated()" [routerLinkActive]='["link-active"]'>
               <a [routerLink]='["/people"]' (click)='collapse()'>
                 <span class='glyphicon glyphicon-th-list'></span> Люди
               </a>
             </li>
-            <li [routerLinkActive]='["link-active"]'>
+            <li *ngIf="isUserAuthenticated()" [routerLinkActive]='["link-active"]'>
               <a [routerLink]='["/main-information"]' (click)='collapse()'>
                 <span class='glyphicon glyphicon-th-list'></span> Основные таблицы
               </a>
