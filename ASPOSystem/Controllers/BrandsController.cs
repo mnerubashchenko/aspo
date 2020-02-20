@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ASPOSystem.DBModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASPOSystem.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]"), Authorize(Roles = "7ACFB546-2D54-EA11-AB6A-2C56DC99B962")]
     public class BrandsController : Controller
     {
         private RSSContext db = new RSSContext();

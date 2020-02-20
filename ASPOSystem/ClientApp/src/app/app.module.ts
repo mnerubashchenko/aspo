@@ -58,6 +58,7 @@ import { TableCommandsProtocolComponent } from './table-commands-protocol/table-
 import { TableCommentsComponent } from './table-comments/table-comments.component';
 import { LoginComponent } from './login/login.component';
 import { JwtModule } from '@auth0/angular-jwt';
+import { AuthGuard } from './guards/auth-guard.service';
 
 declare var require: any;
 let messagesDe = require("devextreme/localization/messages/de.json"),
@@ -113,22 +114,22 @@ export function tokenGetter() {
       FormsModule,
       DxDataGridModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-        { path: 'fetch-data', component: FetchDataComponent },
-        { path: 'table-brands', component: TableBrandsComponent },
-        { path: 'table-posts', component: TablePostsComponent },
-        { path: 'table-roles', component: TableRolesComponent },
-        { path: 'table-type-dev', component: TableTypeDevComponent },
-        { path: 'table-type-inter', component: TableTypeInterComponent },
-        { path: 'table-type-measure', component: TableTypeMeasureComponent },
-        { path: 'table-telemetry', component: TableTelemetryComponent },
-        { path: 'table-programm-commands', component: TableProgrammCommandsComponent },
-        { path: 'handbooks', component: HandbooksComponent },
-        { path: 'people', component: PeopleComponent },
-        { path: 'main-information', component: MainInformationComponent },
-        { path: 'table-view', component: TableViewComponent },
-        { path: 'login', component: LoginComponent }
+    { path: '', component: HomeComponent, pathMatch: 'full' },
+    { path: 'counter', component: CounterComponent },
+    { path: 'fetch-data', component: FetchDataComponent },
+    { path: 'table-brands', component: TableBrandsComponent, canActivate: [AuthGuard] },
+    { path: 'table-posts', component: TablePostsComponent },
+    { path: 'table-roles', component: TableRolesComponent },
+    { path: 'table-type-dev', component: TableTypeDevComponent },
+    { path: 'table-type-inter', component: TableTypeInterComponent },
+    { path: 'table-type-measure', component: TableTypeMeasureComponent },
+    { path: 'table-telemetry', component: TableTelemetryComponent },
+    { path: 'table-programm-commands', component: TableProgrammCommandsComponent },
+    { path: 'handbooks', component: HandbooksComponent },
+    { path: 'people', component: PeopleComponent },
+    { path: 'main-information', component: MainInformationComponent },
+    { path: 'table-view', component: TableViewComponent },
+    { path: 'login', component: LoginComponent }
     ]),
     JwtModule.forRoot({
       config: {
@@ -158,7 +159,8 @@ export function tokenGetter() {
         MeasureProtocolService,
         TelemetryProtocolService,
         CommandsProtocolService,
-        CommentsService
+        CommentsService,
+        AuthGuard
     ],
   bootstrap: [AppComponent]
 })

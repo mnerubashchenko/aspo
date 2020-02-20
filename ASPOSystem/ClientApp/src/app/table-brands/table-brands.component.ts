@@ -1,4 +1,4 @@
-import { Component, enableProdMode, ViewChild, Inject } from '@angular/core';
+import { Component, enableProdMode, ViewChild, Inject, OnInit } from '@angular/core';
 import { BrandService, IBrands } from './BrandService';
 import CustomStore from "devextreme/data/custom_store";
 import { DxDataGridComponent } from 'devextreme-angular';
@@ -9,7 +9,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
     templateUrl: './table-brands.component.html',
     styleUrls: ['./table-brands.component.css']
 })
-export class TableBrandsComponent {
+export class TableBrandsComponent implements OnInit {
     public brands: IBrands[];
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
@@ -45,8 +45,8 @@ export class TableBrandsComponent {
         this.dataGrid.instance.refresh();
     }
 
-    ngOnInit() {
-
-    }
+  ngOnInit() {
+    let token = localStorage.getItem("jwt");
+  }
 
 }

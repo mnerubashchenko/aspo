@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\guards\auth-guard.service.ts" />
     <None Remove="ClientApp\src\app\table-brands\BrandService.ts" />
     <None Remove="ClientApp\src\app\table-commands-protocol\CommandsProtocolService.ts" />
     <None Remove="ClientApp\src\app\table-comments\CommentsService.ts" />
@@ -52,6 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\guards\auth-guard.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\table-brands\BrandService.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\table-commands-protocol\CommandsProtocolService.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\table-comments\CommentsService.ts" />

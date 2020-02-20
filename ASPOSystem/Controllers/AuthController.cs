@@ -29,10 +29,14 @@ namespace ASPOSystem.Controllers
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
+                Users u = db.Users.First(r => r.LoginUser == user.UserName);
+
+                string role = u.RoleUser.ToString();
+
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Role, "Manager")
+                    new Claim(ClaimTypes.Role, role)
                 };
 
                 var tokeOptions = new JwtSecurityToken(
