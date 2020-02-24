@@ -17,6 +17,11 @@
                 <span class='glyphicon glyphicon-home'></span> Sign in
               </a>
             </li>
+            <li *ngIf="!isUserAuthenticated()" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+              <a [routerLink]='["registration"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-home'></span> Register
+              </a>
+            </li>
             <li *ngIf="isUserAuthenticated()">
               <a class="logout" (click)="logOut()">
                 <span class='glyphicon glyphicon-home'></span> Log out

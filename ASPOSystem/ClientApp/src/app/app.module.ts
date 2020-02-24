@@ -59,6 +59,7 @@ import { TableCommentsComponent } from './table-comments/table-comments.componen
 import { LoginComponent } from './login/login.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './guards/auth-guard.service';
+import { RegistrationComponent } from './registration/registration.component';
 
 declare var require: any;
 let messagesDe = require("devextreme/localization/messages/de.json"),
@@ -106,7 +107,8 @@ export function tokenGetter() {
     TableTelemetryProtocolComponent,
     TableCommandsProtocolComponent,
     TableCommentsComponent,
-    LoginComponent
+    LoginComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -129,7 +131,8 @@ export function tokenGetter() {
     { path: 'people', component: PeopleComponent },
     { path: 'main-information', component: MainInformationComponent },
     { path: 'table-view', component: TableViewComponent },
-    { path: 'login', component: LoginComponent }
+    { path: 'login', component: LoginComponent },
+    { path: 'registration', component: RegistrationComponent }
     ]),
     JwtModule.forRoot({
       config: {
