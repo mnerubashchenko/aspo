@@ -1,14 +1,17 @@
-<form class="form-signin" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+<form class="form-signin" #registrationForm="ngForm" (ngSubmit)="registration(registrationForm)">
   <div class="container-fluid">
-    <h2 class="form-signin-heading">Login</h2>
-    <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password.</div>
+    <h2 class="form-signin-heading">Регистрация</h2>
+    <div *ngIf="!check" class="alert alert-danger">Пароли не совпадают.</div>
     <br />
     <label for="username" class="sr-only">Email address</label>
     <input type="email" id="loginUser" name="loginUser" ngModel class="form-control" placeholder="Логин" required autofocus>
     <br />
-    <label for="password" class="sr-only">Password</label>
+    <label for="passwordUser" class="sr-only">Password</label>
     <input type="password" id="passwordUser" name="passwordUser" ngModel class="form-control" placeholder="Пароль" required>
     <br />
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+    <label for="passwordConfirm" class="sr-only">Password</label>
+    <input type="password" id="passwordConfirm" name="passwordConfirm" ngModel class="form-control" placeholder="Повторите пароль" required>
+    <br />
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
   </div>
 </form>
