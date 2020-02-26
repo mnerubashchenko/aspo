@@ -106,7 +106,7 @@ Name_user VARCHAR (30),
 Middlename_user VARCHAR (30),
 Lastname_user VARCHAR (30),
 Login_user VARCHAR(40) UNIQUE,
-Password_user VARCHAR(40),
+Password_user TEXT,
 Post_user UNIQUEIDENTIFIER FOREIGN KEY REFERENCES POSTS(ID_post),
 Role_user UNIQUEIDENTIFIER FOREIGN KEY REFERENCES ROLES(ID_role));
 

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using ASPOSystem.DBModels;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASPOSystem.Controllers
@@ -25,6 +27,25 @@ namespace ASPOSystem.Controllers
         [Route("CreateUser")]
         public void CreateUser([FromBody] Users newUser)
         {
+            var salt = new byte[128 / 8];
+            string salt1;
+
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(salt);
+            }
+
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+            password: newUser.PasswordUser.ToString(),
+            salt: salt,
+            prf: KeyDerivationPrf.HMACSHA1,
+            iterationCount: 10000,
+            numBytesRequested: 256 / 8));
+
+            salt1 = Convert.ToBase64String(salt);
+
+            newUser.PasswordUser = string.Concat(Convert.ToBase64String(salt), hashed);
+
             db.Users.Add(newUser);
             db.SaveChanges();
         }

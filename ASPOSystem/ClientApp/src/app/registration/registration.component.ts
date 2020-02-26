@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Router } from "@angular/router";
 import { NgForm } from '@angular/forms';
 
@@ -10,16 +10,17 @@ import { NgForm } from '@angular/forms';
 export class RegistrationComponent {
   check: boolean;
 
-  constructor(private router: Router, private http: HttpClient) {
-    this.check = true;
-  }
+   constructor(private router: Router, private http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
+       this.check = true;
+       this.baseUrl = baseUrl;
+   }
  
     public registration = (form: NgForm) => {
       this.check = (form.controls.passwordUser.value == form.controls.passwordConfirm.value) ? true : false;
       let credentials = JSON.stringify(form.value);
 
         if (this.check) {
-          this.http.post("http://localhost:5000/Users/CreateUser", credentials, {
+            this.http.post(this.baseUrl + "Users/CreateUser", credentials, {
             headers: new HttpHeaders({
               "Content-Type": "application/json"
             })

@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using ASPOSystem.DBModels;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -19,17 +20,24 @@ namespace ASPOSystem.Controllers
         [HttpPost, Route("login")]
         public IActionResult Login([FromBody]LoginModel user)
         {
+            Users u = db.Users.First(r => r.LoginUser == user.UserName);
+            string salt = u.PasswordUser.ToString().Substring(0, 24);
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+            password: user.Password,
+            salt: Convert.FromBase64String(salt),
+            prf: KeyDerivationPrf.HMACSHA1,
+            iterationCount: 10000,
+            numBytesRequested: 256 / 8));
+
             if (user == null)
             {
                 return BadRequest("Invalid client request");
             }
 
-            if (db.Users.Any(r=> r.LoginUser == user.UserName && r.PasswordUser == user.Password))
+            if (db.Users.Any(r=> r.LoginUser.ToString() == user.UserName && r.PasswordUser.ToString() == string.Concat(salt, hashed)))
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-                Users u = db.Users.First(r => r.LoginUser == user.UserName);
 
                 string role = u.RoleUser.ToString();
 
