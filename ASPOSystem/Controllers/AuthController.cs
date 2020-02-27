@@ -41,8 +41,8 @@ namespace ASPOSystem.Controllers
                     issuer: "http://localhost:5001",
                     audience: "http://localhost:5001",
                     claims: claims,
-                    expires: DateTime.Now.AddMinutes(0.1),
-                    signingCredentials: signinCredentials             
+                    expires: DateTime.Now.AddHours(12),
+                    signingCredentials: signinCredentials
                 );
 
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);

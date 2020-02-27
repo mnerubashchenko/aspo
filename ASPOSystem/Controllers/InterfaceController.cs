@@ -9,20 +9,20 @@ using Microsoft.AspNetCore.Authorization;
 namespace ASPOSystem.Controllers
 {
     [ApiController]
-    [Route("[controller]"), Authorize(Roles = "Администратор")]
+    [Route("[controller]")]
     public class InterfaceController : Controller
     {
         private RSSContext db = new RSSContext();
 
         [HttpGet]
-        [Route("GetInterfaces")]
+        [Route("GetInterfaces"), Authorize(Roles = "Администратор")]
         public List<Interfaces> GetInterfaces()
         {
             return db.Interfaces.ToList();
         }
 
         [HttpPost]
-        [Route("CreateInterface")]
+        [Route("CreateInterface"), Authorize(Roles = "Администратор")]
         public void CreateInterface([FromBody] Interfaces newInterface)
         {
             db.Interfaces.Add(newInterface);
@@ -30,7 +30,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateInterface")]
+        [Route("UpdateInterface"), Authorize(Roles = "Администратор")]
         public void UpdateInterface([FromBody] Interfaces updatedInterface)
         {
             db.Interfaces.Update(updatedInterface);
@@ -38,7 +38,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteInterface")]
+        [Route("DeleteInterface"), Authorize(Roles = "Администратор")]
         public void DeleteInterface(Guid idInterface)
         {
             db.Interfaces.Remove(db.Interfaces.Find(idInterface));

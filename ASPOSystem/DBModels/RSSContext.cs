@@ -42,7 +42,7 @@ namespace ASPOSystem.DBModels
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=KUZNETSOV\\SQLEXPRESS;Initial Catalog=RSS;Persist Security Info=False;User ID=RSSadmin;Password=#Qteltn3;MultipleActiveResultSets=False;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-8E0AOJU\\SQLEXPRESS;Initial Catalog=RSS;Persist Security Info=False;User ID=RSSadmin;Password=#Qteltn3;MultipleActiveResultSets=False;");
             }
         }
 

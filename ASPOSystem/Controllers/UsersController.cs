@@ -17,13 +17,14 @@ namespace ASPOSystem.Controllers
         private RSSContext db = new RSSContext();
 
         [HttpGet]
-        [Route("GetUsers")]
+        [Route("GetUsers"), Authorize(Roles = "Администратор")]
         public List<Users> GetUsers()
         {
             return db.Users.Where(p => p.IdUser.ToString() != "00000000-0000-0000-0000-000000000000"
                                        && p.IdUser.ToString() != "11111111-1111-1111-1111-111111111111").ToList();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("CreateUser")]
         public void CreateUser([FromBody] Users newUser)
@@ -54,7 +55,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateUser")]
+        [Route("UpdateUser"), Authorize(Roles = "Администратор")]
         public void UpdateUser([FromBody] Users updatedUser)
         {
             db.Users.Update(updatedUser);
@@ -62,7 +63,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteUser")]
+        [Route("DeleteUser"), Authorize(Roles = "Администратор")]
         public void DeleteUser(Guid idUser)
         {
             db.Users.Remove(db.Users.Find(idUser));

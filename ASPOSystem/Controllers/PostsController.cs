@@ -9,20 +9,20 @@ using Microsoft.AspNetCore.Authorization;
 namespace ASPOSystem.Controllers
 {
     [ApiController]
-    [Route("[controller]"), Authorize(Roles = "Администратор")]
+    [Route("[controller]")]
     public class PostsController : Controller
     {
         private RSSContext db = new RSSContext();
 
         [HttpGet]
-        [Route("GetPost")]
+        [Route("GetPost"), Authorize(Roles = "Администратор")]
         public List<Posts> GetPost()
         {
             return db.Posts.Where(p => p.IdPost.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]
-        [Route("CreatePost")]
+        [Route("CreatePost"), Authorize(Roles = "Администратор")]
         public void CreatePost([FromBody] Posts newPost)
         {
             db.Posts.Add(newPost);
@@ -30,7 +30,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPut]
-        [Route("UpdatePost")]
+        [Route("UpdatePost"), Authorize(Roles = "Администратор")]
         public void UpdatePost([FromBody] Posts updatedPost)
         {
             db.Posts.Update(updatedPost);
@@ -38,7 +38,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpDelete]
-        [Route("DeletePost")]
+        [Route("DeletePost"), Authorize(Roles = "Администратор")]
         public void DeletePost(Guid idPost)
         {
             db.Posts.Remove(db.Posts.Find(idPost));

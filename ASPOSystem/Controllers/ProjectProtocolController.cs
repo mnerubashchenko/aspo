@@ -9,20 +9,20 @@ using Microsoft.AspNetCore.Authorization;
 namespace ASPOSystem.Controllers
 {
     [ApiController]
-    [Route("[controller]"), Authorize(Roles = "Администратор")]
+    [Route("[controller]")]
     public class ProjectProtocolController : Controller
     {
         private RSSContext db = new RSSContext();
 
         [HttpGet]
-        [Route("GetProjProtLinks")]
+        [Route("GetProjProtLinks"), Authorize(Roles = "Администратор")]
         public List<ProjectProtocol> GetProjProtLinks()
         {
             return db.ProjectProtocol.ToList();
         }
 
         [HttpPost]
-        [Route("CreateProjProtLink")]
+        [Route("CreateProjProtLink"), Authorize(Roles = "Администратор")]
         public void CreateProjProtLink([FromBody] ProjectProtocol newLink)
         {
             db.ProjectProtocol.Add(newLink);
@@ -30,14 +30,14 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateProjProtLink")]
+        [Route("UpdateProjProtLink"), Authorize(Roles = "Администратор")]
         public void UpdateProjProtLink([FromBody] ProjectProtocol updatedLink)
         {
             db.ProjectProtocol.Update(updatedLink);
             db.SaveChanges();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Администратор")]
         [Route("DeleteProjProtLink")]
         public void DeleteProjProtLink(Guid id)
         {

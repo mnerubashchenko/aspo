@@ -9,20 +9,20 @@ using Microsoft.AspNetCore.Authorization;
 namespace ASPOSystem.Controllers
 {
     [ApiController]
-    [Route("[controller]"), Authorize(Roles = "Администратор")]
+    [Route("[controller]")]
     public class CommentsController
     {
         private RSSContext db = new RSSContext();
 
         [HttpGet]
-        [Route("GetComments")]
+        [Route("GetComments"), Authorize(Roles = "Администратор")]
         public List<Comments> GetComments()
         {
             return db.Comments.ToList();
         }
 
         [HttpPost]
-        [Route("CreateComment")]
+        [Route("CreateComment"), Authorize(Roles = "Администратор")]
         public void CreateComment([FromBody] Comments newComment)
         {
             db.Comments.Add(newComment);
@@ -30,7 +30,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateComment")]
+        [Route("UpdateComment"), Authorize(Roles = "Администратор")]
         public void UpdateComment([FromBody] Comments updatedComment)
         {
             db.Comments.Update(updatedComment);
@@ -38,7 +38,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteComment")]
+        [Route("DeleteComment"), Authorize(Roles = "Администратор")]
         public void DeleteComment(Guid idComment)
         {
             db.Comments.Remove(db.Comments.Find(idComment));

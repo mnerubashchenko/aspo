@@ -9,20 +9,20 @@ using Microsoft.AspNetCore.Authorization;
 namespace ASPOSystem.Controllers
 {
     [ApiController]
-    [Route("[controller]"), Authorize(Roles = "Администратор")]
+    [Route("[controller]")]
     public class MeasureController : Controller
     {
         private RSSContext db = new RSSContext();
 
         [HttpGet]
-        [Route("GetMeasures")]
+        [Route("GetMeasures"), Authorize(Roles = "Администратор")]
         public List<Measure> GetMeasures()
         {
             return db.Measure.ToList();
         }
 
         [HttpPost]
-        [Route("CreateMeasure")]
+        [Route("CreateMeasure"), Authorize(Roles = "Администратор")]
         public void CreateMeasure([FromBody] Measure newMeasure)
         {
             db.Measure.Add(newMeasure);
@@ -30,7 +30,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateMeasure")]
+        [Route("UpdateMeasure"), Authorize(Roles = "Администратор")]
         public void UpdateMeasure([FromBody] Measure updatedMeasure)
         {
             db.Measure.Update(updatedMeasure);
@@ -38,7 +38,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteMeasure")]
+        [Route("DeleteMeasure"), Authorize(Roles = "Администратор")]
         public void DeleteMeasure(Guid idMeasure)
         {
             db.Measure.Remove(db.Measure.Find(idMeasure));

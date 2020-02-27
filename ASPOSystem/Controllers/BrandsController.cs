@@ -9,20 +9,20 @@ using Microsoft.AspNetCore.Mvc;
 namespace ASPOSystem.Controllers
 {
     [ApiController]
-    [Route("[controller]"), Authorize(Roles = "Администратор")]
+    [Route("[controller]")]
     public class BrandsController : Controller
     {
         private RSSContext db = new RSSContext();
 
         [HttpGet]
-        [Route("GetBrand")]
+        [Route("GetBrand"), Authorize(Roles = "Администратор")]
         public List<Brands> GetBrand()
         {
             return db.Brands.Where(p => p.IdBrand.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]
-        [Route("CreateBrand")]
+        [Route("CreateBrand"), Authorize(Roles = "Администратор")]
         public void CreateBrand([FromBody] Brands newBrand)
         {
             db.Brands.Add(newBrand);
@@ -30,7 +30,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateBrand")]
+        [Route("UpdateBrand"), Authorize(Roles = "Администратор")]
         public void UpdateBrand([FromBody] Brands updatedBrand)
         {
             db.Brands.Update(updatedBrand);
@@ -38,7 +38,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteBrand")]
+        [Route("DeleteBrand"), Authorize(Roles = "Администратор")]
         public void DeleteBrand(Guid idBrand)
         {
             db.Brands.Remove(db.Brands.Find(idBrand));

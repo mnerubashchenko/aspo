@@ -9,13 +9,13 @@ using Microsoft.AspNetCore.Authorization;
 namespace ASPOSystem.Controllers
 {
     [ApiController]
-    [Route("[controller]"), Authorize(Roles = "Администратор")]
+    [Route("[controller]")]
     public class DevicesMeasureController : Controller
     {
         private RSSContext db = new RSSContext();
 
         [HttpGet]
-        [Route("GetLinks")]
+        [Route("GetLinks"), Authorize(Roles = "Администратор")]
         public List<DevicesMeasure> GetLinks()
         {
             return db.DevicesMeasure.ToList();

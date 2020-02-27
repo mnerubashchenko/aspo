@@ -9,20 +9,20 @@ using Microsoft.AspNetCore.Authorization;
 namespace ASPOSystem.Controllers
 {
     [ApiController]
-    [Route("[controller]"), Authorize(Roles = "Администратор")]
+    [Route("[controller]")]
     public class TelemetryController
     {
         private RSSContext db = new RSSContext();
 
         [HttpGet]
-        [Route("GetTelemetry")]
+        [Route("GetTelemetry"), Authorize(Roles = "Администратор")]
         public List<Telemetry> GetTelemetry()
         {
             return db.Telemetry.Where(p => p.IdTelemetry.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]
-        [Route("CreateTelemetry")]
+        [Route("CreateTelemetry"), Authorize(Roles = "Администратор")]
         public void CreateTelemetry([FromBody] Telemetry newTelemetry)
         {
             db.Telemetry.Add(newTelemetry);
@@ -30,7 +30,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateTelemetry")]
+        [Route("UpdateTelemetry"), Authorize(Roles = "Администратор")]
         public void UpdateTelemetry([FromBody] Telemetry updatedTelemetry)
         {
             db.Telemetry.Update(updatedTelemetry);
@@ -38,7 +38,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteTelemetry")]
+        [Route("DeleteTelemetry"), Authorize(Roles = "Администратор")]
         public void DeleteRole(Guid idTelemetry)
         {
             db.Telemetry.Remove(db.Telemetry.Find(idTelemetry));

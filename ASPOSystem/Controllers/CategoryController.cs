@@ -9,20 +9,20 @@ using Microsoft.AspNetCore.Authorization;
 namespace ASPOSystem.Controllers
 {
     [ApiController]
-    [Route("[controller]"), Authorize(Roles = "Администратор")]
+    [Route("[controller]")]
     public class CategoryController : Controller
     {
         private RSSContext db = new RSSContext();
 
         [HttpGet]
-        [Route("GetCategory")]
+        [Route("GetCategory"), Authorize(Roles = "Администратор")]
         public List<Category> GetCategory()
         {
             return db.Category.Where(p => p.IdCategory.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]
-        [Route("CreateCategory")]
+        [Route("CreateCategory"), Authorize(Roles = "Администратор")]
         public void CreateCategory([FromBody] Category newCategory)
         {
             db.Category.Add(newCategory);
@@ -31,7 +31,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateCategory")]
+        [Route("UpdateCategory"), Authorize(Roles = "Администратор")]
         public void UpdateCategory([FromBody] Category updatedCategory)
         {
             db.Category.Update(updatedCategory);
@@ -39,7 +39,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteCategory")]
+        [Route("DeleteCategory"), Authorize(Roles = "Администратор")]
         public void DeleteCategory(Guid idCategory)
         {
             db.Category.Remove(db.Category.Find(idCategory));

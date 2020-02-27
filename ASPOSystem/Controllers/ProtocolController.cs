@@ -9,20 +9,20 @@ using Microsoft.AspNetCore.Authorization;
 namespace ASPOSystem.Controllers
 {
     [ApiController]
-    [Route("[controller]"), Authorize(Roles = "Администратор")]
+    [Route("[controller]")]
     public class ProtocolController : Controller
     {
         private RSSContext db = new RSSContext();
 
         [HttpGet]
-        [Route("GetProtocols")]
+        [Route("GetProtocols"), Authorize(Roles = "Администратор")]
         public List<Protocol> GetProtocols()
         {
             return db.Protocol.Where(p => p.IdProtocol.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]
-        [Route("CreateProtocol")]
+        [Route("CreateProtocol"), Authorize(Roles = "Администратор")]
         public void CreateProtocol([FromBody] Protocol newProtocol)
         {
             db.Protocol.Add(newProtocol);
@@ -30,7 +30,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateProtocol")]
+        [Route("UpdateProtocol"), Authorize(Roles = "Администратор")]
         public void UpdateProtocol([FromBody] Protocol updatedProtocol)
         {
             db.Protocol.Update(updatedProtocol);
@@ -38,7 +38,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteProtocol")]
+        [Route("DeleteProtocol"), Authorize(Roles = "Администратор")]
         public void DeleteProtocol(Guid idProtocol)
         {
             db.Protocol.Remove(db.Protocol.Find(idProtocol));

@@ -10,20 +10,20 @@ using Microsoft.AspNetCore.Authorization;
 namespace ASPOSystem.Controllers
 {
     [ApiController]
-    [Route("[controller]"), Authorize(Roles = "Администратор")]
+    [Route("[controller]")]
     public class DevicesController : Controller
     {
         private RSSContext db = new RSSContext();
 
         [HttpGet]
-        [Route("GetDevices")]
+        [Route("GetDevices"), Authorize(Roles = "Администратор")]
         public List<Devices> GetDevices()
         {
             return db.Devices.Where(p => p.IdDevice.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]
-        [Route("CreateDevice")]
+        [Route("CreateDevice"), Authorize(Roles = "Администратор")]
         public void CreateDevice([FromBody] Devices newDevice)
         {
             db.Devices.Add(newDevice);
@@ -31,7 +31,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateDevice")]
+        [Route("UpdateDevice"), Authorize(Roles = "Администратор")]
         public void UpdateDevice([FromBody] Devices updatedDevice)
         {
             db.Devices.Update(updatedDevice);
@@ -39,7 +39,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteDevice")]
+        [Route("DeleteDevice"), Authorize(Roles = "Администратор")]
         public void DeleteDevice(Guid idDevice)
         {
             using (RSSContext db = new RSSContext())

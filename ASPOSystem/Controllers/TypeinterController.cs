@@ -9,20 +9,20 @@ using Microsoft.AspNetCore.Authorization;
 namespace ASPOSystem.Controllers
 {
     [ApiController]
-    [Route("[controller]"), Authorize(Roles = "Администратор")]
+    [Route("[controller]")]
     public class TypeinterController : Controller
     {
         private RSSContext db = new RSSContext();
 
         [HttpGet]
-        [Route("GetTypeinter")]
+        [Route("GetTypeinter"), Authorize(Roles = "Администратор")]
         public List<Typeinter> GetTypeinter()
         {
             return db.Typeinter.Where(p => p.IdTypeinter.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]
-        [Route("CreateTypeinter")]
+        [Route("CreateTypeinter"), Authorize(Roles = "Администратор")]
         public void CreateTypeinter([FromBody] Typeinter newTypeinter)
         {
             db.Typeinter.Add(newTypeinter);
@@ -30,7 +30,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateTypeinter")]
+        [Route("UpdateTypeinter"), Authorize(Roles = "Администратор")]
         public void UpdateTypeinter([FromBody] Typeinter updatedTypeinter)
         {
             db.Typeinter.Update(updatedTypeinter);
@@ -38,7 +38,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteTypeinter")]
+        [Route("DeleteTypeinter"), Authorize(Roles = "Администратор")]
         public void DeleteTypeinter(Guid idTypeinter)
         {
             db.Typeinter.Remove(db.Typeinter.Find(idTypeinter));

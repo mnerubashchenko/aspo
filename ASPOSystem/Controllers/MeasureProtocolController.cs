@@ -9,20 +9,20 @@ using Microsoft.AspNetCore.Authorization;
 namespace ASPOSystem.Controllers 
 {
     [ApiController]
-    [Route("[controller]"), Authorize(Roles = "Администратор")]
+    [Route("[controller]")]
     public class MeasureProtocolController : Controller
     {
         private RSSContext db = new RSSContext();
 
         [HttpGet]
-        [Route("GetLinks")]
+        [Route("GetLinks"), Authorize(Roles = "Администратор")]
         public List<MeasureProtocol> GetLinks()
         {
             return db.MeasureProtocol.ToList();
         }
 
         [HttpPost]
-        [Route("CreateLink")]
+        [Route("CreateLink"), Authorize(Roles = "Администратор")]
         public void CreateLink([FromBody] MeasureProtocol newLink)
         {
             db.MeasureProtocol.Add(newLink);
@@ -30,14 +30,14 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateLink")]
+        [Route("UpdateLink"), Authorize(Roles = "Администратор")]
         public void UpdateLink([FromBody] MeasureProtocol updatedLink)
         {
             db.MeasureProtocol.Update(updatedLink);
             db.SaveChanges();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Администратор")]
         [Route("DeleteLink")]
         public void DeleteLink(Guid id)
         {

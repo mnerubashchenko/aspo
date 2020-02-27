@@ -9,20 +9,20 @@ using Microsoft.AspNetCore.Authorization;
 namespace ASPOSystem.Controllers
 {
     [ApiController]
-    [Route("[controller]"), Authorize(Roles = "Администратор")]
+    [Route("[controller]")]
     public class TypemeasureController : Controller
     {
         private RSSContext db = new RSSContext();
 
         [HttpGet]
-        [Route("GetTypemeasure")]
+        [Route("GetTypemeasure"), Authorize(Roles = "Администратор")]
         public List<Typemeasure> GetTypemeasure()
         {
             return db.Typemeasure.Where(p => p.IdTypemeasure.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]
-        [Route("CreateTypemeasure")]
+        [Route("CreateTypemeasure"), Authorize(Roles = "Администратор")]
         public void CreateTypemeasure([FromBody] Typemeasure newTypemeasure)
         {
             db.Typemeasure.Add(newTypemeasure);
@@ -30,7 +30,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateTypemeasure")]
+        [Route("UpdateTypemeasure"), Authorize(Roles = "Администратор")]
         public void UpdateTypemeasure([FromBody] Typemeasure updatedTypemeasure)
         {
             db.Typemeasure.Update(updatedTypemeasure);
@@ -38,7 +38,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteTypemeasure")]
+        [Route("DeleteTypemeasure"), Authorize(Roles = "Администратор")]
         public void DeleteTypemeasure(Guid idTypemeasure)
         {
             db.Typemeasure.Remove(db.Typemeasure.Find(idTypemeasure));

@@ -9,20 +9,20 @@ using Microsoft.AspNetCore.Authorization;
 namespace ASPOSystem.Controllers
 {
     [ApiController]
-    [Route("[controller]"), Authorize(Roles = "Администратор")]
+    [Route("[controller]")]
     public class TypedevController : Controller
     {
         private RSSContext db = new RSSContext();
 
         [HttpGet]
-        [Route("GetTypedev")]
+        [Route("GetTypedev"), Authorize(Roles = "Администратор")]
         public List<Typedev> GetTypedev()
         {
             return db.Typedev.Where(p => p.IdTypedev.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]
-        [Route("CreateTypedev")]
+        [Route("CreateTypedev"), Authorize(Roles = "Администратор")]
         public void CreateTypedev([FromBody] Typedev newTypedev)
         {
             db.Typedev.Add(newTypedev);
@@ -30,7 +30,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateTypedev")]
+        [Route("UpdateTypedev"), Authorize(Roles = "Администратор")]
         public void UpdateTypedev([FromBody] Typedev updatedTypedev)
         {
             db.Typedev.Update(updatedTypedev);
@@ -38,7 +38,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteTypedev")]
+        [Route("DeleteTypedev"), Authorize(Roles = "Администратор")]
         public void DeleteRole(Guid idTypedev)
         {
             db.Typedev.Remove(db.Typedev.Find(idTypedev));
