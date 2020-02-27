@@ -20,39 +20,29 @@ namespace ASPOSystem.Controllers
         [HttpPost, Route("login")]
         public IActionResult Login([FromBody]LoginModel user)
         {
-            Users u = db.Users.First(r => r.LoginUser == user.UserName);
-            string salt = u.PasswordUser.ToString().Substring(0, 24);
-            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-            password: user.Password,
-            salt: Convert.FromBase64String(salt),
-            prf: KeyDerivationPrf.HMACSHA1,
-            iterationCount: 10000,
-            numBytesRequested: 256 / 8));
-
             if (user == null)
             {
                 return BadRequest("Invalid client request");
             }
 
-            if (db.Users.Any(r=> r.LoginUser.ToString() == user.UserName && r.PasswordUser.ToString() == string.Concat(salt, hashed)))
+            if (db.Users.Any(r=> r.LoginUser.ToString() == user.UserName && r.PasswordUser.ToString() == string.Concat(GetSalt_Hash(user.UserName,user.Password).Item1, GetSalt_Hash(user.UserName, user.Password).Item2)))
             {
+
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-                string role = u.RoleUser.ToString();
-
+                var role = db.Roles.FirstOrDefault(r => r.IdRole == db.Users.FirstOrDefault(t => t.LoginUser == user.UserName).RoleUser).NameRole.ToString();
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Role, role)
+                    new Claim(ClaimTypes.Role, role.ToString())
                 };
 
                 var tokeOptions = new JwtSecurityToken(
                     issuer: "http://localhost:5001",
                     audience: "http://localhost:5001",
                     claims: claims,
-                    expires: DateTime.Now.AddMinutes(5),
-                    signingCredentials: signinCredentials
+                    expires: DateTime.Now.AddMinutes(0.1),
+                    signingCredentials: signinCredentials             
                 );
 
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
@@ -62,6 +52,23 @@ namespace ASPOSystem.Controllers
             {
                 return Unauthorized();
             }
+        }
+        private Tuple<string,string> GetSalt_Hash(string login,string psswd) {
+            if (!db.Users.Any(r => r.LoginUser == login))
+                return Tuple.Create("", "");
+            else
+            {
+                Users u = db.Users.FirstOrDefault(r => r.LoginUser == login);
+                string salt = u.PasswordUser.ToString().Substring(0, 24);
+                string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: psswd,
+                salt: Convert.FromBase64String(salt),
+                prf: KeyDerivationPrf.HMACSHA1,
+                iterationCount: 10000,
+                numBytesRequested: 256 / 8));
+                return Tuple.Create(salt, hashed);
+            }
+
         }
     }
 }

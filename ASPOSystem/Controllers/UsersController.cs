@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ASPOSystem.DBModels;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASPOSystem.Controllers
 {
@@ -45,6 +46,8 @@ namespace ASPOSystem.Controllers
             salt1 = Convert.ToBase64String(salt);
 
             newUser.PasswordUser = string.Concat(Convert.ToBase64String(salt), hashed);
+
+            newUser.RoleUser = new Guid("775ACD72-5459-EA11-B83A-645106511DF0");
 
             db.Users.Add(newUser);
             db.SaveChanges();

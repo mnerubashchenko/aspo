@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ASPOSystem.Controllers
 {
     [ApiController]
-    [Route("[controller]"), Authorize(Roles = "7ACFB546-2D54-EA11-AB6A-2C56DC99B962")]
+    [Route("[controller]"), Authorize(Roles = "Администратор")]
     public class BrandsController : Controller
     {
         private RSSContext db = new RSSContext();

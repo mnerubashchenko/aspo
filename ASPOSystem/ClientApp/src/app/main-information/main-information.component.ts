@@ -7,7 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainInformationComponent implements OnInit {
 
-  constructor() { }
+    maininfo: string[] = ["Проекты", "Протоколы", "Проекты-Протоколы", "Интерфейсы", "Устройства", "Измерения", "Устройства-Измерения", "Протоколы-Измерения", "Протоколы-Телеметрия", "Протоколы-Программные команды", "Комментарии к протоколам"];
+    tablename: string;
+
+    constructor() { }
+
+    public selectedTable(data) {
+        this.tablename = data.selectedItem;
+    }
 
   ngOnInit() {
   }

@@ -1,25 +1,16 @@
-<select name="select" #selectedtable>
-  <option value="projects">Проекты</option>
-  <option value="protocols">Протоколы</option>
-  <option value="projects-protocols">Проекты-Протоколы</option>
-  <option value="interfaces">Интерфейсы</option>
-  <option value="devices">Устройства</option>
-  <option value="measures">Измерения</option>
-  <option value="devices-measure">Устройства-Измерения</option>
-  <option value="measure-protocol">Протоколы-Измерения</option>
-  <option value="telemetry-protocol">Протоколы-Телеметрия</option>
-  <option value="commands-protocol">Протоколы-Программные команды</option>
-  <option value="comments">Комментарии к протоколам</option>
-</select>
-<h1></h1>
-<app-table-projects *ngIf ="selectedtable.value == 'projects'"></app-table-projects>
-<app-table-protocol *ngIf="selectedtable.value == 'protocols'"></app-table-protocol>
-<app-table-project-protocol *ngIf="selectedtable.value == 'projects-protocols'"></app-table-project-protocol>
-<app-table-interfaces *ngIf="selectedtable.value == 'interfaces'"></app-table-interfaces>
-<app-table-devices *ngIf="selectedtable.value == 'devices'"></app-table-devices>
-<app-table-measures *ngIf="selectedtable.value == 'measures'"></app-table-measures>
-<app-table-devices-measure *ngIf="selectedtable.value == 'devices-measure'"></app-table-devices-measure>
-<app-table-measure-protocol *ngIf="selectedtable.value == 'measure-protocol'"></app-table-measure-protocol>
-<app-table-telemetry-protocol *ngIf="selectedtable.value == 'telemetry-protocol'"></app-table-telemetry-protocol>
-<app-table-commands-protocol *ngIf="selectedtable.value == 'commands-protocol'"></app-table-commands-protocol>
-<app-table-comments *ngIf="selectedtable.value == 'comments'"></app-table-comments>
+<br />
+<div>
+  <dx-select-box [items]="maininfo" (onSelectionChanged)="selectedTable($event)"></dx-select-box>
+</div>
+<h1>{{ tablename }}</h1>
+<app-table-projects *ngIf ="tablename == 'Проекты'"></app-table-projects>
+<app-table-protocol *ngIf="tablename == 'Протоколы'"></app-table-protocol>
+<app-table-project-protocol *ngIf="tablename == 'Проекты-Протоколы'"></app-table-project-protocol>
+<app-table-interfaces *ngIf="tablename == 'Интерфейсы'"></app-table-interfaces>
+<app-table-devices *ngIf="tablename == 'Устройства'"></app-table-devices>
+<app-table-measures *ngIf="tablename == 'Измерения'"></app-table-measures>
+<app-table-devices-measure *ngIf="tablename == 'Устройства-Измерения'"></app-table-devices-measure>
+<app-table-measure-protocol *ngIf="tablename == 'Протоколы-Измерения'"></app-table-measure-protocol>
+<app-table-telemetry-protocol *ngIf="tablename == 'Протоколы-Телеметрия'"></app-table-telemetry-protocol>
+<app-table-commands-protocol *ngIf="tablename == 'Протоколы-Программные команды'"></app-table-commands-protocol>
+<app-table-comments *ngIf="tablename == 'Комментарии к протоколам'"></app-table-comments>

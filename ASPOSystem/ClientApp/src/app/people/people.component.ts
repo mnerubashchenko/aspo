@@ -6,8 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./people.component.css']
 })
 export class PeopleComponent implements OnInit {
+    people: string[] = ["Пользователи", "Роли", "Должности"];
+    tablename: string;
 
-  constructor() { }
+    constructor() { }
+
+    public selectedTable(data) {
+        this.tablename = data.selectedItem;
+    }
 
   ngOnInit() {
   }

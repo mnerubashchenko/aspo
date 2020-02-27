@@ -1,10 +1,9 @@
-<select name="select"  #selectedtable>
-  <option value="users">Пользователи</option>
-  <option value="roles">Роли</option>
-  <option value="posts">Должности</option>
-</select>
-<h1></h1>
-<app-table-users *ngIf ="selectedtable.value == 'users'"></app-table-users>
-<app-table-roles *ngIf="selectedtable.value == 'roles'"></app-table-roles>
-<app-table-posts *ngIf="selectedtable.value == 'posts'"></app-table-posts>
+<br />
+<div>
+  <dx-select-box [items]="people" (onSelectionChanged)="selectedTable($event)"></dx-select-box>
+</div>
+<h1>{{ tablename }}</h1>
+<app-table-users *ngIf ="tablename == 'Пользователи'"></app-table-users>
+<app-table-roles *ngIf="tablename == 'Роли'"></app-table-roles>
+<app-table-posts *ngIf="tablename == 'Должности'"></app-table-posts>
 

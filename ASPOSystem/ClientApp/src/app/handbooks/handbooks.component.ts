@@ -7,7 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HandbooksComponent implements OnInit {
 
-  constructor() { }
+    handbooks: string[] = ["Бренды устройств", "Программные команды", "Телеметрии", "Типы интерфейсов", "Типы устройств", "Типы измерений", "Категории проектов"];
+    tablename: string;
+
+    constructor() { }
+
+    public selectedTable(data) {
+        this.tablename = data.selectedItem;
+    }
 
   ngOnInit() {
   }

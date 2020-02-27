@@ -4,11 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using ASPOSystem.DBModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASPOSystem.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]"), Authorize(Roles = "Администратор")]
     public class ProtocolController : Controller
     {
         private RSSContext db = new RSSContext();

@@ -7,10 +7,8 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { TableViewComponent } from './table-view/table-view.component';
-import { DxDataGridModule } from 'devextreme-angular';
+import { DxDataGridModule, DxSelectBoxModule } from 'devextreme-angular';
 import { TableBrandsComponent } from './table-brands/table-brands.component';
 import { TablePostsComponent } from './table-posts/table-posts.component';
 import { TableRolesComponent } from './table-roles/table-roles.component';
@@ -81,8 +79,6 @@ export function tokenGetter() {
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     TableViewComponent,
     TableBrandsComponent,
     TablePostsComponent,
@@ -115,10 +111,9 @@ export function tokenGetter() {
     HttpClientModule,
       FormsModule,
       DxDataGridModule,
+      DxSelectBoxModule,
     RouterModule.forRoot([
     { path: '', component: HomeComponent, pathMatch: 'full' },
-    { path: 'counter', component: CounterComponent },
-    { path: 'fetch-data', component: FetchDataComponent },
     { path: 'table-brands', component: TableBrandsComponent, canActivate: [AuthGuard] },
     { path: 'table-posts', component: TablePostsComponent },
     { path: 'table-roles', component: TableRolesComponent },

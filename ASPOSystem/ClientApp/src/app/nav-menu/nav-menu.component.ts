@@ -7,10 +7,9 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.css']
 })
-export class NavMenuComponent {
+export class NavMenuComponent{
 
-  constructor(private jwtHelper: JwtHelperService, private router: Router) {
-  }
+    constructor(private jwtHelper: JwtHelperService, private router: Router) {}
 
   isExpanded = false;
 
@@ -30,9 +29,19 @@ export class NavMenuComponent {
     else {
       return false;
     }
-  }
+    }
+
+    getLogin() {
+        if (this.isUserAuthenticated()) {
+            let userLogin = this.jwtHelper.decodeToken(localStorage.getItem("jwt"));
+            localStorage.setItem("login", userLogin['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
+            return localStorage.getItem("login");
+        }
+    }
 
   public logOut = () => {
-    localStorage.removeItem("jwt");
+      localStorage.removeItem("jwt");
+      this.router.navigate(["/"]);
   }
+
 }
