@@ -24,6 +24,13 @@ namespace ASPOSystem.Controllers
                                        && p.IdUser.ToString() != "11111111-1111-1111-1111-111111111111").ToList();
         }
 
+        [HttpGet]
+        [Route("GetUserForAccount")]
+        public Users GetUserForAccount(string login)
+        {
+            return db.Users.FirstOrDefault(p => p.LoginUser == login);
+        }
+
         [AllowAnonymous]
         [HttpPost]
         [Route("CreateUser")]

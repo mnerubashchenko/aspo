@@ -8,7 +8,7 @@
                 <span class='icon-bar'></span>
             </button>
             <a class='navbar-brand' [routerLink]='["/"]'>ASPOSystem</a>
-            <p class='navbar-brand' *ngIf="isUserAuthenticated()">Вы авторизировались как: {{ getLogin() }}</p>
+            <a [routerLink]='["account"]' class='navbar-brand' *ngIf="isUserAuthenticated()">Вы авторизировались как: {{ getLogin() }}</a>
         </div>
         <div class='clearfix'></div>
         <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
@@ -16,24 +16,19 @@
             <ng-container *ngIf="!isUserAuthenticated()">
               <li [routerLinkActive]='["link-active"]'>
                 <a [routerLink]='["/login"]' (click)='collapse()'>
-                  <span class='glyphicon glyphicon-triangle-right'></span> Sign in
+                  <span class='glyphicon glyphicon-triangle-right'></span> Войти
                 </a>
               </li>
               <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
                 <a [routerLink]='["registration"]' (click)='collapse()'>
-                  <span class='glyphicon glyphicon-plus'></span> Register
+                  <span class='glyphicon glyphicon-plus'></span> Зарегистрироваться
                 </a>
               </li>
             </ng-container>
             <ng-container *ngIf="isUserAuthenticated()">
-              <li [routerLinkActive]='["link-active"]'>
-                <a class="pointer_class" (click)="logOut()">
-                  <span class='glyphicon glyphicon-triangle-left'></span> Log out
-                </a>
-              </li>
               <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
                 <a [routerLink]='["/"]' (click)='collapse()'>
-                  <span class='glyphicon glyphicon-home'></span> Home
+                  <span class='glyphicon glyphicon-home'></span> Главная
                 </a>
               </li>
               <li [routerLinkActive]='["link-active"]'>
@@ -53,6 +48,11 @@
               </li>
             </ng-container>
           </ul>
+          <div>
+            <button *ngIf="isUserAuthenticated()" type="button" class="btn btn-warning btn-sm  logoutbutton center-block" (click)='logOut()'>Выйти</button>
+          </div>
         </div>
+      <div class='clearfix'></div>
+
     </div>
 </div>
