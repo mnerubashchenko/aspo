@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { TableViewComponent } from './table-view/table-view.component';
-import { DxDataGridModule, DxSelectBoxModule } from 'devextreme-angular';
+import { DxDataGridModule, DxSelectBoxModule, DxTextBoxModule  } from 'devextreme-angular';
 import { TableBrandsComponent } from './table-brands/table-brands.component';
 import { TablePostsComponent } from './table-posts/table-posts.component';
 import { TableRolesComponent } from './table-roles/table-roles.component';
@@ -114,6 +114,7 @@ export function tokenGetter() {
       FormsModule,
       DxDataGridModule,
       DxSelectBoxModule,
+      DxTextBoxModule,
     RouterModule.forRoot([
     { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: 'table-brands', component: TableBrandsComponent, canActivate: [AuthGuard] },

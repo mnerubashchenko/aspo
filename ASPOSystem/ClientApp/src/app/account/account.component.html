@@ -1,8 +1,29 @@
-<div>
-  <p>{{ this.user.nameUser }}</p>
-  <p></p>
-  <p></p>
-  <p></p>
-  <p></p>
-  <p></p>
+<p></p>
+<h1>Личный кабинет</h1>
+<div class="dx-field">
+<div class="dx-field-label">Фамилия</div>
+<div class="dx-field-value">
+  <dx-text-box value="{{ this.user.middlenameUser }}" [readOnly]="true"></dx-text-box>
+</div>
+</div>
+
+<div class="dx-field">
+  <div class="dx-field-label">Имя</div>
+  <div class="dx-field-value">
+    <dx-text-box value="{{ this.user.nameUser }}" [readOnly]="true"></dx-text-box>
+  </div>
+</div>
+
+<div class="dx-field">
+  <div class="dx-field-label">Отчество</div>
+  <div class="dx-field-value">
+    <dx-text-box value="{{ this.user.lastnameUser }}" [readOnly]="true"></dx-text-box>
+  </div>
+</div>
+
+<div class="dx-field">
+  <div class="dx-field-label">Логин</div>
+  <div class="dx-field-value">
+    <dx-text-box value="{{ this.user.loginUser }}" [readOnly]="true"></dx-text-box>
+  </div>
 </div>
