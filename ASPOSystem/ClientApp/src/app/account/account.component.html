@@ -27,3 +27,27 @@
     <dx-text-box value="{{ this.user.loginUser }}" [readOnly]="true"></dx-text-box>
   </div>
 </div>
+
+<div class="dx-field">
+  <div class="dx-field-label">Роль</div>
+  <div class="dx-field-value">
+    <dx-select-box [dataSource]="roles"
+                   [(value)]="user.roleUser"
+                   displayExpr="nameRole"
+                   valueExpr="idRole"
+                   [readOnly]="true">
+    </dx-select-box>
+  </div>
+</div>
+
+<div class="dx-field">
+  <div class="dx-field-label">Должность</div>
+  <div class="dx-field-value">
+    <dx-select-box [dataSource]="posts"
+                   [(value)]="user.postUser"
+                   displayExpr="namePost"
+                   valueExpr="idPost"
+                   [readOnly]="true">
+    </dx-select-box>
+  </div>
+</div>

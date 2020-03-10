@@ -15,7 +15,7 @@ namespace ASPOSystem.Controllers
         private RSSContext db = new RSSContext();
 
         [HttpGet]
-        [Route("GetPost"), Authorize(Roles = "Администратор")]
+        [Route("GetPost"), Authorize(Roles = "Администратор, Гость")]
         public List<Posts> GetPost()
         {
             return db.Posts.Where(p => p.IdPost.ToString() != "00000000-0000-0000-0000-000000000000").ToList();

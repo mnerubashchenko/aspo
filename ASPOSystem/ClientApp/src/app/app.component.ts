@@ -13,7 +13,8 @@ export class AppComponent{
 
   @HostListener('window:beforeunload', ['$event'])
   beforeunloadHandler(event) {
-    localStorage.removeItem("jwt");
+      localStorage.removeItem("jwt");
+      localStorage.removeItem("login");
   }
 
 }

@@ -2,15 +2,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import { Router } from "@angular/router";
 import { NgForm } from '@angular/forms';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html'
 })
 export class LoginComponent {
-  invalidLogin: boolean;
+    invalidLogin: boolean;
 
-    constructor(private router: Router, private http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
+    constructor(private router: Router, private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private jwtHelper: JwtHelperService) {
         this.baseUrl = baseUrl;
     }
   
@@ -22,7 +23,9 @@ export class LoginComponent {
       })
     }).subscribe(response => {
       let token = (<any>response).token;
-      localStorage.setItem("jwt", token);
+        localStorage.setItem("jwt", token);
+        let userLogin = this.jwtHelper.decodeToken(localStorage.getItem("jwt"));
+        localStorage.setItem("login", userLogin['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
       this.invalidLogin = false;
       this.router.navigate(["/"]);
     }, err => {

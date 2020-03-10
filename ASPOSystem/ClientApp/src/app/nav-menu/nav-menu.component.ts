@@ -33,14 +33,13 @@ export class NavMenuComponent{
 
     getLogin() {
         if (this.isUserAuthenticated()) {
-            let userLogin = this.jwtHelper.decodeToken(localStorage.getItem("jwt"));
-            localStorage.setItem("login", userLogin['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
             return localStorage.getItem("login");
         }
     }
 
   public logOut = () => {
       localStorage.removeItem("jwt");
+      localStorage.removeItem("login");
       this.router.navigate(["/"]);
   }
 
