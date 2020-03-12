@@ -1,53 +1,84 @@
 <p></p>
 <h1>Личный кабинет</h1>
-<div class="dx-field">
-<div class="dx-field-label">Фамилия</div>
-<div class="dx-field-value">
-  <dx-text-box value="{{ this.user.middlenameUser }}" [readOnly]="true"></dx-text-box>
-</div>
-</div>
+<form class="form-signin" #accountForm="ngForm" (ngSubmit)="account(accountForm)">
 
-<div class="dx-field">
-  <div class="dx-field-label">Имя</div>
-  <div class="dx-field-value">
-    <dx-text-box value="{{ this.user.nameUser }}" [readOnly]="true"></dx-text-box>
+  <div hidden class="dx-field">
+    <div class="dx-field-label">id</div>
+    <div class="dx-field-value">
+      <dx-text-box id="idUser" name="idUser" [readOnly]="true" [ngModel]="this.user.idUser" class="form-control"></dx-text-box>
+    </div>
   </div>
-</div>
 
-<div class="dx-field">
-  <div class="dx-field-label">Отчество</div>
-  <div class="dx-field-value">
-    <dx-text-box value="{{ this.user.lastnameUser }}" [readOnly]="true"></dx-text-box>
+  <div class="dx-field">
+    <div class="dx-field-label">Фамилия</div>
+    <div class="dx-field-value">
+      <dx-text-box id="middlenameUser" name="middlenameUser" [readOnly]="isChanged()" [ngModel]="this.user.middlenameUser" class="form-control"></dx-text-box>
+    </div>
   </div>
-</div>
 
-<div class="dx-field">
-  <div class="dx-field-label">Логин</div>
-  <div class="dx-field-value">
-    <dx-text-box value="{{ this.user.loginUser }}" [readOnly]="true"></dx-text-box>
+  <div class="dx-field">
+    <div class="dx-field-label">Имя</div>
+    <div class="dx-field-value">
+      <dx-text-box id="nameUser" name="nameUser" [readOnly]="isChanged()" [ngModel]="this.user.nameUser" class="form-control"></dx-text-box>
+    </div>
   </div>
-</div>
 
-<div class="dx-field">
-  <div class="dx-field-label">Роль</div>
-  <div class="dx-field-value">
-    <dx-select-box [dataSource]="roles"
-                   [(value)]="user.roleUser"
-                   displayExpr="nameRole"
-                   valueExpr="idRole"
-                   [readOnly]="true">
-    </dx-select-box>
+  <div class="dx-field">
+    <div class="dx-field-label">Отчество</div>
+    <div class="dx-field-value">
+      <dx-text-box id="lastnameUser" name="lastnameUser" [readOnly]="isChanged()" [ngModel]="this.user.lastnameUser" class="form-control"></dx-text-box>
+    </div>
   </div>
-</div>
 
-<div class="dx-field">
-  <div class="dx-field-label">Должность</div>
-  <div class="dx-field-value">
-    <dx-select-box [dataSource]="posts"
-                   [(value)]="user.postUser"
-                   displayExpr="namePost"
-                   valueExpr="idPost"
-                   [readOnly]="true">
-    </dx-select-box>
+  <div class="dx-field">
+    <div class="dx-field-label">Логин</div>
+    <div class="dx-field-value">
+      <dx-text-box id="loginUser" name="loginUser" [readOnly]="isChanged()" [ngModel]="this.user.loginUser" class="form-control"></dx-text-box>
+    </div>
   </div>
-</div>
+
+  <div hidden class="dx-field">
+    <div class="dx-field-label">Пароль</div>
+    <div class="dx-field-value">
+      <dx-text-box id="passwordUser" name="passwordUser" [readOnly]="isChanged()" [ngModel]="this.user.passwordUser" class="form-control"></dx-text-box>
+    </div>
+  </div>
+
+  <div class="dx-field">
+    <div class="dx-field-label">Роль</div>
+    <div class="dx-field-value">
+      <dx-select-box [ngModel]="user.roleUser" class="form-control" id="roleUser" name="roleUser"
+                     [dataSource]="roles"
+                     displayExpr="nameRole"
+                     valueExpr="idRole"
+                     [readOnly]="isChanged()">
+      </dx-select-box>
+    </div>
+  </div>
+
+  <div class="dx-field">
+    <div class="dx-field-label">Должность</div>
+    <div class="dx-field-value">
+      <dx-select-box id="postUser" name="postUser"
+                     [dataSource]="posts"
+                     [ngModel]="user.postUser"
+                     displayExpr="namePost"
+                     valueExpr="idPost"
+                     [readOnly]="isChanged()"
+                     class="form-control">
+      </dx-select-box>
+    </div>
+  </div>
+
+  <div>
+    <button *ngIf="flag1==false" type="button" class="btn btn-dark" (click)='buttonIsPressed()'>Редактировать профиль</button>
+  </div>
+
+  <div>
+    <button *ngIf="flag1==true" type="submit" class="btn btn-success">Сохранить изменения</button>
+  </div>
+
+  <!--<div>
+    <button *ngIf="flag1==true" type="button" class="btn btn-danger" (click)='cancel()'>Отмена</button>
+  </div>-->
+</form>
