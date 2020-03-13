@@ -36,6 +36,7 @@ export interface IUsers {
     MiddlenameUser: string;
     LastnameUser: string;
     LoginUser: string;
+    PasswordUser: string;
     PostUser: string;
     RoleUser: string;
 }

@@ -71,14 +71,14 @@
   </div>
 
   <div>
-    <button *ngIf="flag1==false" type="button" class="btn btn-dark" (click)='buttonIsPressed()'>Редактировать профиль</button>
+    <button *ngIf="flagForChangeButtons==false" type="button" class="btn btn-dark" (click)='buttonIsPressed()'>Редактировать профиль</button>
   </div>
 
   <div>
-    <button *ngIf="flag1==true" type="submit" class="btn btn-success">Сохранить изменения</button>
+    <button *ngIf="flagForChangeButtons==true" type="submit" class="btn btn-success">Сохранить изменения</button>
   </div>
 
-  <!--<div>
-    <button *ngIf="flag1==true" type="button" class="btn btn-danger" (click)='cancel()'>Отмена</button>
-  </div>-->
+  <div>
+    <button *ngIf="flagForChangeButtons==true" type="button" class="btn btn-danger" (click)='cancel()'>Отмена</button>
+  </div>
 </form>

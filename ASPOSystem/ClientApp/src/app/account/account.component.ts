@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 import { IUsers, UsersService } from '../table-users/UsersService';
@@ -13,11 +13,12 @@ import { Router } from '@angular/router';
     styleUrls: ['./account.component.css']
 })
 export class AccountComponent implements OnInit {
+    @ViewChild('accountForm') form: NgForm;
     public user: IUsers;
     public roles: IRoles[];
     public posts: IPosts[];
-    public flag: boolean = true;
-    public flag1: boolean = false;
+    public flagForReadOnly: boolean = true;
+    public flagForChangeButtons: boolean = false;
     headers: HttpHeaders = new HttpHeaders({
         "Content-Type": "application/json"
     });
@@ -50,17 +51,21 @@ export class AccountComponent implements OnInit {
     }
 
     private buttonIsPressed() {
-        this.flag = !this.flag;
-        this.flag1 = true;
+        this.flagForReadOnly = !this.flagForReadOnly;
+        this.flagForChangeButtons = true;
     }
 
     private isChanged() {
-        return this.flag;
+        return this.flagForReadOnly;
     }
 
-    //private cancel() {
-    //    this.router.navigate(["/account"]);
-    //}
+    private cancel() {
+        this.usersService.subjectAuth.subscribe(this.userAccountReceived);
+        this.usersService.getUserForAccount();
+        this.form.resetForm(this.user);
+        this.flagForReadOnly = !this.flagForReadOnly;
+        this.flagForChangeButtons = false;
+    }
 
     public account = (form: NgForm) => {
         this.http.put<any>(this.baseUrl + "Users/UpdateUser", JSON.stringify(form.value as IUsers), {
@@ -68,7 +73,7 @@ export class AccountComponent implements OnInit {
                 "Content-Type": "application/json"
             })
         }).subscribe();
-        this.flag1 = false;
-        this.flag = !this.flag;
+        this.flagForChangeButtons = false;
+        this.flagForReadOnly = !this.flagForReadOnly;
     }
 }
