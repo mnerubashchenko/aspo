@@ -69,6 +69,45 @@ namespace ASPOSystem.Controllers
             db.SaveChanges();
         }
 
+        [HttpPut]
+        [Route("PasswordChanger"), Authorize(Roles = "Администратор, Гость")]
+        public void PasswordChanger(string login, string oldPassword, string newPassword)
+        {
+            Users user = db.Users.FirstOrDefault(p => p.LoginUser == login);
+
+            string saltOfOldPass = user.PasswordUser.ToString().Substring(0, 24);
+
+            string hashedOldPass = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: oldPassword,
+                salt: Convert.FromBase64String(saltOfOldPass),
+                prf: KeyDerivationPrf.HMACSHA1,
+                iterationCount: 10000,
+                numBytesRequested: 256 / 8));
+
+            hashedOldPass = string.Concat(saltOfOldPass, hashedOldPass);
+
+            if (hashedOldPass == user.PasswordUser.ToString())
+            {
+                var salt = new byte[128 / 8];
+
+                using (var rng = RandomNumberGenerator.Create())
+                {
+                    rng.GetBytes(salt);
+                }
+
+                string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: newPassword,
+                salt: salt,
+                prf: KeyDerivationPrf.HMACSHA1,
+                iterationCount: 10000,
+                numBytesRequested: 256 / 8));
+
+                user.PasswordUser = string.Concat(Convert.ToBase64String(salt), hashed);
+
+                db.SaveChanges();
+            }
+        }
+
         [HttpDelete]
         [Route("DeleteUser"), Authorize(Roles = "Администратор")]
         public void DeleteUser(Guid idUser)

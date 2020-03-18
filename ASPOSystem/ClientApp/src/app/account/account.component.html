@@ -74,6 +74,12 @@
     <button *ngIf="flagForChangeButtons==false" type="button" class="btn btn-dark" (click)='buttonIsPressed()'>Редактировать профиль</button>
   </div>
 
+  <p></p>
+
+  <div>
+    <button *ngIf="flagForChangeButtons==false" [routerLink]='["/password-changer"]' type="button" class="btn btn-dark">Сменить пароль</button>
+  </div>
+
   <div>
     <button *ngIf="flagForChangeButtons==true" type="submit" class="btn btn-success">Сохранить изменения</button>
   </div>

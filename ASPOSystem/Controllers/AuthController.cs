@@ -53,7 +53,7 @@ namespace ASPOSystem.Controllers
                 return Unauthorized();
             }
         }
-        private Tuple<string,string> GetSalt_Hash(string login,string psswd) {
+        private Tuple<string,string> GetSalt_Hash(string login, string psswd) {
             if (!db.Users.Any(r => r.LoginUser == login))
                 return Tuple.Create("", "");
             else
