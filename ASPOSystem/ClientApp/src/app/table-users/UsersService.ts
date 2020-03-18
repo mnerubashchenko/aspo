@@ -5,9 +5,9 @@ import { Subject } from 'rxjs/Subject';
 @Injectable()
 export class UsersService {
     users: IUsers[];
-    user: IUsers;
+    user: IUsers[];
   subject = new Subject<IUsers[]>();
-  subjectAuth = new Subject<IUsers>();
+  subjectAuth = new Subject<IUsers[]>();
   headers: HttpHeaders;
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
     this.headers = new HttpHeaders().set('content-type', 'application/json');
@@ -24,7 +24,7 @@ export class UsersService {
     this.http.get<any>(this.baseUrl + "Users/GetUserForAccount", {
       params: new HttpParams().set("login", localStorage.getItem("login"))
       }).subscribe(result => {
-      this.user = result as IUsers;
+      this.user = result as IUsers[];
       this.subjectAuth.next(this.user);
       }, error => console.error(error));
   }

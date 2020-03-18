@@ -25,10 +25,10 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpGet]
-        [Route("GetUserForAccount")]
-        public Users GetUserForAccount(string login)
+        [Route("GetUserForAccount"), Authorize(Roles = "Администратор, Гость")]
+        public List<Users> GetUserForAccount(string login)
         {
-            return db.Users.FirstOrDefault(p => p.LoginUser == login);
+            return db.Users.Where(p => p.LoginUser == login).ToList();
         }
 
         [AllowAnonymous]
@@ -62,7 +62,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateUser"), Authorize(Roles = "Администратор")]
+        [Route("UpdateUser"), Authorize(Roles = "Администратор, Гость")]
         public void UpdateUser([FromBody] Users updatedUser)
         {
             db.Users.Update(updatedUser);

@@ -5,49 +5,49 @@
   <div hidden class="dx-field">
     <div class="dx-field-label">id</div>
     <div class="dx-field-value">
-      <dx-text-box id="idUser" name="idUser" [readOnly]="true" [ngModel]="this.user.idUser" class="form-control"></dx-text-box>
+      <dx-text-box id="idUser" name="idUser" [readOnly]="true" [ngModel]="user[0].idUser" class="form-control"></dx-text-box>
     </div>
   </div>
 
   <div class="dx-field">
     <div class="dx-field-label">Фамилия</div>
     <div class="dx-field-value">
-      <dx-text-box id="middlenameUser" name="middlenameUser" [readOnly]="isChanged()" [ngModel]="this.user.middlenameUser" class="form-control"></dx-text-box>
+      <dx-text-box id="middlenameUser" name="middlenameUser" [readOnly]="isChanged()" [ngModel]="user[0].middlenameUser" class="form-control"></dx-text-box>
     </div>
   </div>
 
   <div class="dx-field">
     <div class="dx-field-label">Имя</div>
     <div class="dx-field-value">
-      <dx-text-box id="nameUser" name="nameUser" [readOnly]="isChanged()" [ngModel]="this.user.nameUser" class="form-control"></dx-text-box>
+      <dx-text-box id="nameUser" name="nameUser" [readOnly]="isChanged()" [ngModel]="user[0].nameUser" class="form-control"></dx-text-box>
     </div>
   </div>
 
   <div class="dx-field">
     <div class="dx-field-label">Отчество</div>
     <div class="dx-field-value">
-      <dx-text-box id="lastnameUser" name="lastnameUser" [readOnly]="isChanged()" [ngModel]="this.user.lastnameUser" class="form-control"></dx-text-box>
+      <dx-text-box id="lastnameUser" name="lastnameUser" [readOnly]="isChanged()" [ngModel]="user[0].lastnameUser" class="form-control"></dx-text-box>
     </div>
   </div>
 
   <div class="dx-field">
     <div class="dx-field-label">Логин</div>
     <div class="dx-field-value">
-      <dx-text-box id="loginUser" name="loginUser" [readOnly]="isChanged()" [ngModel]="this.user.loginUser" class="form-control"></dx-text-box>
+      <dx-text-box id="loginUser" name="loginUser" [readOnly]="isChanged()" [ngModel]="user[0].loginUser" class="form-control"></dx-text-box>
     </div>
   </div>
 
   <div hidden class="dx-field">
     <div class="dx-field-label">Пароль</div>
     <div class="dx-field-value">
-      <dx-text-box id="passwordUser" name="passwordUser" [readOnly]="isChanged()" [ngModel]="this.user.passwordUser" class="form-control"></dx-text-box>
+      <dx-text-box id="passwordUser" name="passwordUser" [readOnly]="isChanged()" [ngModel]="user[0].passwordUser" class="form-control"></dx-text-box>
     </div>
   </div>
 
   <div class="dx-field">
     <div class="dx-field-label">Роль</div>
     <div class="dx-field-value">
-      <dx-select-box [ngModel]="user.roleUser" class="form-control" id="roleUser" name="roleUser"
+      <dx-select-box [ngModel]="user[0].roleUser" class="form-control" id="roleUser" name="roleUser"
                      [dataSource]="roles"
                      displayExpr="nameRole"
                      valueExpr="idRole"
@@ -61,7 +61,7 @@
     <div class="dx-field-value">
       <dx-select-box id="postUser" name="postUser"
                      [dataSource]="posts"
-                     [ngModel]="user.postUser"
+                     [ngModel]="user[0].postUser"
                      displayExpr="namePost"
                      valueExpr="idPost"
                      [readOnly]="isChanged()"
@@ -82,3 +82,39 @@
     <button *ngIf="flagForChangeButtons==true" type="button" class="btn btn-danger" (click)='cancel()'>Отмена</button>
   </div>
 </form>
+
+<h1>Мои проекты</h1>
+<dx-data-grid id="gridContainer"
+              [dataSource]="store"
+              [showBorders]="true"
+              keyExpr="idProject"
+              (onRowUpdating)="onRowUpdating($event)">
+  <dxi-column dataField="nameProject" caption="Название"></dxi-column>
+  <dxi-column dataField="directorProject">
+    <dxo-lookup [dataSource]="user"
+                displayExpr="loginUser"
+                valueExpr="idUser">
+    </dxo-lookup>
+  </dxi-column>
+  <dxi-column dataField="categoryProject"
+              caption="Категория">
+    <dxo-lookup [dataSource]="categories"
+                displayExpr="nameCategory"
+                valueExpr="idCategory">
+    </dxo-lookup>
+  </dxi-column>
+  <dxi-column dataField="descriptionProject" caption="Описание"></dxi-column>
+  <dxi-column dataField="dateCreateProject" caption="Дата создания" dataType="datetime"></dxi-column>
+  <dxo-editing mode="popup"
+               [allowUpdating]="true"
+               [allowDeleting]="true"
+               [allowAdding]="true">
+    <dxo-popup title="Проекты"
+               [showTitle]="true"
+               [width]="700"
+               [height]="300"
+               [position]="{ my: 'top', at: 'top', of: window }">
+    </dxo-popup>
+  </dxo-editing>
+</dx-data-grid>
+

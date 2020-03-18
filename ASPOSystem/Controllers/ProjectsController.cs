@@ -15,14 +15,21 @@ namespace ASPOSystem.Controllers
         private RSSContext db = new RSSContext();
 
         [HttpGet]
-        [Route("GetProjects"), Authorize(Roles = "Администратор")]
+        [Route("GetProjects"), Authorize(Roles = "Администратор, Гость")]
         public List<Project> GetProjects()
         {
             return db.Project.ToList();
         }
 
+        [HttpGet]
+        [Route("GetPersonalProjects"), Authorize(Roles = "Администратор, Гость")]
+        public List<Project> GetPersonalProjects(string author)
+        {
+            return db.Project.Where(p => p.DirectorProject == db.Users.FirstOrDefault(r => r.LoginUser == author).IdUser).ToList();
+        }
+
         [HttpPost]
-        [Route("CreateProject"), Authorize(Roles = "Администратор")]
+        [Route("CreateProject"), Authorize(Roles = "Администратор, Гость")]
         public void CreateProject([FromBody] Project newProject)
         {
             db.Project.Add(newProject);
@@ -30,7 +37,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateProject"), Authorize(Roles = "Администратор")]
+        [Route("UpdateProject"), Authorize(Roles = "Администратор, Гость")]
         public void UpdateProject([FromBody] Project updatedProject)
         {
             db.Project.Update(updatedProject);
@@ -38,7 +45,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteProject"), Authorize(Roles = "Администратор")]
+        [Route("DeleteProject"), Authorize(Roles = "Администратор, Гость")]
         public void DeleteProject(Guid idProject)
         {
             db.Project.Remove(db.Project.Find(idProject));
