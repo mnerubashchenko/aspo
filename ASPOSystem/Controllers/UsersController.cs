@@ -71,7 +71,7 @@ namespace ASPOSystem.Controllers
 
         [HttpPut]
         [Route("PasswordChanger"), Authorize(Roles = "Администратор, Гость")]
-        public void PasswordChanger(string login, string oldPassword, string newPassword)
+        public IActionResult PasswordChanger(string login, string oldPassword, string newPassword)
         {
             Users user = db.Users.FirstOrDefault(p => p.LoginUser == login);
 
@@ -105,7 +105,12 @@ namespace ASPOSystem.Controllers
                 user.PasswordUser = string.Concat(Convert.ToBase64String(salt), hashed);
 
                 db.SaveChanges();
+
+                return Ok();
             }
+
+            else 
+                return BadRequest("Неправильно введен ваш старый пароль");
         }
 
         [HttpDelete]

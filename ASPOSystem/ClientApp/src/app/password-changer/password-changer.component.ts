@@ -10,14 +10,15 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 })
 export class PasswordChangerComponent implements OnInit {
     check: boolean = true;
-
+    flagOfError: string;
+    test: string;
     constructor(private router: Router, private http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         this.baseUrl = baseUrl;
     }
 
     public passChange = (form: NgForm) => {
         this.check = (form.controls.passwordUser.value == form.controls.passwordConfirm.value) ? true : false;
-        let credentials = JSON.stringify(form.value);
+        this.flagOfError = '';
 
         var params = new HttpParams()
             .set('login', localStorage.getItem("login"))
@@ -28,7 +29,11 @@ export class PasswordChangerComponent implements OnInit {
         this.http.put(this.baseUrl + "Users/PasswordChanger", {
             headers: new HttpHeaders({ "Content-Type": "application/json" })
         }, { params })
-            .subscribe(response => { this.router.navigate(["account"]); });
+            .subscribe(response => {
+                this.router.navigate(["account"]);
+            }, error => {
+            this.flagOfError = "visible"; this.test = error.error;
+            });
         }
     }
 
