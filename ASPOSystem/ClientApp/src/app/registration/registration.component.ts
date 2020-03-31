@@ -9,6 +9,8 @@ import { NgForm } from '@angular/forms';
 })
 export class RegistrationComponent {
   check: boolean;
+  invalidLogin: boolean;
+  textError: string;
 
    constructor(private router: Router, private http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
        this.check = true;
@@ -25,12 +27,11 @@ export class RegistrationComponent {
               "Content-Type": "application/json"
             })
           }).subscribe(response => {
-            //let token = (<any>response).token;
-            //localStorage.setItem("jwt", token);
-            //this.invalidLogin = false;
-            this.router.navigate(["/"]);
-            //}, err => {
-            //this.invalidLogin = true;
+            this.invalidLogin = false;
+            this.router.navigate(["login"]);
+          }, err => {
+            this.invalidLogin = true;
+            this.textError = err.error;
           });
         }
     }

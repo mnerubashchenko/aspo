@@ -34,31 +34,38 @@ namespace ASPOSystem.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("CreateUser")]
-        public void CreateUser([FromBody] Users newUser)
+        public IActionResult CreateUser([FromBody] Users newUser)
         {
-            var salt = new byte[128 / 8];
-            string salt1;
+            if (db.Users.Any(r=> r.LoginUser == newUser.LoginUser))
+                return BadRequest("Данный логин занят");
+            else
+                {
+                    var salt = new byte[128 / 8];
+                    string salt1;
 
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(salt);
-            }
+                    using (var rng = RandomNumberGenerator.Create())
+                    {
+                        rng.GetBytes(salt);
+                    }
 
-            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-            password: newUser.PasswordUser.ToString(),
-            salt: salt,
-            prf: KeyDerivationPrf.HMACSHA1,
-            iterationCount: 10000,
-            numBytesRequested: 256 / 8));
+                    string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                    password: newUser.PasswordUser.ToString(),
+                    salt: salt,
+                    prf: KeyDerivationPrf.HMACSHA1,
+                    iterationCount: 10000,
+                    numBytesRequested: 256 / 8));
 
-            salt1 = Convert.ToBase64String(salt);
+                    salt1 = Convert.ToBase64String(salt);
 
-            newUser.PasswordUser = string.Concat(Convert.ToBase64String(salt), hashed);
+                    newUser.PasswordUser = string.Concat(Convert.ToBase64String(salt), hashed);
 
-            newUser.RoleUser = new Guid("775ACD72-5459-EA11-B83A-645106511DF0");
+                    newUser.RoleUser = new Guid("775ACD72-5459-EA11-B83A-645106511DF0");
 
-            db.Users.Add(newUser);
-            db.SaveChanges();
+                    db.Users.Add(newUser);
+                    db.SaveChanges();
+
+                    return Ok();
+                }
         }
 
         [HttpPut]

@@ -15,4 +15,5 @@
   </div>
   <p></p>
   <div *ngIf="!check" class="alert alert-danger">Пароли не совпадают.</div>
+  <div *ngIf="invalidLogin" class="alert alert-danger">{{ this.textError }}</div>
 </form>
