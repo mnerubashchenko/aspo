@@ -3,12 +3,12 @@
     <h2 class="form-signin-heading">Авторизация</h2>
     <br />
     <label for="username" class="sr-only">Логин</label>
-    <input type="email" id="username" name="username" ngModel class="form-control" placeholder="Логин" required autofocus>
+    <input type="email" id="username" name="username" ngModel class="form-control" placeholder="Логин" required autofocus #username="ngModel">
     <br />
     <label for="password" class="sr-only">Пароль</label>
-    <input type="password" id="password" name="password" ngModel class="form-control" placeholder="Пароль" required>
+    <input type="password" id="password" name="password" ngModel class="form-control" placeholder="Пароль" required #password="ngModel">
     <br />
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+    <button [disabled]="username.invalid || password.invalid" class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
   </div>
   <p></p>
   <div *ngIf="invalidLogin" class="alert alert-danger">Неправильный логин или пароль.</div>

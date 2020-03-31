@@ -17,7 +17,8 @@ export class RegistrationComponent {
        this.baseUrl = baseUrl;
    }
  
-    public registration = (form: NgForm) => {
+  public registration = (form: NgForm) => {
+      this.invalidLogin = false;
       this.check = (form.controls.passwordUser.value == form.controls.passwordConfirm.value) ? true : false;
       let credentials = JSON.stringify(form.value);
 
