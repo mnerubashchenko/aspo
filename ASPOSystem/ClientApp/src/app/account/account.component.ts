@@ -35,7 +35,9 @@ export class AccountComponent implements OnInit {
 
     constructor(private usersService: UsersService, private roleService: RoleService,
         private postService: PostService, private projectService: ProjectService, private categoryService: CategoryService,
-        private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private router: Router) {
+      private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private router: Router) {
+
+      //params: new HttpParams().set("login", "Телеметрия");
 
         Observable.forkJoin(
             this.http.get<any>(this.baseUrl + "Users/GetUserForAccount", {
@@ -133,6 +135,10 @@ export class AccountComponent implements OnInit {
         this.form.resetForm(this.user[0]);
         this.flagForReadOnly = !this.flagForReadOnly;
         this.flagForChangeButtons = false;
+    }
+
+  private ConfigMaker() {
+    this.http.post<any>(this.baseUrl + 'JSONMaker/ConfigMaker', { headers: this.headers }, { params: new HttpParams().set("telname", "gavno").set("commandname", "team1") }).subscribe();
     }
 
     public account = (form: NgForm) => {

@@ -1,0 +1,35 @@
+﻿{
+  "Telemetry": [
+    {
+      "IdTelemetry": "ef294402-067f-ea11-b76f-b42e99a9ec94",
+      "LongNameTelemetry": "gavno",
+      "ShortNameTelemetry": "2",
+      "ByteNumberTelemetry": 2,
+      "StartBitTelemetry": 2,
+      "LenghtTelemetry": 2,
+      "PossibleValuesTelemetry": "2",
+      "TelemetryProtocol": []
+    },
+    {
+      "IdTelemetry": "11b42448-1c7f-ea11-b76f-b42e99a9ec94",
+      "LongNameTelemetry": "gavno",
+      "ShortNameTelemetry": "11111111",
+      "ByteNumberTelemetry": 1111111111,
+      "StartBitTelemetry": 111111111,
+      "LenghtTelemetry": 11111111,
+      "PossibleValuesTelemetry": "1111111111",
+      "TelemetryProtocol": []
+    }
+  ],
+  "Programmcommand": [
+    {
+      "IdCommand": "db7367cd-437f-ea11-b76f-b42e99a9ec94",
+      "CodeCommand": "1",
+      "NameCommand": "team1",
+      "PurposeCommand": "1",
+      "DescriptionCommand": "1",
+      "TelemetryCommand": "1",
+      "PrcommandsProtocol": []
+    }
+  ]
+}
