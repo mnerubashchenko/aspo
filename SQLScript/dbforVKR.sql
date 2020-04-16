@@ -319,3 +319,7 @@ AS BEGIN
 			INSERT PROJECT_PROTOCOL (Project_link, Protocol_project_link) VALUES (@idproj, '00000000-0000-0000-0000-000000000000');
 		END;
 END
+
+create login RSSadmin with password = '#Qteltn3', DEFAULT_DATABASE = master, CHECK_EXPIRATION = OFF, CHECK_POLICY = OFF;
+
+create user RSSadmin for login RSSadmin
