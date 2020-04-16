@@ -10,7 +10,7 @@ namespace ASPOSystem.DBModels
             Users = new HashSet<Users>();
         }
 
-        public Guid IdRole { get; set; }
+        public Guid Id { get; set; }
         public string NameRole { get; set; }
 
         public ICollection<Users> Users { get; set; }

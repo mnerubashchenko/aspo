@@ -16,7 +16,7 @@ namespace ASPOSystem.Controllers
     [ApiController]
     public class AuthController : Controller
     {
-        private RSSContext db = new RSSContext();
+        private RSSForVKRContext db = new RSSForVKRContext();
         [HttpPost, Route("login")]
         public IActionResult Login([FromBody]LoginModel user)
         {
@@ -30,7 +30,7 @@ namespace ASPOSystem.Controllers
 
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-                var role = db.Roles.FirstOrDefault(r => r.IdRole == db.Users.FirstOrDefault(t => t.LoginUser == user.UserName).RoleUser).NameRole.ToString();
+                var role = db.Roles.FirstOrDefault(r => r.Id == db.Users.FirstOrDefault(t => t.LoginUser == user.UserName).RoleUser).NameRole.ToString();
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),

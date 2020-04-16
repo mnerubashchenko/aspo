@@ -7,11 +7,10 @@ namespace ASPOSystem.DBModels
     {
         public Interfaces()
         {
-            Devices = new HashSet<Devices>();
-            Measure = new HashSet<Measure>();
+            ProjectInterface = new HashSet<ProjectInterface>();
         }
 
-        public Guid IdInterface { get; set; }
+        public Guid Id { get; set; }
         public string NameInterface { get; set; }
         public string IsReadyStatusInterface { get; set; }
         public string IsUsedInterface { get; set; }
@@ -21,7 +20,6 @@ namespace ASPOSystem.DBModels
         public string ActualIpInterface { get; set; }
 
         public Typeinter TypeInterfaceNavigation { get; set; }
-        public ICollection<Devices> Devices { get; set; }
-        public ICollection<Measure> Measure { get; set; }
+        public ICollection<ProjectInterface> ProjectInterface { get; set; }
     }
 }

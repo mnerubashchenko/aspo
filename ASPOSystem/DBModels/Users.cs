@@ -7,11 +7,10 @@ namespace ASPOSystem.DBModels
     {
         public Users()
         {
-            Comments = new HashSet<Comments>();
             Project = new HashSet<Project>();
         }
 
-        public Guid IdUser { get; set; }
+        public Guid Id { get; set; }
         public string NameUser { get; set; }
         public string MiddlenameUser { get; set; }
         public string LastnameUser { get; set; }
@@ -22,7 +21,6 @@ namespace ASPOSystem.DBModels
 
         public Posts PostUserNavigation { get; set; }
         public Roles RoleUserNavigation { get; set; }
-        public ICollection<Comments> Comments { get; set; }
         public ICollection<Project> Project { get; set; }
     }
 }

@@ -31,10 +31,9 @@ export class ProjectService {
 }
 
 export interface IProject {
-  IdProject: string;
+  Id: string;
   NameProject: string;
   DirectorProject: string;
-  CategoryProject: string;
   DescriptionProject: string;
   DateCreateProject: Date;
 }

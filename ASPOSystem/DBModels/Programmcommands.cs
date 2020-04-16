@@ -7,16 +7,16 @@ namespace ASPOSystem.DBModels
     {
         public Programmcommands()
         {
-            PrcommandsProtocol = new HashSet<PrcommandsProtocol>();
+            ProjectCommand = new HashSet<ProjectCommand>();
         }
 
-        public Guid IdCommand { get; set; }
+        public Guid Id { get; set; }
         public string CodeCommand { get; set; }
         public string NameCommand { get; set; }
         public string PurposeCommand { get; set; }
         public string DescriptionCommand { get; set; }
         public string TelemetryCommand { get; set; }
 
-        public ICollection<PrcommandsProtocol> PrcommandsProtocol { get; set; }
+        public ICollection<ProjectCommand> ProjectCommand { get; set; }
     }
 }

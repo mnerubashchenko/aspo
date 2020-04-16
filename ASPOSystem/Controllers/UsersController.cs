@@ -14,14 +14,14 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class UsersController : Controller
     {
-        private RSSContext db = new RSSContext();
+        private RSSForVKRContext db = new RSSForVKRContext();
 
         [HttpGet]
         [Route("GetUsers"), Authorize(Roles = "Администратор")]
         public List<Users> GetUsers()
         {
-            return db.Users.Where(p => p.IdUser.ToString() != "00000000-0000-0000-0000-000000000000"
-                                       && p.IdUser.ToString() != "11111111-1111-1111-1111-111111111111").ToList();
+            return db.Users.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000"
+                                       && p.Id.ToString() != "11111111-1111-1111-1111-111111111111").ToList();
         }
 
         [HttpGet]

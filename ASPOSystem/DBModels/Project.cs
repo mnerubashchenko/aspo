@@ -7,18 +7,24 @@ namespace ASPOSystem.DBModels
     {
         public Project()
         {
-            ProjectProtocol = new HashSet<ProjectProtocol>();
+            ProjectCommand = new HashSet<ProjectCommand>();
+            ProjectDevice = new HashSet<ProjectDevice>();
+            ProjectInterface = new HashSet<ProjectInterface>();
+            ProjectMeasure = new HashSet<ProjectMeasure>();
+            ProjectTelemetry = new HashSet<ProjectTelemetry>();
         }
 
-        public Guid IdProject { get; set; }
+        public Guid Id { get; set; }
         public string NameProject { get; set; }
         public Guid? DirectorProject { get; set; }
-        public Guid? CategoryProject { get; set; }
         public string DescriptionProject { get; set; }
         public DateTime? DateCreateProject { get; set; }
 
-        public Category CategoryProjectNavigation { get; set; }
         public Users DirectorProjectNavigation { get; set; }
-        public ICollection<ProjectProtocol> ProjectProtocol { get; set; }
+        public ICollection<ProjectCommand> ProjectCommand { get; set; }
+        public ICollection<ProjectDevice> ProjectDevice { get; set; }
+        public ICollection<ProjectInterface> ProjectInterface { get; set; }
+        public ICollection<ProjectMeasure> ProjectMeasure { get; set; }
+        public ICollection<ProjectTelemetry> ProjectTelemetry { get; set; }
     }
 }

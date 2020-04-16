@@ -20,8 +20,7 @@ export class DevicesService {
 }
 
 export interface IDevice {
-  IdDevice: string;
-  InterfaceDevice: string;
+  Id: string;
   BrandDevice: string;
   ModelDevice: string;
   StatusDevice: string;

@@ -12,13 +12,13 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class TypemeasureController : Controller
     {
-        private RSSContext db = new RSSContext();
+        private RSSForVKRContext db = new RSSForVKRContext();
 
         [HttpGet]
         [Route("GetTypemeasure"), Authorize(Roles = "Администратор")]
         public List<Typemeasure> GetTypemeasure()
         {
-            return db.Typemeasure.Where(p => p.IdTypemeasure.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            return db.Typemeasure.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]

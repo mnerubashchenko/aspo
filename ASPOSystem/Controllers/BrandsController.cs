@@ -12,13 +12,13 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class BrandsController : Controller
     {
-        private RSSContext db = new RSSContext();
+        private RSSForVKRContext db = new RSSForVKRContext();
 
         [HttpGet]
         [Route("GetBrand"), Authorize(Roles = "Администратор")]
         public List<Brands> GetBrand()
         {
-            return db.Brands.Where(p => p.IdBrand.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            return db.Brands.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]

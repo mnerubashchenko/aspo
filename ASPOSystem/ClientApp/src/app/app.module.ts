@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { TableViewComponent } from './table-view/table-view.component';
 import { DxDataGridModule, DxSelectBoxModule, DxTextBoxModule  } from 'devextreme-angular';
 import { TableBrandsComponent } from './table-brands/table-brands.component';
 import { TablePostsComponent } from './table-posts/table-posts.component';
@@ -26,7 +25,6 @@ import { TelemetryService } from './table-telemetry/TelemetryService';
 import { TypedevService } from './table-type-dev/TypedevService';
 import { TypeinterService } from './table-type-inter/TypeinterService';
 import { TypemeasureService } from './table-type-measure/TypemeasureService';
-import { CategoryService } from './table-view/CategoryService';
 import { UsersService } from './table-users/UsersService';
 import { ProjectService } from './table-projects/ProjectService';
 import { ProtocolService } from './table-protocol/ProtocolService';
@@ -38,7 +36,7 @@ import { DevicesMeasureService } from './table-devices-measure/DevicesMeasureSer
 import { MeasureProtocolService } from './table-measure-protocol/MeasureProtocolService';
 import { TelemetryProtocolService } from './table-telemetry-protocol/TelemetryProtocolService';
 import { CommandsProtocolService } from './table-commands-protocol/CommandsProtocolService';
-import { CommentsService } from './table-comments/CommentsService';
+import { ProjectMeasureService } from './table-project-measure/ProjectMeasureService';
 import { locale, loadMessages } from 'devextreme/localization';
 import { TableUsersComponent } from './table-users/table-users.component';
 import { PeopleComponent } from './people/people.component';
@@ -53,13 +51,13 @@ import { TableDevicesMeasureComponent } from './table-devices-measure/table-devi
 import { TableMeasureProtocolComponent } from './table-measure-protocol/table-measure-protocol.component';
 import { TableTelemetryProtocolComponent } from './table-telemetry-protocol/table-telemetry-protocol.component';
 import { TableCommandsProtocolComponent } from './table-commands-protocol/table-commands-protocol.component';
-import { TableCommentsComponent } from './table-comments/table-comments.component';
 import { LoginComponent } from './login/login.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './guards/auth-guard.service';
 import { RegistrationComponent } from './registration/registration.component';
 import { AccountComponent } from './account/account.component';
 import { PasswordChangerComponent } from './password-changer/password-changer.component';
+import { TableProjectMeasureComponent } from './table-project-measure/table-project-measure.component';
 
 declare var require: any;
 let messagesDe = require("devextreme/localization/messages/de.json"),
@@ -81,7 +79,6 @@ export function tokenGetter() {
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    TableViewComponent,
     TableBrandsComponent,
     TablePostsComponent,
     TableRolesComponent,
@@ -104,11 +101,11 @@ export function tokenGetter() {
     TableMeasureProtocolComponent,
     TableTelemetryProtocolComponent,
     TableCommandsProtocolComponent,
-    TableCommentsComponent,
     LoginComponent,
     RegistrationComponent,
     AccountComponent,
-    PasswordChangerComponent
+    PasswordChangerComponent,
+    TableProjectMeasureComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -130,7 +127,6 @@ export function tokenGetter() {
     { path: 'handbooks', component: HandbooksComponent },
     { path: 'people', component: PeopleComponent },
     { path: 'main-information', component: MainInformationComponent },
-    { path: 'table-view', component: TableViewComponent },
     { path: 'login', component: LoginComponent },
     { path: 'registration', component: RegistrationComponent },
     { path: 'account', component: AccountComponent },
@@ -152,7 +148,6 @@ export function tokenGetter() {
         TypedevService,
         TypeinterService,
         TypemeasureService,
-        CategoryService,
         UsersService,
         ProjectService,
         ProtocolService,
@@ -164,8 +159,8 @@ export function tokenGetter() {
         MeasureProtocolService,
         TelemetryProtocolService,
         CommandsProtocolService,
-        CommentsService,
-        AuthGuard
+        AuthGuard,
+        ProjectMeasureService
     ],
   bootstrap: [AppComponent]
 })

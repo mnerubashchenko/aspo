@@ -20,6 +20,6 @@ export class RoleService {
 }
 
 export interface IRoles {
-  IdRole: string;
+  Id: string;
   NameRole: string;
 }

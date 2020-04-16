@@ -20,7 +20,7 @@ export class PrCommandsService {
 }
 
 export interface IProgrammcommands {
-  IdCommand: string;
+  Id: string;
   CodeCommand: string;
   NameCommand: string;
   PurposeCommand: string;

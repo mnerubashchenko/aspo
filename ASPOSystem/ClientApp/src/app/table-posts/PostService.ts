@@ -20,6 +20,6 @@ export class PostService {
 }
 
 export interface IPosts {
-  IdPost: string;
+  Id: string;
   NamePost: string;
 }

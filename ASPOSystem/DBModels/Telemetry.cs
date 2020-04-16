@@ -7,10 +7,10 @@ namespace ASPOSystem.DBModels
     {
         public Telemetry()
         {
-            TelemetryProtocol = new HashSet<TelemetryProtocol>();
+            ProjectTelemetry = new HashSet<ProjectTelemetry>();
         }
 
-        public Guid IdTelemetry { get; set; }
+        public Guid Id { get; set; }
         public string LongNameTelemetry { get; set; }
         public string ShortNameTelemetry { get; set; }
         public int? ByteNumberTelemetry { get; set; }
@@ -18,6 +18,6 @@ namespace ASPOSystem.DBModels
         public int? LenghtTelemetry { get; set; }
         public string PossibleValuesTelemetry { get; set; }
 
-        public ICollection<TelemetryProtocol> TelemetryProtocol { get; set; }
+        public ICollection<ProjectTelemetry> ProjectTelemetry { get; set; }
     }
 }

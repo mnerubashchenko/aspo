@@ -12,7 +12,7 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class ProjectsController : Controller
     {
-        private RSSContext db = new RSSContext();
+        private RSSForVKRContext db = new RSSForVKRContext();
 
         [HttpGet]
         [Route("GetProjects"), Authorize(Roles = "Администратор, Гость")]
@@ -25,7 +25,7 @@ namespace ASPOSystem.Controllers
         [Route("GetPersonalProjects"), Authorize(Roles = "Администратор, Гость")]
         public List<Project> GetPersonalProjects(string author)
         {
-            return db.Project.Where(p => p.DirectorProject == db.Users.FirstOrDefault(r => r.LoginUser == author).IdUser).ToList();
+            return db.Project.Where(p => p.DirectorProject == db.Users.FirstOrDefault(r => r.LoginUser == author).Id).ToList();
         }
 
         [HttpPost]

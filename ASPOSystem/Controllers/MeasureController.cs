@@ -12,7 +12,7 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class MeasureController : Controller
     {
-        private RSSContext db = new RSSContext();
+        private RSSForVKRContext db = new RSSForVKRContext();
 
         [HttpGet]
         [Route("GetMeasures"), Authorize(Roles = "Администратор")]

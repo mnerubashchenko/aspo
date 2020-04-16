@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HandbooksComponent implements OnInit {
 
-    handbooks: string[] = ["Бренды устройств", "Программные команды", "Телеметрии", "Типы интерфейсов", "Типы устройств", "Типы измерений", "Категории проектов"];
+    handbooks: string[] = ["Бренды устройств", "Программные команды", "Телеметрии", "Типы интерфейсов", "Типы устройств", "Типы измерений"];
     tablename: string;
 
     constructor() { }

@@ -7,11 +7,10 @@ namespace ASPOSystem.DBModels
     {
         public Devices()
         {
-            DevicesMeasure = new HashSet<DevicesMeasure>();
+            ProjectDevice = new HashSet<ProjectDevice>();
         }
 
-        public Guid IdDevice { get; set; }
-        public Guid? InterfaceDevice { get; set; }
+        public Guid Id { get; set; }
         public Guid? BrandDevice { get; set; }
         public string ModelDevice { get; set; }
         public string StatusDevice { get; set; }
@@ -22,8 +21,7 @@ namespace ASPOSystem.DBModels
         public string CaptionDevice { get; set; }
 
         public Brands BrandDeviceNavigation { get; set; }
-        public Interfaces InterfaceDeviceNavigation { get; set; }
         public Typedev TypeDeviceNavigation { get; set; }
-        public ICollection<DevicesMeasure> DevicesMeasure { get; set; }
+        public ICollection<ProjectDevice> ProjectDevice { get; set; }
     }
 }

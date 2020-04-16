@@ -4,7 +4,6 @@ import CustomStore from "devextreme/data/custom_store";
 import { IUsers, UsersService } from '../table-users/UsersService';
 import { IRoles, RoleService } from '../table-roles/RoleService';
 import { IPosts, PostService } from '../table-posts/PostService';
-import { ICategory, CategoryService } from '../table-view/CategoryService';
 import { IProject, ProjectService } from '../table-projects/ProjectService';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -22,8 +21,7 @@ export class AccountComponent implements OnInit {
     public roles: IRoles[];
     public posts: IPosts[];
     public projects: IProject[];
-    public user: IUsers[] = [{ IdUser: '', NameUser: '', MiddlenameUser: '', LastnameUser: '', LoginUser: '', PasswordUser: '', RoleUser: '', PostUser: '' }];
-    public categories: ICategory[];
+    public user: IUsers[] = [{ Id: '', NameUser: '', MiddlenameUser: '', LastnameUser: '', LoginUser: '', PasswordUser: '', RoleUser: '', PostUser: '' }];
     public flagForReadOnly: boolean = true;
     public flagForChangeButtons: boolean = false;
     store: any;
@@ -34,7 +32,7 @@ export class AccountComponent implements OnInit {
     });
 
     constructor(private usersService: UsersService, private roleService: RoleService,
-        private postService: PostService, private projectService: ProjectService, private categoryService: CategoryService,
+        private postService: PostService, private projectService: ProjectService,
       private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private router: Router) {
 
       //params: new HttpParams().set("login", "Телеметрия");
@@ -48,13 +46,11 @@ export class AccountComponent implements OnInit {
             this.http.get<any>(this.baseUrl + "Projects/GetPersonalProjects", {
                 params: new HttpParams().set("author", localStorage.getItem("login"))
             }),
-            this.http.get<any>(this.baseUrl + 'Category/GetCategory')
         ).subscribe(([res1, res2, res3, res4, res5]) => {
             this.user = res1;
             this.roles = res2;
             this.posts = res3;
             this.projects = res4;
-            this.categories = res5;
         });
 
         //this.usersService.subjectAuth.subscribe(this.userAccountReceived);

@@ -21,6 +21,6 @@ export class TypeinterService {
 }
 
 export interface ITypeinter {
-  IdTypeinter: string;
+  Id: string;
   NameTypeinter: string;
 }

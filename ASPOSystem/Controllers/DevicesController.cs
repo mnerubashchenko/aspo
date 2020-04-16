@@ -13,13 +13,13 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class DevicesController : Controller
     {
-        private RSSContext db = new RSSContext();
+        private RSSForVKRContext db = new RSSForVKRContext();
 
         [HttpGet]
         [Route("GetDevices"), Authorize(Roles = "Администратор")]
         public List<Devices> GetDevices()
         {
-            return db.Devices.Where(p => p.IdDevice.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            return db.Devices.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]
@@ -42,7 +42,7 @@ namespace ASPOSystem.Controllers
         [Route("DeleteDevice"), Authorize(Roles = "Администратор")]
         public void DeleteDevice(Guid idDevice)
         {
-            using (RSSContext db = new RSSContext())
+            using (RSSForVKRContext db = new RSSForVKRContext())
             {
                 db.Devices.Remove(db.Devices.Find(idDevice));
                 db.SaveChanges();

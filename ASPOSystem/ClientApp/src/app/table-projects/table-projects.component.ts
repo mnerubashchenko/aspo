@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import CustomStore from "devextreme/data/custom_store";
 import { DxDataGridComponent } from 'devextreme-angular';
 import { IUsers, UsersService } from '../table-users/UsersService';
-import { ICategory, CategoryService } from '../table-view/CategoryService';
 
 @Component({
   selector: 'app-table-projects',
@@ -13,20 +12,16 @@ import { ICategory, CategoryService } from '../table-view/CategoryService';
 })
 export class TableProjectsComponent {
     public projects: IProject[];
-    public categories: ICategory[];
     public users: IUsers[];
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
-    constructor(private projectService: ProjectService, private categoryService: CategoryService, private usersService: UsersService,
+    constructor(private projectService: ProjectService, private usersService: UsersService,
         public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
         
         this.projectService.subject.subscribe(this.projectReceived);
         this.projectService.getProjects();
-
-        this.categoryService.subject.subscribe(this.categoryReceived);
-        this.categoryService.getCategories();
 
         this.usersService.subject.subscribe(this.usersReceived);
         this.usersService.getUsers();
@@ -58,11 +53,6 @@ export class TableProjectsComponent {
 
     projectReceived = (data: IProject[]) => {
         this.projects = data;
-        this.dataGrid.instance.refresh();
-    }
-
-    categoryReceived = (data1: ICategory[]) => {
-        this.categories = data1;
         this.dataGrid.instance.refresh();
     }
 

@@ -12,13 +12,13 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class TypeinterController : Controller
     {
-        private RSSContext db = new RSSContext();
+        private RSSForVKRContext db = new RSSForVKRContext();
 
         [HttpGet]
         [Route("GetTypeinter"), Authorize(Roles = "Администратор")]
         public List<Typeinter> GetTypeinter()
         {
-            return db.Typeinter.Where(p => p.IdTypeinter.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            return db.Typeinter.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]

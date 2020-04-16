@@ -10,7 +10,7 @@ namespace ASPOSystem.DBModels
             Devices = new HashSet<Devices>();
         }
 
-        public Guid IdTypedev { get; set; }
+        public Guid Id { get; set; }
         public string NameTypedev { get; set; }
 
         public ICollection<Devices> Devices { get; set; }

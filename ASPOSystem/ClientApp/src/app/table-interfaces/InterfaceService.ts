@@ -20,7 +20,7 @@ export class InterfaceService {
 }
 
 export interface IInterface {
-  IdInterface: string;
+  Id: string;
   NameInterface: string;
   IsReadyStatusInterface: string;
   IsUsedInterface: string;

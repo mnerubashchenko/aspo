@@ -10,7 +10,7 @@ namespace ASPOSystem.DBModels
             Interfaces = new HashSet<Interfaces>();
         }
 
-        public Guid IdTypeinter { get; set; }
+        public Guid Id { get; set; }
         public string NameTypeinter { get; set; }
 
         public ICollection<Interfaces> Interfaces { get; set; }

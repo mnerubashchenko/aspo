@@ -12,13 +12,13 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class TypedevController : Controller
     {
-        private RSSContext db = new RSSContext();
+        private RSSForVKRContext db = new RSSForVKRContext();
 
         [HttpGet]
         [Route("GetTypedev"), Authorize(Roles = "Администратор")]
         public List<Typedev> GetTypedev()
         {
-            return db.Typedev.Where(p => p.IdTypedev.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            return db.Typedev.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]

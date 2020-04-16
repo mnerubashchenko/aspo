@@ -21,7 +21,7 @@ export class TelemetryService {
 }
 
 export interface ITelemetry {
-  IdTelemetry: string;
+  Id: string;
   LongNameTelemetry: string;
   ShortNameTelemetry: string;
   ByteNumberTelemetry: number;

@@ -12,13 +12,13 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class RolesController : Controller
     {
-        private RSSContext db = new RSSContext();
+        private RSSForVKRContext db = new RSSForVKRContext();
 
         [HttpGet]
         [Route("GetRole"), Authorize(Roles = "Администратор, Гость")]
         public List<Roles> GetRole()
         {
-            return db.Roles.Where(p => p.IdRole.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            return db.Roles.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]

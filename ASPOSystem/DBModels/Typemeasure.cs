@@ -10,7 +10,7 @@ namespace ASPOSystem.DBModels
             Measure = new HashSet<Measure>();
         }
 
-        public Guid IdTypemeasure { get; set; }
+        public Guid Id { get; set; }
         public string NameTypemeasure { get; set; }
 
         public ICollection<Measure> Measure { get; set; }

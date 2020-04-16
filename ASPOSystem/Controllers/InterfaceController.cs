@@ -12,7 +12,7 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class InterfaceController : Controller
     {
-        private RSSContext db = new RSSContext();
+        private RSSForVKRContext db = new RSSForVKRContext();
 
         [HttpGet]
         [Route("GetInterfaces"), Authorize(Roles = "Администратор")]

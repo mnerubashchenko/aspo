@@ -31,7 +31,7 @@ export class UsersService {
 }
 
 export interface IUsers {
-    IdUser: string;
+    Id: string;
     NameUser: string;
     MiddlenameUser: string;
     LastnameUser: string;

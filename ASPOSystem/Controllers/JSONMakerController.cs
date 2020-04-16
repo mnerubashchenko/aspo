@@ -15,7 +15,7 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class JSONMakerController : Controller
     {
-        RSSContext db = new RSSContext(); 
+        RSSForVKRContext db = new RSSForVKRContext(); 
 
         [HttpPost]
         [Route("ConfigMaker")]

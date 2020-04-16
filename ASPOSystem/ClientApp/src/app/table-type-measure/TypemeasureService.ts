@@ -21,6 +21,6 @@ export class TypemeasureService {
 }
 
 export interface ITypemeasure {
-  IdTypemeasure: string;
+  Id: string;
   NameTypemeasure: string;
 }
