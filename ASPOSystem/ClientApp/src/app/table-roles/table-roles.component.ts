@@ -21,7 +21,7 @@ export class TableRolesComponent {
         this.baseUrl = baseUrl;
         this.headers = new HttpHeaders().set('content-type', 'application/json');
         this.store = new CustomStore({
-          key: "idRole",
+          key: "id",
             load: () => this.roles,
           insert: (values) => this.http.post<any>(this.baseUrl + 'Roles/CreateRole', JSON.stringify(values as IRoles), { headers: this.headers }).subscribe(
               () => { this.roleService.getRoles(); }),

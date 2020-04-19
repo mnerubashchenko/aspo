@@ -1,27 +1,27 @@
 <dx-data-grid id="gridContainer"
               [dataSource]="store"
               [showBorders]="true"
-              keyExpr="idMeasprot"
+              keyExpr="id"
               (onRowUpdating)="onRowUpdating($event)">
-  <dxi-column dataField="protocolMeasureLink"
-              caption="Протокол">
-    <dxo-lookup [dataSource]="protocols"
-                displayExpr="nameProtocol"
-                valueExpr="idProtocol">
+  <dxi-column dataField="idProject"
+              caption="Проект">
+    <dxo-lookup [dataSource]="projects"
+                displayExpr="nameProject"
+                valueExpr="id">
     </dxo-lookup>
   </dxi-column>
-  <dxi-column dataField="measureLink"
-              caption="Измерение">
-    <dxo-lookup [dataSource]="measures"
-                displayExpr="nameMeasure"
-                valueExpr="idMeasure">
+  <dxi-column dataField="idDevice"
+              caption="Устройства">
+    <dxo-lookup [dataSource]="devices"
+                displayExpr="modelDevice"
+                valueExpr="id">
     </dxo-lookup>
   </dxi-column>
   <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"
                [allowAdding]="true">
-    <dxo-popup title="Протоколы-Измерения"
+    <dxo-popup title="Проекты-Устройства"
                [showTitle]="true"
                [width]="700"
                [height]="300"

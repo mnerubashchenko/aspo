@@ -35,7 +35,7 @@ export class TableUsersComponent {
         this.headers = new HttpHeaders().set('content-type', 'application/json');
         setTimeout(() => {
           this.store = new CustomStore({
-            key: "idUser",
+            key: "id",
             load: () => this.users,
             insert: (values) => this.http.post<any>(this.baseUrl + 'Users/CreateUser', JSON.stringify(values as IUsers), { headers: this.headers }).subscribe(
               () => { this.usersService.getUsers(); }),

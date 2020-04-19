@@ -1,7 +1,7 @@
 <dx-data-grid id="gridContainer"
               [dataSource]="store"
               [showBorders]="true"
-              keyExpr="idInterface"
+              keyExpr="id"
               (onRowUpdating)="onRowUpdating($event)">
   <dxi-column dataField="nameInterface" caption="Название"></dxi-column>
   <dxi-column dataField="isReadyStatusInterface" caption="Статус готовности"></dxi-column>
@@ -11,7 +11,7 @@
               caption="Тип">
     <dxo-lookup [dataSource]="types"
                 displayExpr="nameTypeinter"
-                valueExpr="idTypeinter">
+                valueExpr="id">
     </dxo-lookup>
   </dxi-column>
   <dxi-column dataField="ipInputInterface" caption="Базовый IP"></dxi-column>

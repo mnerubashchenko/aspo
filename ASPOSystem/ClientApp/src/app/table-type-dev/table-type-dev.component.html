@@ -1,7 +1,7 @@
 <dx-data-grid id="gridContainer"
               [dataSource]="store"
               [showBorders]="true"
-              keyExpr="idTypedev"
+              keyExpr="id"
               (onRowUpdating)="onRowUpdating($event)">
   <dxi-column dataField="nameTypedev" caption="Тип устройства"></dxi-column>
   <dxo-editing mode="popup"

@@ -21,7 +21,7 @@ export class TablePostsComponent {
         this.baseUrl = baseUrl;
         this.headers = new HttpHeaders().set('content-type', 'application/json');
         this.store = new CustomStore({
-          key: "idPost",
+          key: "id",
           load: () => this.posts,
           insert: (values) => this.http.post<any>(this.baseUrl + 'Posts/CreatePost', JSON.stringify(values as IPosts), { headers: this.headers }).subscribe(
             () => { this.postService.getPosts(); }),

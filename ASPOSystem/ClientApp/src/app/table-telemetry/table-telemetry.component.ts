@@ -21,7 +21,7 @@ export class TableTelemetryComponent {
         this.baseUrl = baseUrl;
         this.headers = new HttpHeaders().set('content-type', 'application/json');
         this.store = new CustomStore({
-          key: "idTelemetry",
+          key: "id",
             load: () => this.telemetries,
             insert: (values) => this.http.post<any>(this.baseUrl + 'Telemetry/CreateTelemetry', JSON.stringify(values as ITelemetry), { headers: this.headers }).subscribe(
               () => { this.telemetryService.getTelemetry(); }),

@@ -21,7 +21,7 @@ export class TableTypeDevComponent {
         this.baseUrl = baseUrl;
         this.headers = new HttpHeaders().set('content-type', 'application/json');
         this.store = new CustomStore({
-          key: "idTypedev",
+          key: "id",
             load: () => this.typesdev,
             insert: (values) => this.http.post<any>(this.baseUrl + 'Typedev/CreateTypedev', JSON.stringify(values as ITypedev), { headers: this.headers }).subscribe(
               () => { this.typedevService.getTypedev(); }),

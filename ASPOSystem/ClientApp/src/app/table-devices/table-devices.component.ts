@@ -41,7 +41,7 @@ export class TableDevicesComponent {
         this.headers = new HttpHeaders().set('content-type', 'application/json');
         setTimeout(() => {
             this.store = new CustomStore({
-                key: "idDevice",
+                key: "id",
                 load: () => this.devices,
                 insert: (values) => this.http.post<any>(this.baseUrl + 'Devices/CreateDevice', JSON.stringify(values as IDevice), { headers: this.headers }).subscribe(
                     () => { this.deviceService.getDevices(); }),

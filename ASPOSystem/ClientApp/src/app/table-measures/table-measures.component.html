@@ -1,7 +1,7 @@
 <dx-data-grid id="gridContainer"
               [dataSource]="store"
               [showBorders]="true"
-              keyExpr="idMeasure"
+              keyExpr="id"
               (onRowUpdating)="onRowUpdating($event)">
   <dxi-column dataField="groupMeasure" caption="Группа"></dxi-column>
   <dxi-column dataField="nameMeasure" caption="Название"></dxi-column>
@@ -11,17 +11,10 @@
               caption="Тип">
     <dxo-lookup [dataSource]="types"
                 displayExpr="nameTypemeasure"
-                valueExpr="idTypemeasure">
+                valueExpr="id">
     </dxo-lookup>
   </dxi-column>
   <dxi-column dataField="manualMeasure" caption="Ручное измерение"></dxi-column>
-  <dxi-column dataField="interfaceMeasure"
-              caption="Интерфейс">
-    <dxo-lookup [dataSource]="interfaces"
-                displayExpr="nameInterface"
-                valueExpr="idInterface">
-    </dxo-lookup>
-  </dxi-column>
   <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"

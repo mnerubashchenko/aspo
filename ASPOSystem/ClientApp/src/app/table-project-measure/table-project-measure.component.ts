@@ -25,24 +25,24 @@ export class TableProjectMeasureComponent {
         this.projectMeasureService.subject.subscribe(this.linksReceived);
         this.projectMeasureService.getLinks();
 
-        this.projectService.subject.subscribe(this.protocolsReceived);
+        this.projectService.subject.subscribe(this.projectsReceived);
         this.projectService.getProjects();
 
-        this.measureService.subject.subscribe(this.commandReceived);
+        this.measureService.subject.subscribe(this.measureReceived);
         this.measureService.getMeasures();
 
         this.baseUrl = baseUrl;
         this.headers = new HttpHeaders().set('content-type', 'application/json');
         setTimeout(() => {
             this.store = new CustomStore({
-                key: "idPrcprot",
+                key: "id",
                 load: () => this.links,
                 insert: (values) => this.http.post<any>(this.baseUrl + 'ProjectMeasure/CreateLink', JSON.stringify(values as IProjectMeasure), { headers: this.headers }).subscribe(
                     () => { this.projectMeasureService.getLinks(); }),
                 update: (key, values) =>
                     this.http.put<any>(this.baseUrl + 'ProjectMeasure/UpdateLink', JSON.stringify(values as IProjectMeasure), { headers: this.headers }).subscribe(
                         () => { this.projectMeasureService.getLinks(); }),
-                remove: (key) => this.http.delete<any>(this.baseUrl + 'ProjectMeasure/DeleteLink' + key, {}).subscribe(() => { this.projectMeasureService.getLinks(); })
+                remove: (key) => this.http.delete<any>(this.baseUrl + 'ProjectMeasure/' + key, {}).subscribe(() => { this.projectMeasureService.getLinks(); })
             });
         }, 1000);
 
@@ -61,12 +61,12 @@ export class TableProjectMeasureComponent {
         this.dataGrid.instance.refresh();
     }
 
-    protocolsReceived = (data1: IProject[]) => {
+    projectsReceived = (data1: IProject[]) => {
         this.projects = data1;
         this.dataGrid.instance.refresh();
     }
 
-    commandReceived = (data2: IMeasure[]) => {
+    measureReceived = (data2: IMeasure[]) => {
         this.measures = data2;
         this.dataGrid.instance.refresh();
     }

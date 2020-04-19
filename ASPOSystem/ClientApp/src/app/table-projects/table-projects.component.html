@@ -1,21 +1,14 @@
 <dx-data-grid id="gridContainer"
               [dataSource]="store"
               [showBorders]="true"
-              keyExpr="idProject"
+              keyExpr="id"
               (onRowUpdating)="onRowUpdating($event)">
   <dxi-column dataField="nameProject" caption="Название"></dxi-column>
   <dxi-column dataField="directorProject"
               caption="Руководитель">
     <dxo-lookup [dataSource]="users"
                 displayExpr="middlenameUser"
-                valueExpr="idUser">
-    </dxo-lookup>
-  </dxi-column>
-  <dxi-column dataField="categoryProject"
-              caption="Категория">
-    <dxo-lookup [dataSource]="categories"
-                displayExpr="nameCategory"
-                valueExpr="idCategory">
+                valueExpr="id">
     </dxo-lookup>
   </dxi-column>
   <dxi-column dataField="descriptionProject" caption="Описание"></dxi-column>

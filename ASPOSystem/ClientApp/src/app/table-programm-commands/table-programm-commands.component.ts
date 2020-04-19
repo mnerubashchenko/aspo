@@ -21,7 +21,7 @@ export class TableProgrammCommandsComponent {
         this.baseUrl = baseUrl;
         this.headers = new HttpHeaders().set('content-type', 'application/json');
         this.store = new CustomStore({
-          key: "idCommand",
+          key: "id",
           load: () => this.commands,
             insert: (values) => this.http.post<any>(this.baseUrl + 'ProgrammCommands/CreateCommand', JSON.stringify(values as IProgrammcommands), { headers: this.headers }).subscribe(
               () => { this.commandService.getCommand(); }),

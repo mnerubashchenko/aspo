@@ -21,7 +21,7 @@ export class TableTypeMeasureComponent {
     this.baseUrl = baseUrl;
     this.headers = new HttpHeaders().set('content-type', 'application/json');
     this.store = new CustomStore({
-      key: "idTypemeasure",
+      key: "id",
       load: () => this.typesmeasure,
       insert: (values) => this.http.post<any>(this.baseUrl + 'Typemeasure/CreateTypemeasure', JSON.stringify(values as ITypemeasure), { headers: this.headers }).subscribe(
         () => { this.typeMeasureService.getTypemeasure(); }),

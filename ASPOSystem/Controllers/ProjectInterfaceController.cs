@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ASPOSystem.Controllers
 {
     [ApiController]
-    [Route("controller")]
+    [Route("[controller]")]
     public class ProjectInterfaceController : Controller
     {
         private RSSForVKRContext db = new RSSForVKRContext();
@@ -36,7 +36,7 @@ namespace ASPOSystem.Controllers
             db.SaveChanges();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [Route("DeleteLink"), Authorize(Roles = "Администратор")]
         public void DeleteLink(Guid id)
         {

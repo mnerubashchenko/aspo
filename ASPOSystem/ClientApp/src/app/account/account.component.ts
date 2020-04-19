@@ -46,7 +46,7 @@ export class AccountComponent implements OnInit {
             this.http.get<any>(this.baseUrl + "Projects/GetPersonalProjects", {
                 params: new HttpParams().set("author", localStorage.getItem("login"))
             }),
-        ).subscribe(([res1, res2, res3, res4, res5]) => {
+        ).subscribe(([res1, res2, res3, res4]) => {
             this.user = res1;
             this.roles = res2;
             this.posts = res3;
@@ -71,7 +71,7 @@ export class AccountComponent implements OnInit {
         this.headers = new HttpHeaders().set('content-type', 'application/json');
         setTimeout(() => {
             this.store = new CustomStore({
-                key: "idProject",
+                key: "id",
                 load: () => this.projects,
                 insert: (values) => this.http.post<any>(this.baseUrl + 'Projects/CreateProject', JSON.stringify(values as IProject), { headers: this.headers }).subscribe(
                     () => { this.projectService.getPersonalProjects(); }),

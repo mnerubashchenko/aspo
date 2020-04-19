@@ -35,7 +35,7 @@ export class TableMeasuresComponent {
         this.headers = new HttpHeaders().set('content-type', 'application/json');
         setTimeout(() => {
             this.store = new CustomStore({
-                key: "idMeasure",
+                key: "id",
                 load: () => this.measures,
                 insert: (values) => this.http.post<any>(this.baseUrl + 'Measure/CreateMeasure', JSON.stringify(values as IMeasure), { headers: this.headers }).subscribe(
                     () => { this.measureService.getMeasures(); }),

@@ -30,7 +30,7 @@ export class TableProjectsComponent {
         this.headers = new HttpHeaders().set('content-type', 'application/json');
         setTimeout(() => {
             this.store = new CustomStore({
-                key: "idProject",
+                key: "id",
                 load: () => this.projects,
                 insert: (values) => this.http.post<any>(this.baseUrl + 'Projects/CreateProject', JSON.stringify(values as IProject), { headers: this.headers }).subscribe(
                     () => { this.projectService.getProjects(); }),

@@ -31,7 +31,7 @@ export class TableInterfacesComponent {
         this.headers = new HttpHeaders().set('content-type', 'application/json');
         setTimeout(() => {
             this.store = new CustomStore({
-                key: "idInterface",
+                key: "id",
                 load: () => this.interfaces,
                 insert: (values) => this.http.post<any>(this.baseUrl + 'Interface/CreateInterface', JSON.stringify(values as IInterface), { headers: this.headers }).subscribe(
                     () => { this.interfaceService.getInterfaces(); }),

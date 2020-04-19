@@ -5,7 +5,7 @@
   <div hidden class="dx-field">
     <div class="dx-field-label">id</div>
     <div class="dx-field-value">
-      <dx-text-box id="idUser" name="idUser" [readOnly]="true" [ngModel]="user[0].idUser" class="form-control"></dx-text-box>
+      <dx-text-box id="id" name="id" [readOnly]="true" [ngModel]="user[0].id" class="form-control"></dx-text-box>
     </div>
   </div>
 
@@ -50,7 +50,7 @@
       <dx-select-box [ngModel]="user[0].roleUser" class="form-control" id="roleUser" name="roleUser"
                      [dataSource]="roles"
                      displayExpr="nameRole"
-                     valueExpr="idRole"
+                     valueExpr="id"
                      [readOnly]="isChanged()">
       </dx-select-box>
     </div>
@@ -63,7 +63,7 @@
                      [dataSource]="posts"
                      [ngModel]="user[0].postUser"
                      displayExpr="namePost"
-                     valueExpr="idPost"
+                     valueExpr="id"
                      [readOnly]="isChanged()"
                      class="form-control">
       </dx-select-box>
@@ -95,20 +95,14 @@
 <dx-data-grid id="gridContainer"
               [dataSource]="store"
               [showBorders]="true"
-              keyExpr="idProject"
+              keyExpr="id"
               (onRowUpdating)="onRowUpdating($event)">
   <dxi-column dataField="nameProject" caption="Название"></dxi-column>
-  <dxi-column dataField="directorProject">
+  <dxi-column dataField="directorProject"
+              caption="Создатель проекта">
     <dxo-lookup [dataSource]="user"
                 displayExpr="loginUser"
-                valueExpr="idUser">
-    </dxo-lookup>
-  </dxi-column>
-  <dxi-column dataField="categoryProject"
-              caption="Категория">
-    <dxo-lookup [dataSource]="categories"
-                displayExpr="nameCategory"
-                valueExpr="idCategory">
+                valueExpr="id">
     </dxo-lookup>
   </dxi-column>
   <dxi-column dataField="descriptionProject" caption="Описание"></dxi-column>

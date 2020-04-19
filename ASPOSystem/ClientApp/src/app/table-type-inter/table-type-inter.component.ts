@@ -22,7 +22,7 @@ export class TableTypeInterComponent {
       this.baseUrl = baseUrl;
       this.headers = new HttpHeaders().set('content-type', 'application/json');
       this.store = new CustomStore({
-        key: "idTypeinter",
+        key: "id",
         load: () => this.typesinter,
         insert: (values) => this.http.post<any>(this.baseUrl + 'Typeinter/CreateTypeinter', JSON.stringify(values as ITypeinter), { headers: this.headers }).subscribe(
           () => { this.typeInterService.getTypeinter(); }),

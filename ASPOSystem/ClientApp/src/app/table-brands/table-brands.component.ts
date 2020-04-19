@@ -21,14 +21,14 @@ export class TableBrandsComponent implements OnInit {
         this.baseUrl = baseUrl;
         this.headers = new HttpHeaders().set('content-type', 'application/json');
         this.store = new CustomStore({
-          key: "idBrand",
+          key: "id",
           load: () => this.brands,
           insert: (values) => this.http.post<any>(this.baseUrl + 'Brands/CreateBrand', JSON.stringify(values as IBrands), { headers: this.headers }).subscribe(
                 () => { this.brandService.getBrands();}),
             update: (key, values) =>
               this.http.put<any>(this.baseUrl + 'Brands/UpdateBrand', JSON.stringify(values as IBrands), { headers: this.headers }).subscribe(
             () => { this.brandService.getBrands(); }),
-            remove: (key) => this.http.delete<any>(this.baseUrl + 'Brands/DeleteBrand', { params: new HttpParams().set('idBrand', key) }).subscribe(() => { this.brandService.getBrands(); })
+            remove: (key) => this.http.delete<any>(this.baseUrl + 'Brands/DeleteBrand', { params: new HttpParams().set('id', key) }).subscribe(() => { this.brandService.getBrands(); })
         });
     }
     onRowUpdating(e) {

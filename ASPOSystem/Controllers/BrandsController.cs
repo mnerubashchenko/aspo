@@ -39,9 +39,9 @@ namespace ASPOSystem.Controllers
 
         [HttpDelete]
         [Route("DeleteBrand"), Authorize(Roles = "Администратор")]
-        public void DeleteBrand(Guid idBrand)
+        public void DeleteBrand(Guid id)
         {
-            db.Brands.Remove(db.Brands.Find(idBrand));
+            db.Brands.Remove(db.Brands.Find(id));
             db.SaveChanges();
         }
     }

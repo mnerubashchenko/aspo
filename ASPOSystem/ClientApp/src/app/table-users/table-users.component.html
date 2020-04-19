@@ -1,7 +1,7 @@
 <dx-data-grid id="gridContainer"
               [dataSource]="store"
               [showBorders]="true"
-              keyExpr="idUser"
+              keyExpr="id"
               (onRowUpdating)="onRowUpdating($event)">
   <dxi-column dataField="nameUser" caption="Имя"></dxi-column>
   <dxi-column dataField="middlenameUser" caption="Фамилия"></dxi-column>
@@ -13,7 +13,7 @@
     <dxo-lookup
       [dataSource]="posts"
       displayExpr="namePost"
-      valueExpr="idPost">
+      valueExpr="id">
     </dxo-lookup>
   </dxi-column>
   <dxi-column
@@ -22,7 +22,7 @@
   <dxo-lookup
       [dataSource]="roles"
       displayExpr="nameRole"
-      valueExpr="idRole">
+      valueExpr="id">
     </dxo-lookup>
   </dxi-column>
   <dxo-editing mode="popup"

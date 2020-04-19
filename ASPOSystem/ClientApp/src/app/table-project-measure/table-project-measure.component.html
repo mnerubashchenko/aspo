@@ -4,17 +4,17 @@
               keyExpr="id"
               (onRowUpdating)="onRowUpdating($event)">
   <dxi-column dataField="idProject"
-              caption="Протокол">
+              caption="Проект">
     <dxo-lookup [dataSource]="projects"
                 displayExpr="nameProject"
-                valueExpr="idProject">
+                valueExpr="id">
     </dxo-lookup>
   </dxi-column>
   <dxi-column dataField="idMeasure"
-              caption="Программная команда">
+              caption="Измерение">
     <dxo-lookup [dataSource]="measures"
                 displayExpr="nameMeasure"
-                valueExpr="idMeasure">
+                valueExpr="id">
     </dxo-lookup>
   </dxi-column>
   <dxo-editing mode="popup"

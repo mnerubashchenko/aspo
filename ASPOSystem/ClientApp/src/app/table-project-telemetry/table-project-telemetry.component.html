@@ -1,27 +1,27 @@
 <dx-data-grid id="gridContainer"
               [dataSource]="store"
               [showBorders]="true"
-              keyExpr="idPrcprot"
+              keyExpr="id"
               (onRowUpdating)="onRowUpdating($event)">
-  <dxi-column dataField="protocolCommandLink"
-              caption="Протокол">
-    <dxo-lookup [dataSource]="protocols"
-                displayExpr="nameProtocol"
-                valueExpr="idProtocol">
+  <dxi-column dataField="idProject"
+              caption="Проект">
+    <dxo-lookup [dataSource]="projects"
+                displayExpr="nameProject"
+                valueExpr="id">
     </dxo-lookup>
   </dxi-column>
-  <dxi-column dataField="commandLink"
-              caption="Программная команда">
-    <dxo-lookup [dataSource]="commands"
-                displayExpr="nameCommand"
-                valueExpr="idCommand">
+  <dxi-column dataField="idTelemetry"
+              caption="Телеметрия">
+    <dxo-lookup [dataSource]="telemetries"
+                displayExpr="shortNameTelemetry"
+                valueExpr="id">
     </dxo-lookup>
   </dxi-column>
   <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"
                [allowAdding]="true">
-    <dxo-popup title="Протоколы-Программные команды"
+    <dxo-popup title="Проекты-Телеметрии"
                [showTitle]="true"
                [width]="700"
                [height]="300"
