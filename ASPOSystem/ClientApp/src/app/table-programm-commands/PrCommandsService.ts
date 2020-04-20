@@ -21,9 +21,8 @@ export class PrCommandsService {
 
 export interface IProgrammcommands {
   Id: string;
-  CodeCommand: string;
-  NameCommand: string;
-  PurposeCommand: string;
-  DescriptionCommand: string;
-  TelemetryCommand: string;
+  Name: string;
+  Code: string;
+  LongName: string;
+  Device: string;
 }

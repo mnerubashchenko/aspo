@@ -11,15 +11,15 @@ namespace ASPOSystem.DBModels
         }
 
         public Guid Id { get; set; }
-        public string NameInterface { get; set; }
-        public string IsReadyStatusInterface { get; set; }
-        public string IsUsedInterface { get; set; }
-        public string SelectedPortInterface { get; set; }
-        public Guid? TypeInterface { get; set; }
-        public string IpInputInterface { get; set; }
-        public string ActualIpInterface { get; set; }
+        public string Name { get; set; }
+        public string IsReadyStatus { get; set; }
+        public string IsUsed { get; set; }
+        public string SelectedPort { get; set; }
+        public Guid? Type { get; set; }
+        public string IpInput { get; set; }
+        public string ActualIp { get; set; }
 
-        public Typeinter TypeInterfaceNavigation { get; set; }
+        public Typeinter TypeNavigation { get; set; }
         public ICollection<ProjectInterface> ProjectInterface { get; set; }
     }
 }

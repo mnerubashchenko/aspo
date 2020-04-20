@@ -22,10 +22,13 @@ export class TelemetryService {
 
 export interface ITelemetry {
   Id: string;
-  LongNameTelemetry: string;
-  ShortNameTelemetry: string;
-  ByteNumberTelemetry: number;
-  StartBitTelemetry: number;
-  LenghtTelemetry: number;
-  PossibleValuesTelemetry: string;
+  HasItems: string;
+  ParentId: string;
+  LongName: string;
+  ShortName: string;
+  ByteNumber: number;
+  StartBit: number;
+  Lenght: number;
+  PossibleValues: string;
+  Value: string;
 }

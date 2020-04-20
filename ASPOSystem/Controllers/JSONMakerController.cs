@@ -28,8 +28,8 @@ namespace ASPOSystem.Controllers
 
             using (StreamWriter sw = new StreamWriter("testjson.json", false, System.Text.Encoding.UTF8))
             {
-                var telemetries = db.Telemetry.Where(p => p.LongNameTelemetry == telname);
-                var programmcommands = db.Programmcommands.Where(p => p.NameCommand == commandname);
+                var telemetries = db.Telemetry.Where(p => p.LongName == telname);
+                var programmcommands = db.Programmcommands.Where(p => p.Name == commandname);
                 var json = JsonConvert.SerializeObject(new JsonModel { Telemetry = telemetries.ToList(), Programmcommand = programmcommands.ToList()}, Formatting.Indented);
                 sw.WriteLine(json);
             }

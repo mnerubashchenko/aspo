@@ -21,12 +21,13 @@ export class DevicesService {
 
 export interface IDevice {
   Id: string;
-  BrandDevice: string;
-  ModelDevice: string;
-  StatusDevice: string;
-  IpInputDevice: string;
-  ActualIpDevice: string;
-  TypeDevice: string;
-  CaptionDevice: string;
-
+  Type: string;
+  Caption: string;
+  Brand: string;
+  Model: string;
+  Status: string;
+  IpInput: string;
+  ActualIp: string;
+  Port: string;
+  PositionNumber: string;
 }

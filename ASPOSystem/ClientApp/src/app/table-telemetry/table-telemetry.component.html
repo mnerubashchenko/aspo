@@ -3,12 +3,25 @@
               [showBorders]="true"
               keyExpr="id"
               (onRowUpdating)="onRowUpdating($event)">
-  <dxi-column dataField="longNameTelemetry" caption="Полное название"></dxi-column>
-  <dxi-column dataField="shortNameTelemetry" caption="Сокращенное название"></dxi-column>
-  <dxi-column dataField="byteNumberTelemetry" caption="Количество байтов"></dxi-column>
-  <dxi-column dataField="startBitTelemetry" caption="Первый бит"></dxi-column>
-  <dxi-column dataField="lenghtTelemetry" caption="Длина"></dxi-column>
-  <dxi-column dataField="possibleValuesTelemetry" caption="Возможные значения"></dxi-column>
+
+  <dxi-column dataField="hasItems" caption="???"></dxi-column>
+
+  <dxi-column dataField="parentId" caption="id родительского элемента"></dxi-column>
+
+  <dxi-column dataField="longName" caption="Полное название"></dxi-column>
+
+  <dxi-column dataField="shortName" caption="Сокращенное название"></dxi-column>
+
+  <dxi-column dataField="byteNumber" caption="Количество байтов"></dxi-column>
+
+  <dxi-column dataField="startBit" caption="Первый бит"></dxi-column>
+
+  <dxi-column dataField="lenght" caption="Длина"></dxi-column>
+
+  <dxi-column dataField="possibleValues" caption="Возможные значения"></dxi-column>
+
+  <dxi-column dataField="value" caption="Значение"></dxi-column>
+
   <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"

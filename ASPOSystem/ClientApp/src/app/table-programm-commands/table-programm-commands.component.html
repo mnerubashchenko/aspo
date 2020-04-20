@@ -3,11 +3,15 @@
               [showBorders]="true"
               keyExpr="id"
               (onRowUpdating)="onRowUpdating($event)">
-  <dxi-column dataField="codeCommand" caption="Код команды"></dxi-column>
-  <dxi-column dataField="nameCommand" caption="Название команды"></dxi-column>
-  <dxi-column dataField="purposeCommand" caption="Назначение команды"></dxi-column>
-  <dxi-column dataField="descriptionCommand" caption="Описание команды"></dxi-column>
-  <dxi-column dataField="telemetryCommand" caption="Телеметрия команды"></dxi-column>
+
+  <dxi-column dataField="name" caption="Название команды"></dxi-column>
+
+  <dxi-column dataField="code" caption="Код команды"></dxi-column>
+
+  <dxi-column dataField="longName" caption="Полное название"></dxi-column>
+
+  <dxi-column dataField="device" caption="Устройство"></dxi-column>
+
   <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"

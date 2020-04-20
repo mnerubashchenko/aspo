@@ -3,10 +3,27 @@
               [showBorders]="true"
               keyExpr="id"
               (onRowUpdating)="onRowUpdating($event)">
-  <dxi-column dataField="groupMeasure" caption="Группа"></dxi-column>
-  <dxi-column dataField="nameMeasure" caption="Название"></dxi-column>
-  <dxi-column dataField="isCheckMeasure" caption="Результат проверки"></dxi-column>
-  <dxi-column dataField="statusMeasure" caption="Статус"></dxi-column>
+
+  <dxi-column dataField="grouup" caption="Группа"></dxi-column>
+
+  <dxi-column dataField="isParent" caption="Статус родительского элемента"></dxi-column>
+
+  <dxi-column dataField="idMeasure" caption="ID измерения"></dxi-column>
+
+  <dxi-column dataField="parentId" caption="ID родительского элемента"></dxi-column>
+
+  <dxi-column dataField="name" caption="Название"></dxi-column>
+
+  <dxi-column dataField="caption" caption="Описание"></dxi-column>
+
+  <dxi-column dataField="minValue" caption="Мин. значение"></dxi-column>
+
+  <dxi-column dataField="maxValue" caption="Макс. значение"></dxi-column>
+
+  <dxi-column dataField="isCheck" caption="Результат проверки"></dxi-column>
+
+  <dxi-column dataField="status" caption="Статус"></dxi-column>
+
   <dxi-column dataField="typeMeasure"
               caption="Тип">
     <dxo-lookup [dataSource]="types"
@@ -14,7 +31,9 @@
                 valueExpr="id">
     </dxo-lookup>
   </dxi-column>
-  <dxi-column dataField="manualMeasure" caption="Ручное измерение"></dxi-column>
+
+  <dxi-column dataField="factor" caption="фактор ?"></dxi-column>
+
   <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"
@@ -25,5 +44,6 @@
                [height]="300"
                [position]="{ my: 'top', at: 'top', of: window }">
     </dxo-popup>
+
   </dxo-editing>
 </dx-data-grid>

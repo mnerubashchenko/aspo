@@ -3,19 +3,27 @@
               [showBorders]="true"
               keyExpr="id"
               (onRowUpdating)="onRowUpdating($event)">
-  <dxi-column dataField="nameInterface" caption="Название"></dxi-column>
-  <dxi-column dataField="isReadyStatusInterface" caption="Статус готовности"></dxi-column>
-  <dxi-column dataField="isUsedInterface" caption="Статус использования"></dxi-column>
-  <dxi-column dataField="selectedPortInterface" caption="Выбранный порт"></dxi-column>
-  <dxi-column dataField="typeInterface"
+
+  <dxi-column dataField="name" caption="Название"></dxi-column>
+
+  <dxi-column dataField="isReadyStatus" caption="Статус готовности"></dxi-column>
+
+  <dxi-column dataField="isUsed" caption="Статус использования"></dxi-column>
+
+  <dxi-column dataField="selectedPort" caption="Выбранный порт"></dxi-column>
+
+  <dxi-column dataField="type"
               caption="Тип">
     <dxo-lookup [dataSource]="types"
                 displayExpr="nameTypeinter"
                 valueExpr="id">
     </dxo-lookup>
   </dxi-column>
-  <dxi-column dataField="ipInputInterface" caption="Базовый IP"></dxi-column>
-  <dxi-column dataField="actualIpInterface" caption="Актуальный IP"></dxi-column>
+
+  <dxi-column dataField="ipInput" caption="Базовый IP"></dxi-column>
+
+  <dxi-column dataField="actualIp" caption="Актуальный IP"></dxi-column>
+
   <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"

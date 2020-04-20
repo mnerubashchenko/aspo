@@ -3,25 +3,37 @@
               [showBorders]="true"
               keyExpr="id"
               (onRowUpdating)="onRowUpdating($event)">
-  <dxi-column dataField="brandDevice"
-              caption="Бренд">
-    <dxo-lookup [dataSource]="brands"
-                displayExpr="nameBrand"
-                valueExpr="id">
-    </dxo-lookup>
-  </dxi-column>
-  <dxi-column dataField="modelDevice" caption="Модель"></dxi-column>
-  <dxi-column dataField="ipInputDevice" caption="Базовый IP"></dxi-column>
-  <dxi-column dataField="actualIpDevice" caption="Актуальный IP"></dxi-column>
-  <dxi-column dataField="portDevice" caption="Порт"></dxi-column>
-  <dxi-column dataField="typeDevice"
+
+  <dxi-column dataField="type"
               caption="Тип">
     <dxo-lookup [dataSource]="types"
                 displayExpr="nameTypedev"
                 valueExpr="id">
     </dxo-lookup>
   </dxi-column>
-  <dxi-column dataField="captionDevice" caption="Описание"></dxi-column>
+
+  <dxi-column dataField="caption" caption="Описание"></dxi-column>
+
+  <dxi-column dataField="brand"
+              caption="Бренд">
+    <dxo-lookup [dataSource]="brands"
+                displayExpr="nameBrand"
+                valueExpr="id">
+    </dxo-lookup>
+  </dxi-column>
+
+  <dxi-column dataField="model" caption="Модель"></dxi-column>
+
+  <dxi-column dataField="status" caption="статус"></dxi-column>
+
+  <dxi-column dataField="ipInput" caption="Базовый IP"></dxi-column>
+
+  <dxi-column dataField="actualIp" caption="Актуальный IP"></dxi-column>
+
+  <dxi-column dataField="port" caption="Порт"></dxi-column>
+
+  <dxi-column dataField="positionNumber" caption="номер позиции?"></dxi-column>
+
   <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"

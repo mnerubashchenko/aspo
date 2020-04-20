@@ -11,11 +11,10 @@ namespace ASPOSystem.DBModels
         }
 
         public Guid Id { get; set; }
-        public string CodeCommand { get; set; }
-        public string NameCommand { get; set; }
-        public string PurposeCommand { get; set; }
-        public string DescriptionCommand { get; set; }
-        public string TelemetryCommand { get; set; }
+        public string Name { get; set; }
+        public string Code { get; set; }
+        public string LongName { get; set; }
+        public string Device { get; set; }
 
         public ICollection<ProjectCommand> ProjectCommand { get; set; }
     }

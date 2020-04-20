@@ -21,11 +21,11 @@ export class InterfaceService {
 
 export interface IInterface {
   Id: string;
-  NameInterface: string;
-  IsReadyStatusInterface: string;
-  IsUsedInterface: string;
-  SelectedPortInterface: string;
-  TypeInterface: string;
-  IpInputInterface: string;
-  ActualIpInterface: string;
+  Name: string;
+  IsReadyStatus: string;
+  IsUsed: string;
+  SelectedPort: string;
+  Type: string;
+  IpInput: string;
+  ActualIp: string;
 }

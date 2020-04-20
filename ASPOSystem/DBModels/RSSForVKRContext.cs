@@ -39,7 +39,7 @@ namespace ASPOSystem.DBModels
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-DRQFEK8\\SQLEXPRESS;Initial Catalog=RSSForVKR;Persist Security Info=False;User ID=RSSadmin;Password=#Qteltn3;MultipleActiveResultSets=False;");
+                optionsBuilder.UseSqlServer("Server=SERGEYSERGEEVI4\\SQLEXPRESS14;Initial Catalog=RSSForVKR;Persist Security Info=False;User ID=RSSadmin;Password=#Qteltn3;MultipleActiveResultSets=False;");
             }
         }
 
@@ -50,7 +50,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("BRANDS");
 
                 entity.HasIndex(e => e.NameBrand)
-                    .HasName("UQ__BRANDS__0ADC6A60E1BD6C97")
+                    .HasName("UQ__BRANDS__0ADC6A609412DE95")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -71,49 +71,43 @@ namespace ASPOSystem.DBModels
                     .HasColumnName("ID")
                     .HasDefaultValueSql("(newsequentialid())");
 
-                entity.Property(e => e.ActualIpDevice)
-                    .HasColumnName("ActualIp_device")
+                entity.Property(e => e.ActualIp)
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.BrandDevice).HasColumnName("Brand_device");
-
-                entity.Property(e => e.CaptionDevice)
-                    .HasColumnName("Caption_device")
+                entity.Property(e => e.Caption)
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.IpInputDevice)
-                    .HasColumnName("IpInput_device")
+                entity.Property(e => e.IpInput)
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.ModelDevice)
-                    .HasColumnName("Model_device")
+                entity.Property(e => e.Model)
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.PortDevice)
-                    .HasColumnName("Port_device")
+                entity.Property(e => e.Port)
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.StatusDevice)
-                    .HasColumnName("Status_device")
+                entity.Property(e => e.PositionNumber)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Status)
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.TypeDevice).HasColumnName("Type_device");
-
-                entity.HasOne(d => d.BrandDeviceNavigation)
+                entity.HasOne(d => d.BrandNavigation)
                     .WithMany(p => p.Devices)
-                    .HasForeignKey(d => d.BrandDevice)
-                    .HasConstraintName("FK__DEVICES__Brand_d__20C1E124");
+                    .HasForeignKey(d => d.Brand)
+                    .HasConstraintName("FK__DEVICES__Brand__21B6055D");
 
-                entity.HasOne(d => d.TypeDeviceNavigation)
+                entity.HasOne(d => d.TypeNavigation)
                     .WithMany(p => p.Devices)
-                    .HasForeignKey(d => d.TypeDevice)
-                    .HasConstraintName("FK__DEVICES__Type_de__21B6055D");
+                    .HasForeignKey(d => d.Type)
+                    .HasConstraintName("FK__DEVICES__Type__20C1E124");
             });
 
             modelBuilder.Entity<Interfaces>(entity =>
@@ -124,42 +118,34 @@ namespace ASPOSystem.DBModels
                     .HasColumnName("ID")
                     .HasDefaultValueSql("(newsequentialid())");
 
-                entity.Property(e => e.ActualIpInterface)
-                    .HasColumnName("ActualIp_interface")
+                entity.Property(e => e.ActualIp)
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.IpInputInterface)
-                    .HasColumnName("IpInput_interface")
+                entity.Property(e => e.IpInput)
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.IsReadyStatusInterface)
-                    .HasColumnName("IsReadyStatus_interface")
+                entity.Property(e => e.IsReadyStatus)
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.IsUsedInterface)
-                    .HasColumnName("IsUsed_interface")
+                entity.Property(e => e.IsUsed)
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.NameInterface)
-                    .HasColumnName("Name_interface")
+                entity.Property(e => e.Name)
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.SelectedPortInterface)
-                    .HasColumnName("SelectedPort_interface")
+                entity.Property(e => e.SelectedPort)
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.TypeInterface).HasColumnName("Type_interface");
-
-                entity.HasOne(d => d.TypeInterfaceNavigation)
+                entity.HasOne(d => d.TypeNavigation)
                     .WithMany(p => p.Interfaces)
-                    .HasForeignKey(d => d.TypeInterface)
-                    .HasConstraintName("FK__INTERFACE__Type___1CF15040");
+                    .HasForeignKey(d => d.Type)
+                    .HasConstraintName("FK__INTERFACES__Type__1CF15040");
             });
 
             modelBuilder.Entity<Measure>(entity =>
@@ -170,41 +156,50 @@ namespace ASPOSystem.DBModels
                     .HasColumnName("ID")
                     .HasDefaultValueSql("(newsequentialid())");
 
-                entity.Property(e => e.DateCreateMeasure)
-                    .HasColumnName("DateCreate_measure")
-                    .HasColumnType("datetime");
+                entity.Property(e => e.Caption)
+                    .HasMaxLength(40)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.GroupMeasure)
-                    .HasColumnName("Group_measure")
+                entity.Property(e => e.Factor)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Grouup)
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.IsCheckMeasure)
-                    .HasColumnName("isCheck_measure")
+                entity.Property(e => e.IdMeasure)
+                    .HasColumnName("id_measure")
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.ManualMeasure)
-                    .HasColumnName("Manual_measure")
+                entity.Property(e => e.IsCheck)
+                    .HasColumnName("isCheck")
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.NameMeasure)
-                    .HasColumnName("Name_measure")
+                entity.Property(e => e.IsParent)
+                    .HasColumnName("isParent")
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Name)
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.StatusMeasure)
-                    .HasColumnName("Status_measure")
+                entity.Property(e => e.ParentId)
+                    .HasColumnName("parentId")
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.TypeMeasure).HasColumnName("Type_measure");
+                entity.Property(e => e.Status)
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
 
-                entity.HasOne(d => d.TypeMeasureNavigation)
+                entity.HasOne(d => d.TypeNavigation)
                     .WithMany(p => p.Measure)
-                    .HasForeignKey(d => d.TypeMeasure)
-                    .HasConstraintName("FK__MEASURE__Type_me__29572725");
+                    .HasForeignKey(d => d.Type)
+                    .HasConstraintName("FK__MEASURE__Type__29572725");
             });
 
             modelBuilder.Entity<Posts>(entity =>
@@ -212,7 +207,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("POSTS");
 
                 entity.HasIndex(e => e.NamePost)
-                    .HasName("UQ__POSTS__7DAD8A7C85F3D2E8")
+                    .HasName("UQ__POSTS__7DAD8A7CCA47525C")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -233,28 +228,19 @@ namespace ASPOSystem.DBModels
                     .HasColumnName("ID")
                     .HasDefaultValueSql("(newsequentialid())");
 
-                entity.Property(e => e.CodeCommand)
-                    .HasColumnName("Code_command")
+                entity.Property(e => e.Code)
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.DescriptionCommand)
-                    .HasColumnName("Description_command")
-                    .HasMaxLength(200)
+                entity.Property(e => e.Device)
+                    .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.NameCommand)
-                    .HasColumnName("Name_command")
-                    .HasMaxLength(30)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.PurposeCommand)
-                    .HasColumnName("Purpose_command")
+                entity.Property(e => e.LongName)
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.TelemetryCommand)
-                    .HasColumnName("Telemetry_command")
+                entity.Property(e => e.Name)
                     .HasMaxLength(30)
                     .IsUnicode(false);
             });
@@ -419,7 +405,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("ROLES");
 
                 entity.HasIndex(e => e.NameRole)
-                    .HasName("UQ__ROLES__28A576BD28788672")
+                    .HasName("UQ__ROLES__28A576BDDA971529")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -440,26 +426,31 @@ namespace ASPOSystem.DBModels
                     .HasColumnName("ID")
                     .HasDefaultValueSql("(newsequentialid())");
 
-                entity.Property(e => e.ByteNumberTelemetry).HasColumnName("ByteNumber_telemetry");
+                entity.Property(e => e.HasItems)
+                    .HasColumnName("hasItems")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.LenghtTelemetry).HasColumnName("Lenght_telemetry");
-
-                entity.Property(e => e.LongNameTelemetry)
-                    .HasColumnName("LongName_telemetry")
+                entity.Property(e => e.LongName)
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.PossibleValuesTelemetry)
-                    .HasColumnName("PossibleValues_telemetry")
+                entity.Property(e => e.ParentId)
+                    .HasColumnName("parentId")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PossibleValues)
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.ShortNameTelemetry)
-                    .HasColumnName("ShortName_telemetry")
+                entity.Property(e => e.ShortName)
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.StartBitTelemetry).HasColumnName("StartBit_telemetry");
+                entity.Property(e => e.Value)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Typedev>(entity =>
@@ -467,7 +458,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("TYPEDEV");
 
                 entity.HasIndex(e => e.NameTypedev)
-                    .HasName("UQ__TYPEDEV__417AA4F32B258F87")
+                    .HasName("UQ__TYPEDEV__417AA4F358B31768")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -485,7 +476,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("TYPEINTER");
 
                 entity.HasIndex(e => e.NameTypeinter)
-                    .HasName("UQ__TYPEINTE__BFCBA7764F22F14D")
+                    .HasName("UQ__TYPEINTE__BFCBA7761B4EE0F7")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -503,7 +494,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("TYPEMEASURE");
 
                 entity.HasIndex(e => e.NameTypemeasure)
-                    .HasName("UQ__TYPEMEAS__9AE04A4882A204A6")
+                    .HasName("UQ__TYPEMEAS__9AE04A48A24BE85B")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -521,7 +512,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("USERS");
 
                 entity.HasIndex(e => e.LoginUser)
-                    .HasName("UQ__USERS__81FA3DED187818B4")
+                    .HasName("UQ__USERS__81FA3DEDCC63796D")
                     .IsUnique();
 
                 entity.Property(e => e.Id)

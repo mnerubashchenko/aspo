@@ -1,0 +1,1 @@
+Scaffold-DbContext "Server=SERGEYSERGEEVI4\SQLEXPRESS14;Initial Catalog=RSSForVKR;Persist Security Info=False;User ID=RSSadmin;Password=#Qteltn3;MultipleActiveResultSets=False;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir DBModels
