@@ -62,8 +62,7 @@ MaxValue INT,
 isCheck VARCHAR (30),
 Status VARCHAR (30),
 Type UNIQUEIDENTIFIER FOREIGN KEY REFERENCES TYPEMEASURE(ID),
-Factor VARCHAR (10),
-Manual_measure VARCHAR (30));
+Factor VARCHAR (10));
 
 CREATE TABLE PROGRAMMCOMMANDS 
 (ID UNIQUEIDENTIFIER PRIMARY KEY DEFAULT newsequentialid(),
@@ -81,7 +80,7 @@ ShortName VARCHAR (30),
 ByteNumber INT,
 StartBit INT,
 Lenght INT,
-PossibleValues_telemetry VARCHAR (30),
+PossibleValues VARCHAR (30),
 Value VARCHAR(20));
 
 CREATE TABLE ROLES 
