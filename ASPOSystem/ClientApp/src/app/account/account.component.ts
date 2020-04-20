@@ -134,7 +134,7 @@ export class AccountComponent implements OnInit {
     }
 
   private ConfigMaker() {
-    this.http.post<any>(this.baseUrl + 'JSONMaker/ConfigMaker', { headers: this.headers }, { params: new HttpParams().set("telname", "gavno").set("commandname", "team1") }).subscribe();
+      this.http.post<any>(this.baseUrl + 'JSONMaker/ConfigMaker', { headers: this.headers }, { params: new HttpParams().set("nameProject", "5CBB1B08-F382-EA11-B915-9C5C8E92C175") }).subscribe();
     }
 
     public account = (form: NgForm) => {
