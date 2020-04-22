@@ -39,6 +39,7 @@ namespace ASPOSystem.Controllers
         [Route("CreateProject"), Authorize(Roles = "Администратор, Гость")]
         public void CreateProject([FromBody] Project newProject)
         {
+            newProject.DateCreateProject = DateTime.Now;
             db.Project.Add(newProject);
             db.SaveChanges();
         }

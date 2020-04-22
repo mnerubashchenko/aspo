@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import { Router } from "@angular/router";
 import { NgForm } from '@angular/forms';
@@ -25,7 +25,12 @@ export class LoginComponent {
       let token = (<any>response).token;
         localStorage.setItem("jwt", token);
         let userLogin = this.jwtHelper.decodeToken(localStorage.getItem("jwt"));
-        localStorage.setItem("login", userLogin['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
+      localStorage.setItem("login", userLogin['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
+      this.http.get<any>(this.baseUrl + "Users/GetIdOfAuthorizedUser", {
+        params: new HttpParams().set("login", localStorage.getItem("login"))
+      }).subscribe(result => {
+        localStorage.setItem("idOfUser", result);
+      });
       this.invalidLogin = false;
       this.router.navigate(["/"]);
     }, err => {

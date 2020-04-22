@@ -32,6 +32,11 @@
                 </a>
               </li>
               <li [routerLinkActive]='["link-active"]'>
+                <a [routerLink]='["/project-creator"]' (click)='collapse()'>
+                  <span class='glyphicon glyphicon-plus'></span> Создать новый проект
+                </a>
+              </li>
+              <li [routerLinkActive]='["link-active"]'>
                 <a [routerLink]='["/handbooks"]' (click)='collapse()'>
                   <span class='glyphicon glyphicon-book'></span> Справочники
                 </a>

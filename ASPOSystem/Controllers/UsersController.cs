@@ -31,6 +31,13 @@ namespace ASPOSystem.Controllers
             return db.Users.Where(p => p.LoginUser == login).ToList();
         }
 
+        [HttpGet]
+        [Route("GetIdOfAuthorizedUser"), Authorize(Roles = "Администратор, Гость")]
+        public Guid GetIdOfAuthorizedUser (string login)
+        {
+            return db.Users.FirstOrDefault(p => p.LoginUser == login).Id;
+        }
+
         [AllowAnonymous]
         [HttpPost]
         [Route("CreateUser")]

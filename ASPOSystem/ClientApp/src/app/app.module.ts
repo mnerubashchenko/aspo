@@ -54,6 +54,7 @@ import { ProjectTelemetryService } from './table-project-telemetry/ProjectTeleme
 import { TableProjectCommandComponent } from './table-project-command/table-project-command.component';
 import { ProjectCommandService } from './table-project-command/ProjectCommandService';
 import { JsonMakerComponent } from './json-maker/json-maker.component';
+import { ProjectCreatorComponent } from './project-creator/project-creator.component';
 
 declare var require: any;
 let messagesDe = require("devextreme/localization/messages/de.json"),
@@ -100,7 +101,8 @@ export function tokenGetter() {
     TableProjectInterfaceComponent,
     TableProjectTelemetryComponent,
     TableProjectCommandComponent,
-    JsonMakerComponent
+    JsonMakerComponent,
+    ProjectCreatorComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -125,7 +127,8 @@ export function tokenGetter() {
     { path: 'login', component: LoginComponent },
     { path: 'registration', component: RegistrationComponent },
     { path: 'account', component: AccountComponent },
-    { path: 'password-changer', component: PasswordChangerComponent }
+    { path: 'password-changer', component: PasswordChangerComponent },
+    { path: 'project-creator', component: ProjectCreatorComponent }
     ]),
     JwtModule.forRoot({
       config: {
