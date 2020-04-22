@@ -28,6 +28,8 @@ namespace ASPOSystem.Controllers
 
             using (StreamWriter sw = new StreamWriter("testjson.json", false, System.Text.Encoding.UTF8))
             {
+                Guid idProject = db.Project.FirstOrDefault(p => p.NameProject == nameProject).Id;
+
                 List<Measure> measures = new List<Measure>();
 
                 List<Devices> devices = new List<Devices>();
@@ -38,35 +40,35 @@ namespace ASPOSystem.Controllers
 
                 List<Telemetry> telemetries = new List<Telemetry>();
 
-                var measuresId = db.ProjectMeasure.Where(p => p.IdProject.ToString() == nameProject).Select(item=>item.IdMeasure).ToList();
+                var measuresId = db.ProjectMeasure.Where(p => p.IdProject == idProject).Select(item=>item.IdMeasure).ToList();
 
                 foreach (Guid mi in measuresId)
                 {
                     measures.Add(db.Measure.FirstOrDefault(p => p.Id == mi));
                 }
 
-                var devicesId = db.ProjectDevice.Where(p => p.IdProject.ToString() == nameProject).Select(item => item.IdDevice).ToList();
+                var devicesId = db.ProjectDevice.Where(p => p.IdProject == idProject).Select(item => item.IdDevice).ToList();
 
                 foreach (Guid di in devicesId)
                 {
                     devices.Add(db.Devices.FirstOrDefault(p => p.Id == di));
                 }
 
-                var interfacesId = db.ProjectInterface.Where(p => p.IdProject.ToString() == nameProject).Select(item => item.IdInterface).ToList();
+                var interfacesId = db.ProjectInterface.Where(p => p.IdProject == idProject).Select(item => item.IdInterface).ToList();
 
                 foreach (Guid ii in interfacesId)
                 {
                     interfaces.Add(db.Interfaces.FirstOrDefault(p => p.Id == ii));
                 }
 
-                var commandsId = db.ProjectCommand.Where(p => p.IdProject.ToString() == nameProject).Select(item => item.IdCommand).ToList();
+                var commandsId = db.ProjectCommand.Where(p => p.IdProject == idProject).Select(item => item.IdCommand).ToList();
 
                 foreach (Guid ci in commandsId)
                 {
                     commands.Add(db.Programmcommands.FirstOrDefault(p => p.Id == ci));
                 }
 
-                var telemetriesId = db.ProjectTelemetry.Where(p => p.IdProject.ToString() == nameProject).Select(item => item.IdTelemetry).ToList();
+                var telemetriesId = db.ProjectTelemetry.Where(p => p.IdProject == idProject).Select(item => item.IdTelemetry).ToList();
 
                 foreach (Guid ti in telemetriesId)
                 {

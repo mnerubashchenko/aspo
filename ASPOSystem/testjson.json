@@ -1,130 +1,20 @@
 ﻿{
-  "measures": [
-    {
-      "Id": "03b75a2c-f382-ea11-b915-9c5c8e92c175",
-      "Grouup": "1",
-      "IsParent": "true",
-      "IdMeasure": "voltage",
-      "ParentId": "1",
-      "Name": "и1",
-      "Caption": "2",
-      "MinValue": 22,
-      "MaxValue": null,
-      "IsCheck": "2",
-      "Status": "2",
-      "Type": null,
-      "Factor": "2",
-      "TypeNavigation": null,
-      "ProjectMeasure": []
-    },
-    {
-      "Id": "04b75a2c-f382-ea11-b915-9c5c8e92c175",
-      "Grouup": "2",
-      "IsParent": null,
-      "IdMeasure": null,
-      "ParentId": null,
-      "Name": "и2",
-      "Caption": null,
-      "MinValue": null,
-      "MaxValue": null,
-      "IsCheck": null,
-      "Status": null,
-      "Type": null,
-      "Factor": null,
-      "TypeNavigation": null,
-      "ProjectMeasure": []
-    },
-    {
-      "Id": "05b75a2c-f382-ea11-b915-9c5c8e92c175",
-      "Grouup": "3",
-      "IsParent": null,
-      "IdMeasure": null,
-      "ParentId": null,
-      "Name": "и3",
-      "Caption": null,
-      "MinValue": null,
-      "MaxValue": null,
-      "IsCheck": null,
-      "Status": null,
-      "Type": null,
-      "Factor": null,
-      "TypeNavigation": null,
-      "ProjectMeasure": []
-    }
-  ],
-  "devices": [
-    {
-      "Id": "b7f5ebb1-f782-ea11-b915-9c5c8e92c175",
-      "Type": "eacad35f-ed82-ea11-b915-9c5c8e92c175",
-      "Caption": "норм робит",
-      "Brand": "e9cad35f-ed82-ea11-b915-9c5c8e92c175",
-      "Model": "22",
-      "Status": "22",
-      "IpInput": "22",
-      "ActualIp": "22",
-      "Port": "22",
-      "PositionNumber": "22",
-      "BrandNavigation": null,
-      "TypeNavigation": null,
-      "ProjectDevice": []
-    }
-  ],
-  "interfaces": [
-    {
-      "Id": "17e4d19f-f782-ea11-b915-9c5c8e92c175",
-      "Name": "МКИО",
-      "IsReadyStatus": "готов",
-      "IsUsed": "используется",
-      "SelectedPort": "1",
-      "Type": null,
-      "IpInput": "1",
-      "ActualIp": "1",
-      "TypeNavigation": null,
-      "ProjectInterface": []
-    },
-    {
-      "Id": "fdacf9a5-f782-ea11-b915-9c5c8e92c175",
-      "Name": "АКИО",
-      "IsReadyStatus": "1",
-      "IsUsed": "1",
-      "SelectedPort": "1",
-      "Type": null,
-      "IpInput": "213424",
-      "ActualIp": "2",
-      "TypeNavigation": null,
-      "ProjectInterface": []
-    }
-  ],
-  "commands": [
-    {
-      "Id": "8d1bd68c-f782-ea11-b915-9c5c8e92c175",
-      "Name": "Команда 1",
-      "Code": "1",
-      "LongName": "команда один",
-      "Device": "ИП",
-      "ProjectCommand": []
-    },
-    {
-      "Id": "91290b95-f782-ea11-b915-9c5c8e92c175",
-      "Name": "Команда 2",
-      "Code": "2",
-      "LongName": "команда два",
-      "Device": "ОСЦ",
-      "ProjectCommand": []
-    }
-  ],
+  "measures": [],
+  "devices": [],
+  "interfaces": [],
+  "commands": [],
   "telemetryItems": [
     {
-      "Id": "a31c5d16-f882-ea11-b915-9c5c8e92c175",
-      "HasItems": "222",
-      "ParentId": "22",
-      "LongName": "Телеметрия",
-      "ShortName": "Тел",
-      "ByteNumber": 2,
-      "StartBit": 2,
-      "Lenght": 2,
-      "PossibleValues": "2",
-      "Value": "2",
+      "Id": "3b874979-8784-ea11-b773-b42e99a9ec94",
+      "HasItems": "123123123",
+      "ParentId": null,
+      "LongName": null,
+      "ShortName": null,
+      "ByteNumber": null,
+      "StartBit": null,
+      "Lenght": null,
+      "PossibleValues": null,
+      "Value": null,
       "ProjectTelemetry": []
     }
   ]

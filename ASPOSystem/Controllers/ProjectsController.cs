@@ -22,6 +22,13 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpGet]
+        [Route("GetNamesOfProjects"), Authorize(Roles = "Администратор, Гость")]
+        public List<string> GetNamesOfProjects()
+        {
+            return db.Project.Select(item => item.NameProject).ToList();
+        }
+
+        [HttpGet]
         [Route("GetPersonalProjects"), Authorize(Roles = "Администратор, Гость")]
         public List<Project> GetPersonalProjects(string author)
         {

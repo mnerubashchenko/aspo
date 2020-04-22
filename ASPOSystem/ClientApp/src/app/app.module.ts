@@ -53,6 +53,7 @@ import { TableProjectTelemetryComponent } from './table-project-telemetry/table-
 import { ProjectTelemetryService } from './table-project-telemetry/ProjectTelemetryService';
 import { TableProjectCommandComponent } from './table-project-command/table-project-command.component';
 import { ProjectCommandService } from './table-project-command/ProjectCommandService';
+import { JsonMakerComponent } from './json-maker/json-maker.component';
 
 declare var require: any;
 let messagesDe = require("devextreme/localization/messages/de.json"),
@@ -98,7 +99,8 @@ export function tokenGetter() {
     TableProjectDeviceComponent,
     TableProjectInterfaceComponent,
     TableProjectTelemetryComponent,
-    TableProjectCommandComponent
+    TableProjectCommandComponent,
+    JsonMakerComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

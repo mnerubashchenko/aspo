@@ -3,27 +3,32 @@
               [showBorders]="true"
               keyExpr="id"
               (onRowUpdating)="onRowUpdating($event)">
+
   <dxi-column dataField="nameUser" caption="Имя"></dxi-column>
+
   <dxi-column dataField="middlenameUser" caption="Фамилия"></dxi-column>
+
   <dxi-column dataField="lastnameUser" caption="Отчество"></dxi-column>
+
   <dxi-column dataField="loginUser" caption="Логин"></dxi-column>
-  <dxi-column
-    dataField="postUser"
-    caption="Должность">
-    <dxo-lookup
-      [dataSource]="posts"
-      displayExpr="namePost"
-      valueExpr="id">
+
+  <dxi-column dataField="passwordUser" caption="Пароль"></dxi-column>
+
+  <dxi-column dataField="postUser"
+              caption="Должность">
+    <dxo-lookup [dataSource]="posts"
+                displayExpr="namePost"
+                valueExpr="id">
     </dxo-lookup>
+
   </dxi-column>
-  <dxi-column
-    dataField="roleUser"
-    caption="Роль">
-  <dxo-lookup
-      [dataSource]="roles"
-      displayExpr="nameRole"
-      valueExpr="id">
+  <dxi-column dataField="roleUser"
+              caption="Роль">
+    <dxo-lookup [dataSource]="roles"
+                displayExpr="nameRole"
+                valueExpr="id">
     </dxo-lookup>
+
   </dxi-column>
   <dxo-editing mode="popup"
                [allowUpdating]="true"
@@ -35,5 +40,6 @@
                [height]="300"
                [position]="{ my: 'top', at: 'top', of: window }">
     </dxo-popup>
+
   </dxo-editing>
 </dx-data-grid>

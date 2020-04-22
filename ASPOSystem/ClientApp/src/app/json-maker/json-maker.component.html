@@ -1,0 +1,8 @@
+<h1>Выберите проект из списка ниже:</h1>
+<div>
+  <dx-select-box [items]="projects" (onSelectionChanged)="selectedTable($event)"></dx-select-box>
+</div>
+<p></p>
+<div>
+  <button type="button" class="btn btn-primary" (click)='ConfigMaker()'>Создать конфиг</button>
+</div>
