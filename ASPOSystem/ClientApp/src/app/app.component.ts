@@ -15,6 +15,7 @@ export class AppComponent{
   beforeunloadHandler(event) {
       localStorage.removeItem("jwt");
       localStorage.removeItem("login");
+      localStorage.removeItem("idOfUser");
   }
 
 }

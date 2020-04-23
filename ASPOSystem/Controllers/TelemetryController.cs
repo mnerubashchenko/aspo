@@ -21,6 +21,13 @@ namespace ASPOSystem.Controllers
             return db.Telemetry.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
+        [HttpGet]
+        [Route("GetNamesOfTelemetries"), Authorize(Roles = "Администратор")]
+        public List<string> GetNamesOfTelemetries()
+        {
+            return db.Telemetry.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").Select(item => item.ShortName).ToList();
+        }
+
         [HttpPost]
         [Route("CreateTelemetry"), Authorize(Roles = "Администратор")]
         public void CreateTelemetry([FromBody] Telemetry newTelemetry)

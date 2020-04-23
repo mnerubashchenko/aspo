@@ -21,6 +21,13 @@ namespace ASPOSystem.Controllers
             return db.Measure.ToList();
         }
 
+        [HttpGet]
+        [Route("GetNamesOfMeasures"), Authorize(Roles = "Администратор")]
+        public List<string> GetNamesOfMeasures()
+        {
+            return db.Measure.Select(item => item.Name).ToList();
+        }
+
         [HttpPost]
         [Route("CreateMeasure"), Authorize(Roles = "Администратор")]
         public void CreateMeasure([FromBody] Measure newMeasure)

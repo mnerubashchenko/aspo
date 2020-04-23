@@ -21,6 +21,13 @@ namespace ASPOSystem.Controllers
             return db.Programmcommands.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
+        [HttpGet]
+        [Route("GetNamesOfCommands"), Authorize(Roles = "Администратор")]
+        public List<string> GetNamesOfCommands()
+        {
+            return db.Programmcommands.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").Select(item => item.Name).ToList();
+        }
+
         [HttpPost]
         [Route("CreateCommand"), Authorize(Roles = "Администратор")]
         public void CreateCommand([FromBody] Programmcommands newCommand)

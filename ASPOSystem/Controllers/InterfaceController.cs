@@ -21,6 +21,13 @@ namespace ASPOSystem.Controllers
             return db.Interfaces.ToList();
         }
 
+        [HttpGet]
+        [Route("GetNamesOfInterfaces"), Authorize(Roles = "Администратор")]
+        public List<string> GetNamesOfInterfaces()
+        {
+            return db.Interfaces.Select(item => item.Name).ToList();
+        }
+
         [HttpPost]
         [Route("CreateInterface"), Authorize(Roles = "Администратор")]
         public void CreateInterface([FromBody] Interfaces newInterface)

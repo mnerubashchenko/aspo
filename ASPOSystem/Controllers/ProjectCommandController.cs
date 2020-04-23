@@ -29,6 +29,21 @@ namespace ASPOSystem.Controllers
             db.SaveChanges();
         }
 
+        [HttpPost]
+        [Route("CreateLinkFromAccount"), Authorize(Roles = "Администратор")]
+        public void CreateLinkFromAccount([FromBody] List<string> namesOfCommands)
+        {
+            Guid idOfProject = db.Project.FirstOrDefault(item => item.DateCreateProject == db.Project.Max(p => p.DateCreateProject)).Id;
+            foreach (string noc in namesOfCommands)
+            {
+                ProjectCommand newLink = new ProjectCommand();
+                newLink.IdProject = idOfProject;
+                newLink.IdCommand = db.Programmcommands.FirstOrDefault(com => com.Name == noc).Id;
+                db.ProjectCommand.Add(newLink);
+                db.SaveChanges();
+            }
+        }
+
         [HttpPut]
         [Route("UpdateLink"), Authorize(Roles = "Администратор")]
         public void UpdateLink([FromBody] ProjectCommand updatedLink)

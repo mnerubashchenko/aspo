@@ -22,6 +22,13 @@ namespace ASPOSystem.Controllers
             return db.Devices.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
+        [HttpGet]
+        [Route("GetNamesOfDevices"), Authorize(Roles = "Администратор")]
+        public List<string> GetNamesOfDevices()
+        {
+            return db.Devices.Where(p=> p.Id.ToString() != "00000000-0000-0000-0000-000000000000").Select(item => item.Model).ToList();
+        }
+
         [HttpPost]
         [Route("CreateDevice"), Authorize(Roles = "Администратор")]
         public void CreateDevice([FromBody] Devices newDevice)

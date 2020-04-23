@@ -29,6 +29,21 @@ namespace ASPOSystem.Controllers
             db.SaveChanges();
         }
 
+        [HttpPost]
+        [Route("CreateLinkFromAccount"), Authorize(Roles = "Администратор")]
+        public void CreateLinkFromAccount([FromBody] List<string> namesOfTelemetries)
+        {
+            Guid idOfProject = db.Project.FirstOrDefault(item => item.DateCreateProject == db.Project.Max(p => p.DateCreateProject)).Id;
+            foreach (string not in namesOfTelemetries)
+            {
+                ProjectTelemetry newLink = new ProjectTelemetry();
+                newLink.IdProject = idOfProject;
+                newLink.IdTelemetry = db.Telemetry.FirstOrDefault(com => com.ShortName == not).Id;
+                db.ProjectTelemetry.Add(newLink);
+                db.SaveChanges();
+            }
+        }
+
         [HttpPut]
         [Route("UpdateLink"), Authorize(Roles = "Администратор")]
         public void UpdateLink([FromBody] ProjectTelemetry updatedLink)

@@ -13,3 +13,9 @@
   left: 10%;
   width: 80%;
 }
+
+.myBorder {
+  border: 3px outset #1C6EA4;
+  border-radius: 13px;
+  padding: 20px;
+}

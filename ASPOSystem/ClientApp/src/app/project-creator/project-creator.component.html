@@ -27,8 +27,104 @@
     </div>
   </div>
 
+  <p> </p>
+
+  <div *ngIf="helper == 1" class="widget-container myBorder">
+    <h1>Выберите необходимые измерения</h1>
+    <dx-list [items]="measures"
+             [height]="400"
+             [allowItemDeleting]="allowDeleting"
+             [itemDeleteMode]="deleteType"
+             [showSelectionControls]="true"
+             selectionMode="multiple"
+             [(selectedItems)]="selectedMeasures">
+    </dx-list>
+    <div class="selected-data">
+      <span class="caption">Выбранные измерения:</span>
+      <span>{{selectedMeasures.join(", ")}}</span>
+    </div>
+  </div>
+
+  <div *ngIf="helper == 2" class="widget-container myBorder">
+    <h1>Выберите необходимые устройства</h1>
+    <dx-list [items]="devices"
+             [height]="400"
+             [allowItemDeleting]="allowDeleting"
+             [itemDeleteMode]="deleteType"
+             [showSelectionControls]="true"
+             selectionMode="multiple"
+             [(selectedItems)]="selectedDevices">
+    </dx-list>
+    <div class="selected-data">
+      <span class="caption">Выбранные устройства:</span>
+      <span>{{selectedDevices.join(", ")}}</span>
+    </div>
+  </div>
+
+  <div *ngIf="helper == 3" class="widget-container myBorder">
+    <h1>Выберите необходимые интерфейсы</h1>
+    <dx-list [items]="interfaces"
+             [height]="400"
+             [allowItemDeleting]="allowDeleting"
+             [itemDeleteMode]="deleteType"
+             [showSelectionControls]="true"
+             selectionMode="multiple"
+             [(selectedItems)]="selectedInterfaces">
+    </dx-list>
+    <div class="selected-data">
+      <span class="caption">Выбранные интерфейсы:</span>
+      <span>{{selectedInterfaces.join(", ")}}</span>
+    </div>
+  </div>
+
+  <div *ngIf="helper == 4" class="widget-container myBorder">
+    <h1>Выберите необходимые команды</h1>
+    <dx-list [items]="commands"
+             [height]="400"
+             [allowItemDeleting]="allowDeleting"
+             [itemDeleteMode]="deleteType"
+             [showSelectionControls]="true"
+             selectionMode="multiple"
+             [(selectedItems)]="selectedCommands">
+    </dx-list>
+    <div class="selected-data">
+      <span class="caption">Выбранные команды:</span>
+      <span>{{selectedCommands.join(", ")}}</span>
+    </div>
+  </div>
+
+  <div *ngIf="helper == 5" class="widget-container myBorder">
+    <h1>Выберите необходимые телеметрии</h1>
+    <dx-list [items]="telemetries"
+             [height]="400"
+             [allowItemDeleting]="allowDeleting"
+             [itemDeleteMode]="deleteType"
+             [showSelectionControls]="true"
+             selectionMode="multiple"
+             [(selectedItems)]="selectedTelemetries">
+    </dx-list>
+    <div class="selected-data">
+      <span class="caption">Выбранные телеметрии:</span>
+      <span>{{selectedTelemetries.join(", ")}}</span>
+    </div>
+  </div>
+
+  <p></p>
+
   <div>
-    <button type="submit" class="btn btn-dark">Создать</button>
+    <button *ngIf="helper < 5" type="button" class="btn btn-primary" (click)='next()'>Далее</button>
+  </div>
+
+  <p></p>
+
+  <div>
+    <button *ngIf="helper > 1" type="button" class="btn btn-primary" (click)='back()'>Назад</button>
+  </div>
+
+  <p></p>
+
+  <div>
+    <button *ngIf="helper == 5" type="submit" class="btn btn-primary">Создать</button>
   </div>
 
 </form>
