@@ -21,6 +21,22 @@ namespace ASPOSystem.Controllers
             return db.ProjectTelemetry.ToList();
         }
 
+        [HttpGet]
+        [Route("GetLinksForOneProject"), Authorize(Roles = "Администратор")]
+        public List<string> GetLinksForOneProject(string projectName)
+        {
+            List<Guid?> idTelemetries = db.ProjectTelemetry.Where(item => item.IdProject == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).Select(p => p.IdTelemetry).ToList();
+
+            List<string> namesOfTelemetries = new List<string>();
+
+            foreach (Guid d in idTelemetries)
+            {
+                namesOfTelemetries.Add(db.Telemetry.FirstOrDefault(i => i.Id == d).ShortName);
+            }
+
+            return namesOfTelemetries;
+        }
+
         [HttpPost]
         [Route("CreateLink"), Authorize(Roles = "Администратор")]
         public void CreateLink([FromBody] ProjectTelemetry newLink)

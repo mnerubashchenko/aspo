@@ -21,6 +21,22 @@ namespace ASPOSystem.Controllers
             return db.ProjectDevice.ToList();
         }
 
+        [HttpGet]
+        [Route("GetLinksForOneProject"), Authorize(Roles = "Администратор")]
+        public List<string> GetLinksForOneProject(string projectName)
+        {
+            List<Guid?> idDevices = db.ProjectDevice.Where(item=>item.IdProject == (db.Project.FirstOrDefault(i=>i.NameProject == projectName).Id)).Select(p=>p.IdDevice).ToList();
+           
+            List<string> namesOfDevices = new List<string>();
+            
+            foreach (Guid d in idDevices)
+            {
+                namesOfDevices.Add(db.Devices.FirstOrDefault(i=>i.Id == d).Model);
+            }
+
+            return namesOfDevices;
+        }
+
         [HttpPost]
         [Route("CreateLink"), Authorize(Roles = "Администратор")]
         public void CreateLink([FromBody] ProjectDevice newLink)

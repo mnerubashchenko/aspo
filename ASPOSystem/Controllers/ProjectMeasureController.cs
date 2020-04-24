@@ -21,6 +21,22 @@ namespace ASPOSystem.Controllers
             return db.ProjectMeasure.ToList();
         }
 
+        [HttpGet]
+        [Route("GetLinksForOneProject"), Authorize(Roles = "Администратор")]
+        public List<string> GetLinksForOneProject(string projectName)
+        {
+            List<Guid?> idMeasures = db.ProjectMeasure.Where(item => item.IdProject == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).Select(p => p.IdMeasure).ToList();
+
+            List<string> namesOfMeasures = new List<string>();
+
+            foreach (Guid d in idMeasures)
+            {
+                namesOfMeasures.Add(db.Measure.FirstOrDefault(i => i.Id == d).Name);
+            }
+
+            return namesOfMeasures;
+        }
+
         [HttpPost]
         [Route("CreateLink"), Authorize(Roles = "Администратор")]
         public void CreateLink([FromBody] ProjectMeasure newLink)

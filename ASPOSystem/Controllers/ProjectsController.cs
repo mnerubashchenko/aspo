@@ -29,6 +29,13 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpGet]
+        [Route("GetOneProject"), Authorize(Roles = "Администратор, Гость")]
+        public Project GetOneProject(string projectName)
+        {
+            return db.Project.FirstOrDefault(r => r.NameProject == projectName);
+        }
+
+        [HttpGet]
         [Route("GetPersonalProjects"), Authorize(Roles = "Администратор, Гость")]
         public List<Project> GetPersonalProjects(string author)
         {

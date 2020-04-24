@@ -20,6 +20,22 @@ namespace ASPOSystem.Controllers
             return db.ProjectInterface.ToList();
         }
 
+        [HttpGet]
+        [Route("GetLinksForOneProject"), Authorize(Roles = "Администратор")]
+        public List<string> GetLinksForOneProject(string projectName)
+        {
+            List<Guid?> idInterfaces = db.ProjectInterface.Where(item => item.IdProject == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).Select(p => p.IdInterface).ToList();
+
+            List<string> namesOfInterfaces = new List<string>();
+
+            foreach (Guid d in idInterfaces)
+            {
+                namesOfInterfaces.Add(db.Interfaces.FirstOrDefault(i => i.Id == d).Name);
+            }
+
+            return namesOfInterfaces;
+        }
+
         [HttpPost]
         [Route("CreateLink"), Authorize(Roles = "Администратор")]
         public void CreateLink([FromBody] ProjectInterface newLink)

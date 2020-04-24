@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { DxDataGridModule, DxSelectBoxModule, DxTextBoxModule, DxListModule  } from 'devextreme-angular';
+import { DxDataGridModule, DxSelectBoxModule, DxTextBoxModule, DxListModule, DxTabPanelModule  } from 'devextreme-angular';
 import { TableBrandsComponent } from './table-brands/table-brands.component';
 import { TablePostsComponent } from './table-posts/table-posts.component';
 import { TableRolesComponent } from './table-roles/table-roles.component';
@@ -55,6 +55,7 @@ import { TableProjectCommandComponent } from './table-project-command/table-proj
 import { ProjectCommandService } from './table-project-command/ProjectCommandService';
 import { JsonMakerComponent } from './json-maker/json-maker.component';
 import { ProjectCreatorComponent } from './project-creator/project-creator.component';
+import { ProjectChangerComponent } from './project-changer/project-changer.component';
 
 declare var require: any;
 let messagesDe = require("devextreme/localization/messages/de.json"),
@@ -102,7 +103,8 @@ export function tokenGetter() {
     TableProjectTelemetryComponent,
     TableProjectCommandComponent,
     JsonMakerComponent,
-    ProjectCreatorComponent
+    ProjectCreatorComponent,
+    ProjectChangerComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -112,6 +114,7 @@ export function tokenGetter() {
       DxSelectBoxModule,
       DxTextBoxModule,
       DxListModule,
+      DxTabPanelModule,
     RouterModule.forRoot([
     { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: 'table-brands', component: TableBrandsComponent, canActivate: [AuthGuard] },
@@ -129,7 +132,8 @@ export function tokenGetter() {
     { path: 'registration', component: RegistrationComponent },
     { path: 'account', component: AccountComponent },
     { path: 'password-changer', component: PasswordChangerComponent },
-    { path: 'project-creator', component: ProjectCreatorComponent }
+    { path: 'project-creator', component: ProjectCreatorComponent },
+    { path: 'project-changer', component: ProjectChangerComponent }
     ]),
     JwtModule.forRoot({
       config: {

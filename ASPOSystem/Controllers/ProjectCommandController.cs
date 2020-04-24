@@ -21,6 +21,22 @@ namespace ASPOSystem.Controllers
             return db.ProjectCommand.ToList();
         }
 
+        [HttpGet]
+        [Route("GetLinksForOneProject"), Authorize(Roles = "Администратор")]
+        public List<string> GetLinksForOneProject(string projectName)
+        {
+            List<Guid?> idCommands = db.ProjectCommand.Where(item => item.IdProject == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).Select(p => p.IdCommand).ToList();
+
+            List<string> namesOfCommands = new List<string>();
+
+            foreach (Guid d in idCommands)
+            {
+                namesOfCommands.Add(db.Programmcommands.FirstOrDefault(i => i.Id == d).Name);
+            }
+
+            return namesOfCommands;
+        }
+
         [HttpPost]
         [Route("CreateLink"), Authorize(Roles = "Администратор")]
         public void CreateLink([FromBody] ProjectCommand newLink)
