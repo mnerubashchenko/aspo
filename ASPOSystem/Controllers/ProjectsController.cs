@@ -59,6 +59,19 @@ namespace ASPOSystem.Controllers
             db.SaveChanges();
         }
 
+        [HttpPut]
+        [Route("UpdateProjectFromProjectChanger")]
+        public void UpdateProjectFromProjectChanger(string projectId, string newProjectName, string newProjectDescription)
+        {
+            Project updatedProject = db.Project.FirstOrDefault(proj => proj.Id.ToString() == projectId);
+
+            updatedProject.NameProject = newProjectName;
+            updatedProject.DescriptionProject = newProjectDescription;
+
+            db.Project.Update(updatedProject);
+            db.SaveChanges();
+        }
+
         [HttpDelete]
         [Route("DeleteProject"), Authorize(Roles = "Администратор, Гость")]
         public void DeleteProject(Guid idProject)

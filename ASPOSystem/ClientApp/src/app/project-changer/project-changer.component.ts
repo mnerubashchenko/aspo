@@ -1,7 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { IProject } from '../table-projects/ProjectService';
 import { Observable } from 'rxjs';
+import { NgForm } from '@angular/forms';
+import { DxSelectBoxComponent } from 'devextreme-angular';
 
 @Component({
   selector: 'app-project-changer',
@@ -22,6 +24,10 @@ export class ProjectChangerComponent implements OnInit {
   selectedInterfaces: string[] = [];
   selectedCommands: string[] = [];
   selectedTelemetries: string[] = [];
+  headers: HttpHeaders = new HttpHeaders({
+    "Content-Type": "application/json"
+  });
+  @ViewChild(DxSelectBoxComponent) selectBox: DxSelectBoxComponent;
 
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
     this.http.get<any>(this.baseUrl + 'Projects/GetNamesOfProjects').subscribe(result => {
@@ -70,6 +76,65 @@ export class ProjectChangerComponent implements OnInit {
       this.telemetries = res10;
       this.selectedTelemetries = res11;
     });
+  }
+
+  public saveInfoAboutProject = (form: NgForm) => {
+    this.http.put<any>(this.baseUrl + 'Projects/UpdateProjectFromProjectChanger',
+      { headers: this.headers }, {
+        params: new HttpParams().set("projectId", form.controls.idProject.value)
+        .set("newProjectName", form.controls.nameProject.value)
+        .set("newProjectDescription", form.controls.descriptionProject.value)
+    }).subscribe(result => {
+      this.http.get<any>(this.baseUrl + 'Projects/GetNamesOfProjects').subscribe(result => {
+        this.projects = result as string;
+      }, error => console.error(error));
+      this.selectBox.value = form.controls.nameProject.value;
+    });
+  }
+
+  public saveMeasures() {
+
+    this.http.put<any>(this.baseUrl + 'ProjectMeasure/UpdateLinkFromProjectChanger',
+      { headers: this.headers }, {
+        params: new HttpParams().set('projectName', this.projectName)
+          .set("namesOfMeasures", JSON.stringify(this.selectedMeasures))
+    }).subscribe();
+  }
+
+  public saveDevices() {
+
+    this.http.put<any>(this.baseUrl + 'ProjectDevice/UpdateLinkFromProjectChanger',
+      { headers: this.headers }, {
+      params: new HttpParams().set('projectName', this.projectName)
+        .set("namesOfDevices", JSON.stringify(this.selectedDevices))
+    }).subscribe();
+  }
+
+  public saveInterfaces() {
+
+    this.http.put<any>(this.baseUrl + 'ProjectInterface/UpdateLinkFromProjectChanger',
+      { headers: this.headers }, {
+      params: new HttpParams().set('projectName', this.projectName)
+        .set("namesOfInterfaces", JSON.stringify(this.selectedInterfaces))
+    }).subscribe();
+  }
+
+  public saveCommands() {
+
+    this.http.put<any>(this.baseUrl + 'ProjectCommand/UpdateLinkFromProjectChanger',
+      { headers: this.headers }, {
+      params: new HttpParams().set('projectName', this.projectName)
+        .set("namesOfCommands", JSON.stringify(this.selectedCommands))
+    }).subscribe();
+  }
+
+  public saveTelemetries() {
+
+    this.http.put<any>(this.baseUrl + 'ProjectTelemetry/UpdateLinkFromProjectChanger',
+      { headers: this.headers }, {
+        params: new HttpParams().set('projectName', this.projectName)
+         .set("namesOfTelemetries", JSON.stringify(this.selectedTelemetries))
+    }).subscribe();
   }
 
   ngOnInit() {

@@ -13,20 +13,29 @@
   <input id="tab-1" type="radio" name="tabs" checked="true" aria-hidden="true">
   <h2>Информация</h2>
   <div>
-    <div class="dx-field">
-      <div class="dx-field-label">Название проекта</div>
-      <div class="dx-field-value">
-        <dx-text-box id="nameProject" name="nameProject" [ngModel]="projectInfo.nameProject" class="form-control"></dx-text-box>
+    <form class="form-signin" #projectChangerForm="ngForm" (ngSubmit)="saveInfoAboutProject(projectChangerForm)">
+      <div hidden class="dx-field">
+        <div class="dx-field-value">
+          <dx-text-box id="idProject" name="idProject" [ngModel]="projectInfo.id" class="form-control"></dx-text-box>
+        </div>
       </div>
-    </div>
-
-    <div class="dx-field">
-      <div class="dx-field-label">Описание проекта</div>
-      <div class="dx-field-value">
-        <dx-text-box id="descriptionProject" name="descriptionProject" [ngModel]="projectInfo.descriptionProject" class="form-control"></dx-text-box>
+      <div class="dx-field">
+        <div class="dx-field-label">Название проекта</div>
+        <div class="dx-field-value">
+          <dx-text-box id="nameProject" name="nameProject" [ngModel]="projectInfo.nameProject" class="form-control"></dx-text-box>
+        </div>
       </div>
-    </div>
-  </div>
+      <div class="dx-field">
+        <div class="dx-field-label">Описание проекта</div>
+        <div class="dx-field-value">
+          <dx-text-box id="descriptionProject" name="descriptionProject" [ngModel]="projectInfo.descriptionProject" class="form-control"></dx-text-box>
+        </div>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-dark">Сохранить</button>
+      </div>
+    </form>
+</div>
   <label for="tab-2" tabindex="0"></label>
   <input id="tab-2" type="radio" name="tabs" aria-hidden="true">
   <h2>Измерения</h2>
@@ -44,6 +53,9 @@
         <span class="caption">Выбранные измерения:</span>
         <span>{{selectedMeasures.join(", ")}}</span>
       </div>
+    </div>
+    <div>
+      <button type="button" class="btn btn-dark" (click)='saveMeasures()'>Сохранить</button>
     </div>
   </div>
   <label for="tab-3" tabindex="0"></label>
@@ -64,6 +76,9 @@
         <span>{{selectedDevices.join(", ")}}</span>
       </div>
     </div>
+    <div>
+      <button type="button" class="btn btn-dark" (click)='saveDevices()'>Сохранить</button>
+    </div>
   </div>
   <label for="tab-4" tabindex="0"></label>
   <input id="tab-4" type="radio" name="tabs" aria-hidden="true">
@@ -82,6 +97,9 @@
         <span class="caption">Выбранные интерфейсы:</span>
         <span>{{selectedInterfaces.join(", ")}}</span>
       </div>
+    </div>
+    <div>
+      <button type="button" class="btn btn-dark" (click)='saveInterfaces()'>Сохранить</button>
     </div>
   </div>
   <label for="tab-5" tabindex="0"></label>
@@ -102,6 +120,9 @@
         <span>{{selectedCommands.join(", ")}}</span>
       </div>
     </div>
+    <div>
+      <button type="button" class="btn btn-dark" (click)='saveCommands()'>Сохранить</button>
+    </div>
   </div>
   <label for="tab-6" tabindex="0"></label>
   <input id="tab-6" type="radio" name="tabs" aria-hidden="true">
@@ -120,6 +141,9 @@
         <span class="caption">Выбранные телеметрии:</span>
         <span>{{selectedTelemetries.join(", ")}}</span>
       </div>
+    </div>
+    <div>
+      <button type="button" class="btn btn-dark" (click)='saveTelemetries()'>Сохранить</button>
     </div>
   </div>
 </div>

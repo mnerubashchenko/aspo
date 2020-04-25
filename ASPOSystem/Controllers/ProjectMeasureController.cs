@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ASPOSystem.DBModels;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 
 namespace ASPOSystem.Controllers
 {
@@ -66,6 +67,35 @@ namespace ASPOSystem.Controllers
         {
             db.ProjectMeasure.Update(updatedLink);
             db.SaveChanges();
+        }
+
+        [HttpPut]
+        [Route("UpdateLinkFromProjectChanger")]
+        public void UpdateLinkFromProjectChanger(string projectName, string namesOfMeasures)
+        {
+            List<string> noms = JsonConvert.DeserializeObject<List<string>>(namesOfMeasures);
+
+            Guid idOfProject = db.Project.FirstOrDefault(proj => proj.NameProject == projectName).Id;
+
+            List<ProjectMeasure> links = db.ProjectMeasure.Where(link => link.IdProject == idOfProject).ToList();
+
+            foreach (ProjectMeasure l in links)
+            {
+                db.ProjectMeasure.Remove(l);
+                db.SaveChanges();
+            }
+
+            foreach (string nom in noms)
+            {
+                ProjectMeasure Link = new ProjectMeasure
+                {
+                    IdProject = idOfProject,
+                    IdMeasure = db.Measure.FirstOrDefault(meas => meas.Name == nom).Id
+                };
+
+                db.ProjectMeasure.Add(Link);
+                db.SaveChanges();
+            }
         }
 
         [HttpDelete("{id}")]

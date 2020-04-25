@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ASPOSystem.DBModels;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 
 namespace ASPOSystem.Controllers
 {
@@ -66,6 +67,35 @@ namespace ASPOSystem.Controllers
         {
             db.ProjectTelemetry.Update(updatedLink);
             db.SaveChanges();
+        }
+
+        [HttpPut]
+        [Route("UpdateLinkFromProjectChanger")]
+        public void UpdateLinkFromProjectChanger(string projectName, string namesOfTelemetries)
+        {
+            List<string> nots = JsonConvert.DeserializeObject<List<string>>(namesOfTelemetries);
+
+            Guid idOfProject = db.Project.FirstOrDefault(proj => proj.NameProject == projectName).Id;
+
+            List<ProjectTelemetry> links = db.ProjectTelemetry.Where(link => link.IdProject == idOfProject).ToList();
+
+            foreach (ProjectTelemetry l in links)
+            {
+                db.ProjectTelemetry.Remove(l);
+                db.SaveChanges();
+            }
+
+            foreach (string not in nots)
+            {
+                ProjectTelemetry Link = new ProjectTelemetry
+                {
+                    IdProject = idOfProject,
+                    IdTelemetry = db.Telemetry.FirstOrDefault(tel => tel.ShortName == not).Id
+                };
+
+                db.ProjectTelemetry.Add(Link);
+                db.SaveChanges();
+            }
         }
 
         [HttpDelete("{id}")]
