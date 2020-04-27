@@ -7,6 +7,7 @@ using ASPOSystem.DBModels;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace ASPOSystem.Controllers
 {
@@ -46,41 +47,61 @@ namespace ASPOSystem.Controllers
             if (db.Users.Any(r=> r.LoginUser == newUser.LoginUser))
                 return BadRequest("Данный логин занят");
             else
+            {
+                var salt = new byte[128 / 8];
+
+                using (var rng = RandomNumberGenerator.Create())
+                {
+                rng.GetBytes(salt);
+                }
+
+                newUser.PasswordUser = HashPassword(Convert.ToBase64String(salt), newUser.PasswordUser);
+
+                newUser.RoleUser = new Guid("775ACD72-5459-EA11-B83A-645106511DF0");
+
+                db.Users.Add(newUser);
+                db.SaveChanges();
+
+                return Ok();
+            }
+        }
+
+        [HttpPut]
+        [Route("UpdateUser"), Authorize(Roles = "Администратор, Гость")]
+        public IActionResult UpdateUser([FromBody] Users updatedUser)
+        {
+            Users user = db.Users.FirstOrDefault(r=>r.Id == updatedUser.Id);
+
+            List<string> logins = db.Users.Select(t => t.LoginUser).ToList();
+
+            if ((user.LoginUser == updatedUser.LoginUser) || (!logins.Contains(updatedUser.LoginUser)))
+            {
+                if (user.PasswordUser != updatedUser.PasswordUser)
                 {
                     var salt = new byte[128 / 8];
-                    string salt1;
 
                     using (var rng = RandomNumberGenerator.Create())
                     {
                         rng.GetBytes(salt);
                     }
 
-                    string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                    password: newUser.PasswordUser.ToString(),
-                    salt: salt,
-                    prf: KeyDerivationPrf.HMACSHA1,
-                    iterationCount: 10000,
-                    numBytesRequested: 256 / 8));
-
-                    salt1 = Convert.ToBase64String(salt);
-
-                    newUser.PasswordUser = string.Concat(Convert.ToBase64String(salt), hashed);
-
-                    newUser.RoleUser = new Guid("775ACD72-5459-EA11-B83A-645106511DF0");
-
-                    db.Users.Add(newUser);
-                    db.SaveChanges();
-
-                    return Ok();
+                    user.PasswordUser = HashPassword(Convert.ToBase64String(salt), updatedUser.PasswordUser);
                 }
-        }
 
-        [HttpPut]
-        [Route("UpdateUser"), Authorize(Roles = "Администратор, Гость")]
-        public void UpdateUser([FromBody] Users updatedUser)
-        {
-            db.Users.Update(updatedUser);
-            db.SaveChanges();
+                user.LastnameUser = updatedUser.LastnameUser;
+                user.LoginUser = updatedUser.LoginUser;
+                user.MiddlenameUser = updatedUser.MiddlenameUser;
+                user.NameUser = updatedUser.NameUser;
+                user.PostUser = updatedUser.PostUser;
+                user.RoleUser = updatedUser.RoleUser;
+
+                db.SaveChanges();
+
+                return Ok();
+            }
+
+            else 
+                return BadRequest("Данный логин занят");
         }
 
         [HttpPut]
@@ -91,14 +112,7 @@ namespace ASPOSystem.Controllers
 
             string saltOfOldPass = user.PasswordUser.ToString().Substring(0, 24);
 
-            string hashedOldPass = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password: oldPassword,
-                salt: Convert.FromBase64String(saltOfOldPass),
-                prf: KeyDerivationPrf.HMACSHA1,
-                iterationCount: 10000,
-                numBytesRequested: 256 / 8));
-
-            hashedOldPass = string.Concat(saltOfOldPass, hashedOldPass);
+            string hashedOldPass = HashPassword(saltOfOldPass, oldPassword);
 
             if (hashedOldPass == user.PasswordUser.ToString())
             {
@@ -109,14 +123,7 @@ namespace ASPOSystem.Controllers
                     rng.GetBytes(salt);
                 }
 
-                string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password: newPassword,
-                salt: salt,
-                prf: KeyDerivationPrf.HMACSHA1,
-                iterationCount: 10000,
-                numBytesRequested: 256 / 8));
-
-                user.PasswordUser = string.Concat(Convert.ToBase64String(salt), hashed);
+                user.PasswordUser = HashPassword(Convert.ToBase64String(salt), newPassword);
 
                 db.SaveChanges();
 
@@ -125,6 +132,18 @@ namespace ASPOSystem.Controllers
 
             else 
                 return BadRequest("Неправильно введен ваш старый пароль");
+        }
+
+        public string HashPassword (string salt, string pass)
+        {
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: pass,
+                salt: Convert.FromBase64String(salt),
+                prf: KeyDerivationPrf.HMACSHA1,
+                iterationCount: 10000,
+                numBytesRequested: 256 / 8));
+
+            return string.Concat(salt, hashed);
         }
 
         [HttpDelete]

@@ -26,6 +26,7 @@ export class LoginComponent {
         localStorage.setItem("jwt", token);
         let userLogin = this.jwtHelper.decodeToken(localStorage.getItem("jwt"));
       localStorage.setItem("login", userLogin['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']);
+      localStorage.setItem("role", userLogin['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']);
       this.http.get<any>(this.baseUrl + "Users/GetIdOfAuthorizedUser", {
         params: new HttpParams().set("login", localStorage.getItem("login"))
       }).subscribe(result => {

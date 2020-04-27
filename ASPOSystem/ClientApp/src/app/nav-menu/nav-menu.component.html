@@ -24,39 +24,41 @@
                   <span class='glyphicon glyphicon-plus'></span> Зарегистрироваться
                 </a>
               </li>
-            </ng-container>
-            <ng-container *ngIf="isUserAuthenticated()">
-              <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                <a [routerLink]='["/"]' (click)='collapse()'>
-                  <span class='glyphicon glyphicon-home'></span> Главная
-                </a>
-              </li>
-              <li [routerLinkActive]='["link-active"]'>
-                <a [routerLink]='["/project-creator"]' (click)='collapse()'>
-                  <span class='glyphicon glyphicon-plus'></span> Создать новый проект
-                </a>
-              </li>
-              <li [routerLinkActive]='["link-active"]'>
-                <a [routerLink]='["/project-changer"]' (click)='collapse()'>
-                  <span class='glyphicon glyphicon-pencil'></span> Изменить проект
-                </a>
-              </li>
-              <li [routerLinkActive]='["link-active"]'>
-                <a [routerLink]='["/handbooks"]' (click)='collapse()'>
-                  <span class='glyphicon glyphicon-book'></span> Справочники
-                </a>
-              </li>
-              <li [routerLinkActive]='["link-active"]'>
-                <a [routerLink]='["/people"]' (click)='collapse()'>
-                  <span class='glyphicon glyphicon-user'></span> Люди
-                </a>
-              </li>
-              <li [routerLinkActive]='["link-active"]'>
-                <a [routerLink]='["/main-information"]' (click)='collapse()'>
-                  <span class='glyphicon glyphicon-list'></span> Основные таблицы
-                </a>
-              </li>
-            </ng-container>
+              </ng-container>
+              <ng-container *ngIf="isUserAuthenticated()">
+                <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+                  <a [routerLink]='["/"]' (click)='collapse()'>
+                    <span class='glyphicon glyphicon-home'></span> Главная
+                  </a>
+                </li>
+                <li [routerLinkActive]='["link-active"]'>
+                  <a [routerLink]='["/project-creator"]' (click)='collapse()'>
+                    <span class='glyphicon glyphicon-plus'></span> Создать новый проект
+                  </a>
+                </li>
+                <li [routerLinkActive]='["link-active"]'>
+                  <a [routerLink]='["/project-changer"]' (click)='collapse()'>
+                    <span class='glyphicon glyphicon-pencil'></span> Изменить проект
+                  </a>
+                </li>
+              </ng-container>
+              <ng-container *ngIf="isUserAuthenticated() && isUserAdmin()">
+                <li [routerLinkActive]='["link-active"]'>
+                  <a [routerLink]='["/handbooks"]' (click)='collapse()'>
+                    <span class='glyphicon glyphicon-book'></span> Справочники
+                  </a>
+                </li>
+                <li [routerLinkActive]='["link-active"]'>
+                  <a [routerLink]='["/people"]' (click)='collapse()'>
+                    <span class='glyphicon glyphicon-user'></span> Люди
+                  </a>
+                </li>
+                <li [routerLinkActive]='["link-active"]'>
+                  <a [routerLink]='["/main-information"]' (click)='collapse()'>
+                    <span class='glyphicon glyphicon-list'></span> Основные таблицы
+                  </a>
+                </li>
+              </ng-container>
           </ul>
           <div>
             <button *ngIf="isUserAuthenticated()" type="button" class="btn btn-warning btn-sm  logoutbutton center-block" (click)='logOut()'>Выйти</button>

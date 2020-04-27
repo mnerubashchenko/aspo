@@ -16,6 +16,7 @@ export class AppComponent{
       localStorage.removeItem("jwt");
       localStorage.removeItem("login");
       localStorage.removeItem("idOfUser");
+      localStorage.removeItem("role");
   }
 
 }
