@@ -44,11 +44,20 @@ namespace ASPOSystem.Controllers
 
         [HttpPost]
         [Route("CreateProject"), Authorize(Roles = "Администратор, Гость")]
-        public void CreateProject([FromBody] Project newProject)
+        public IActionResult CreateProject([FromBody] Project newProject)
         {
-            newProject.DateCreateProject = DateTime.Now;
-            db.Project.Add(newProject);
-            db.SaveChanges();
+            if (db.Project.Any(i => i.NameProject == newProject.NameProject))
+                return BadRequest("Проект с таким названием уже существует!");
+            else if (newProject.NameProject == "")
+                return BadRequest("Вы не ввели название проекта!");
+            else
+            {
+                newProject.DateCreateProject = DateTime.Now;
+                db.Project.Add(newProject);
+                db.SaveChanges();
+
+                return Ok();
+            }
         }
 
         [HttpPut]
@@ -61,15 +70,25 @@ namespace ASPOSystem.Controllers
 
         [HttpPut]
         [Route("UpdateProjectFromProjectChanger")]
-        public void UpdateProjectFromProjectChanger(string projectId, string newProjectName, string newProjectDescription)
+        public IActionResult UpdateProjectFromProjectChanger(string projectId, string newProjectName, string newProjectDescription)
         {
             Project updatedProject = db.Project.FirstOrDefault(proj => proj.Id.ToString() == projectId);
 
-            updatedProject.NameProject = newProjectName;
-            updatedProject.DescriptionProject = newProjectDescription;
+            List<string> namesOfProjects = db.Project.Select(item => item.NameProject).ToList();
 
-            db.Project.Update(updatedProject);
-            db.SaveChanges();
+            if ((updatedProject.NameProject == newProjectName) || (!namesOfProjects.Contains(newProjectName)))
+            {
+                updatedProject.NameProject = newProjectName;
+                updatedProject.DescriptionProject = newProjectDescription;
+
+                db.Project.Update(updatedProject);
+                db.SaveChanges();
+                return Ok();
+            }
+
+            else
+                return BadRequest("Проект с таким названием уже существует!");
+
         }
 
         [HttpDelete]

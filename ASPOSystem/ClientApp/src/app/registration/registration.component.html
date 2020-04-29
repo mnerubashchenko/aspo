@@ -17,3 +17,17 @@
   <div *ngIf="invalidLogin" class="alert alert-danger">{{ this.textError }}</div>
   <div *ngIf="!check" class="alert alert-danger">Пароли не совпадают.</div>
 </form>
+
+<dx-popup [title]="popupSuccessTitle"
+          [(visible)]="isPopupSuccessVisible"
+          [closeOnOutsideClick]="true"
+          width="400"
+          height="150"
+          [dragEnabled]="false"
+          (onHidden)="route()"
+          position="top"
+          class="success">
+  <div>
+    <p class="colorTextSuccess">{{popupSuccessText}}</p>
+  </div>
+</dx-popup>

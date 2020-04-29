@@ -35,7 +35,7 @@
         <button type="submit" class="btn btn-primary">Сохранить</button>
       </div>
     </form>
-</div>
+  </div>
   <label for="tab-2" tabindex="0"></label>
   <input id="tab-2" type="radio" name="tabs" aria-hidden="true">
   <h2>Измерения</h2>
@@ -152,3 +152,42 @@
     </div>
   </div>
 </div>
+
+<dx-popup [title]="popupSuccessTitle"
+          [(visible)]="isPopupSuccessVisible"
+          [closeOnOutsideClick]="true"
+          width="400"
+          height="150"
+          [dragEnabled]="false"
+          position="top"
+          class="success">
+  <div>
+    <p class="colorTextSuccess">{{popupSuccessText}}</p>
+  </div>
+</dx-popup>
+
+<dx-popup [title]="popupDangerTitle"
+          [(visible)]="isPopupDangerVisible"
+          [closeOnOutsideClick]="true"
+          width="400"
+          height="150"
+          [dragEnabled]="false"
+          position="top"
+          class="danger">
+  <div>
+    <p class="colorTextDanger">{{popupDangerText}}</p>
+  </div>
+</dx-popup>
+
+<dx-popup [title]="popupWarningTitle"
+          [(visible)]="isPopupWarningVisible"
+          [closeOnOutsideClick]="true"
+          width="400"
+          height="150"
+          [dragEnabled]="false"
+          position="top"
+          class="warning">
+  <div>
+    <p class="colorTextWarning">{{popupWarningText}}</p>
+  </div>
+</dx-popup>

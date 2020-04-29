@@ -28,6 +28,15 @@ export class ProjectChangerComponent implements OnInit {
     "Content-Type": "application/json"
   });
   @ViewChild(DxSelectBoxComponent) selectBox: DxSelectBoxComponent;
+  isPopupSuccessVisible: boolean = false;
+  popupSuccessTitle: string;
+  popupSuccessText: string;
+  isPopupDangerVisible: boolean = false;
+  popupDangerTitle: string;
+  popupDangerText: string;
+  isPopupWarningVisible: boolean = false;
+  popupWarningTitle: string;
+  popupWarningText: string;
 
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
     this.http.get<any>(this.baseUrl + 'Projects/GetNamesOfProjects').subscribe(result => {
@@ -79,17 +88,32 @@ export class ProjectChangerComponent implements OnInit {
   }
 
   public saveInfoAboutProject = (form: NgForm) => {
-    this.http.put<any>(this.baseUrl + 'Projects/UpdateProjectFromProjectChanger',
-      { headers: this.headers }, {
+    if (form.controls.nameProject.value != "") {
+      this.http.put<any>(this.baseUrl + 'Projects/UpdateProjectFromProjectChanger',
+        { headers: this.headers }, {
         params: new HttpParams().set("projectId", form.controls.idProject.value)
-        .set("newProjectName", form.controls.nameProject.value)
-        .set("newProjectDescription", form.controls.descriptionProject.value)
-    }).subscribe(result => {
-      this.http.get<any>(this.baseUrl + 'Projects/GetNamesOfProjects').subscribe(result => {
-        this.projects = result as string;
-      }, error => console.error(error));
-      this.selectBox.value = form.controls.nameProject.value;
-    });
+          .set("newProjectName", form.controls.nameProject.value)
+          .set("newProjectDescription", form.controls.descriptionProject.value)
+      }).subscribe(result => {
+        this.http.get<any>(this.baseUrl + 'Projects/GetNamesOfProjects').subscribe(result => {
+          this.projects = result as string;
+        }, error => console.error(error));
+        this.selectBox.value = form.controls.nameProject.value;
+        this.isPopupSuccessVisible = true;
+        this.popupSuccessTitle = "Успешно!";
+        this.popupSuccessText = "Информация о проекте изменена!";
+      }, error => {
+        this.isPopupDangerVisible = true;
+        this.popupDangerTitle = "Ошибка!";
+        this.popupDangerText = error.error;
+      });
+    }
+
+    else {
+      this.isPopupWarningVisible = true;
+      this.popupWarningTitle = "Внимание!";
+      this.popupWarningText = "Введите название проекта!";
+    }
   }
 
   public saveMeasures() {
@@ -98,7 +122,11 @@ export class ProjectChangerComponent implements OnInit {
       { headers: this.headers }, {
         params: new HttpParams().set('projectName', this.projectName)
           .set("namesOfMeasures", JSON.stringify(this.selectedMeasures))
-    }).subscribe();
+    }).subscribe(res => {
+      this.isPopupSuccessVisible = true;
+      this.popupSuccessTitle = "Успешно!";
+      this.popupSuccessText = "Список измерений проекта изменен!";
+    });
   }
 
   public saveDevices() {
@@ -107,7 +135,11 @@ export class ProjectChangerComponent implements OnInit {
       { headers: this.headers }, {
       params: new HttpParams().set('projectName', this.projectName)
         .set("namesOfDevices", JSON.stringify(this.selectedDevices))
-    }).subscribe();
+    }).subscribe(res => {
+      this.isPopupSuccessVisible = true;
+      this.popupSuccessTitle = "Успешно!";
+      this.popupSuccessText = "Список устройств проекта изменен!";
+    });
   }
 
   public saveInterfaces() {
@@ -116,7 +148,11 @@ export class ProjectChangerComponent implements OnInit {
       { headers: this.headers }, {
       params: new HttpParams().set('projectName', this.projectName)
         .set("namesOfInterfaces", JSON.stringify(this.selectedInterfaces))
-    }).subscribe();
+    }).subscribe(res => {
+      this.isPopupSuccessVisible = true;
+      this.popupSuccessTitle = "Успешно!";
+      this.popupSuccessText = "Список интерфейсов проекта изменен!";
+    });
   }
 
   public saveCommands() {
@@ -125,7 +161,11 @@ export class ProjectChangerComponent implements OnInit {
       { headers: this.headers }, {
       params: new HttpParams().set('projectName', this.projectName)
         .set("namesOfCommands", JSON.stringify(this.selectedCommands))
-    }).subscribe();
+    }).subscribe(res => {
+      this.isPopupSuccessVisible = true;
+      this.popupSuccessTitle = "Успешно!";
+      this.popupSuccessText = "Список программных команд проекта изменен!";
+    });
   }
 
   public saveTelemetries() {
@@ -134,7 +174,11 @@ export class ProjectChangerComponent implements OnInit {
       { headers: this.headers }, {
         params: new HttpParams().set('projectName', this.projectName)
          .set("namesOfTelemetries", JSON.stringify(this.selectedTelemetries))
-    }).subscribe();
+    }).subscribe(res => {
+      this.isPopupSuccessVisible = true;
+      this.popupSuccessTitle = "Успешно!";
+      this.popupSuccessText = "Список телеметрий проекта изменен!";
+    });
   }
 
   ngOnInit() {

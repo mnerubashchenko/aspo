@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { IProject, ProjectService } from '../table-projects/ProjectService';
 import { IMeasure, MeasureService } from '../table-measures/MeasureService';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-project-creator',
@@ -23,9 +24,18 @@ export class ProjectCreatorComponent implements OnInit {
   selectedCommands: string[] = [];
   selectedTelemetries: string[] = [];
   helper: number = 0;
+  isPopupSuccessVisible: boolean = false;
+  popupSuccessTitle: string;
+  popupSuccessText: string;
+  isPopupDangerVisible: boolean = false;
+  popupDangerTitle: string;
+  popupDangerText: string;
+  isPopupWarningVisible: boolean = false;
+  popupWarningTitle: string;
+  popupWarningText: string;
 
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
+  constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private router: Router) {
 
     this.user = localStorage.getItem("idOfUser");
 
@@ -93,6 +103,24 @@ export class ProjectCreatorComponent implements OnInit {
         })
       }).subscribe();
 
-    });
+      this.isPopupSuccessVisible = true;
+      this.popupSuccessTitle = "Успешно!";
+      this.popupSuccessText = "Проект создан!";
+      this.helper = 0;
+      form.controls.nameProject.setValue("");
+      form.controls.descriptionProject.setValue("");
+    },
+      error => {
+        if (error.error == "Проект с таким именем уже существует!") {
+          this.isPopupDangerVisible = true;
+          this.popupDangerTitle = "Ошибка!";
+          this.popupDangerText = error.error;
+        }
+        else {
+          this.isPopupWarningVisible = true;
+          this.popupWarningTitle = "Внимание!";
+          this.popupWarningText = error.error;
+        }
+      });
   }  
 }

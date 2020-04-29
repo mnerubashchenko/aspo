@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { DxDataGridModule, DxSelectBoxModule, DxTextBoxModule, DxListModule, DxTabPanelModule  } from 'devextreme-angular';
+import { DxDataGridModule, DxSelectBoxModule, DxTextBoxModule, DxListModule, DxTabPanelModule, DxPopupModule } from 'devextreme-angular';
 import { TableBrandsComponent } from './table-brands/table-brands.component';
 import { TablePostsComponent } from './table-posts/table-posts.component';
 import { TableRolesComponent } from './table-roles/table-roles.component';
@@ -109,12 +109,13 @@ export function tokenGetter() {
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
-      FormsModule,
-      DxDataGridModule,
-      DxSelectBoxModule,
-      DxTextBoxModule,
-      DxListModule,
-      DxTabPanelModule,
+    FormsModule,
+    DxDataGridModule,
+    DxSelectBoxModule,
+    DxTextBoxModule,
+    DxListModule,
+    DxTabPanelModule,
+    DxPopupModule,
     RouterModule.forRoot([
     { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: 'table-brands', component: TableBrandsComponent, canActivate: [AuthGuard] },

@@ -128,3 +128,42 @@
   </div>
 
 </form>
+
+<dx-popup [title]="popupSuccessTitle"
+          [(visible)]="isPopupSuccessVisible"
+          [closeOnOutsideClick]="true"
+          width="400"
+          height="150"
+          [dragEnabled]="false"
+          position="top"
+          class="success">
+  <div>
+    <p class="colorTextSuccess">{{popupSuccessText}}</p>
+  </div>
+</dx-popup>
+
+<dx-popup [title]="popupDangerTitle"
+          [(visible)]="isPopupDangerVisible"
+          [closeOnOutsideClick]="true"
+          width="400"
+          height="150"
+          [dragEnabled]="false"
+          position="top"
+          class="danger">
+  <div>
+    <p class="colorTextDanger">{{popupDangerText}}</p>
+  </div>
+</dx-popup>
+
+<dx-popup [title]="popupWarningTitle"
+          [(visible)]="isPopupWarningVisible"
+          [closeOnOutsideClick]="true"
+          width="400"
+          height="150"
+          [dragEnabled]="false"
+          position="top"
+          class="warning">
+  <div>
+    <p class="colorTextWarning">{{popupWarningText}}</p>
+  </div>
+</dx-popup>

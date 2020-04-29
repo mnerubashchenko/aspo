@@ -25,6 +25,17 @@ export class AccountComponent implements OnInit {
     public flagForReadOnly: boolean = true;
     public flagForChangeButtons: boolean = false;
     store: any;
+    login: string = "Логин";
+    surname: string = "Фамилия";
+    isPopupSuccessVisible: boolean = false;
+    popupSuccessTitle: string;
+    popupSuccessText: string;
+    isPopupDangerVisible: boolean = false;
+    popupDangerTitle: string;
+    popupDangerText: string;
+    isPopupWarningVisible: boolean = false;
+    popupWarningTitle: string;
+    popupWarningText: string;
     
 
     headers: HttpHeaders = new HttpHeaders({
@@ -34,8 +45,6 @@ export class AccountComponent implements OnInit {
     constructor(private usersService: UsersService, private roleService: RoleService,
         private postService: PostService, private projectService: ProjectService,
       private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private router: Router) {
-
-      //params: new HttpParams().set("login", "Телеметрия");
 
         Observable.forkJoin(
             this.http.get<any>(this.baseUrl + "Users/GetUserForAccount", {
@@ -53,9 +62,6 @@ export class AccountComponent implements OnInit {
             this.projects = res4;
         });
 
-        //this.usersService.subjectAuth.subscribe(this.userAccountReceived);
-        //this.usersService.getUserForAccount();
-
         //this.roleService.subject.subscribe(this.rolesReceived);
         //this.roleService.getRoles();
 
@@ -63,10 +69,8 @@ export class AccountComponent implements OnInit {
         //this.postService.getPosts();
 
         this.projectService.subject.subscribe(this.projectReceived);
-        //this.projectService.getPersonalProjects();
+        this.projectService.getPersonalProjects();
 
-        //this.categoryService.subject.subscribe(this.categoryReceived);
-        //this.categoryService.getCategories();
 
         this.headers = new HttpHeaders().set('content-type', 'application/json');
         setTimeout(() => {
@@ -103,11 +107,6 @@ export class AccountComponent implements OnInit {
         this.dataGrid.instance.refresh();
     }
 
-    //categoryReceived = (data4: ICategory[]) => {
-    //    this.categories = data4;
-    //    this.dataGrid.instance.refresh();
-    //}
-
     onRowUpdating(e) {
         for (var property in e.oldData) {
             if (!e.newData.hasOwnProperty(property)) {
@@ -119,6 +118,8 @@ export class AccountComponent implements OnInit {
     private buttonIsPressed() {
         this.flagForReadOnly = !this.flagForReadOnly;
         this.flagForChangeButtons = true;
+        this.login = "Логин*";
+        this.surname = "Фамилия*";
     }
 
     private isChanged() {
@@ -131,19 +132,43 @@ export class AccountComponent implements OnInit {
         this.form.resetForm(this.user[0]);
         this.flagForReadOnly = !this.flagForReadOnly;
         this.flagForChangeButtons = false;
+        this.login = "Логин";
+        this.surname = "Фамилия";
     }
 
   private ConfigMaker() {
       this.http.post<any>(this.baseUrl + 'JSONMaker/ConfigMaker', { headers: this.headers }, { params: new HttpParams().set("nameProject", "5CBB1B08-F382-EA11-B915-9C5C8E92C175") }).subscribe();
     }
 
-    public account = (form: NgForm) => {
-        this.http.put<any>(this.baseUrl + "Users/UpdateUser", JSON.stringify(form.value as IUsers), {
-            headers: new HttpHeaders({
-                "Content-Type": "application/json"
-            })
-        }).subscribe();
+  public account = (form: NgForm) => {
+    if (form.controls.loginUser.value != "" && form.controls.middlenameUser.value != "") {
+      this.http.put<any>(this.baseUrl + "Users/UpdateUser", JSON.stringify(form.value as IUsers), {
+        headers: new HttpHeaders({
+          "Content-Type": "application/json"
+        })
+      }).subscribe(res => {
+        this.isPopupSuccessVisible = true;
+        this.popupSuccessTitle = "Успешно!";
+        this.popupSuccessText = "Профиль отредактирован!";
         this.flagForChangeButtons = false;
         this.flagForReadOnly = !this.flagForReadOnly;
+        this.login = "Логин";
+        this.surname = "Фамилия";
+        localStorage.removeItem("login");
+        localStorage.setItem("login", form.controls.loginUser.value);
+        this.usersService.subjectAuth.subscribe(this.userAccountReceived);
+        this.usersService.getUserForAccount();
+        }, error => {
+          this.isPopupDangerVisible = true;
+          this.popupDangerTitle = "Ошибка!";
+          this.popupDangerText = error.error;
+      });
     }
+
+    else {
+      this.isPopupWarningVisible = true;
+      this.popupWarningTitle = "Внимание!";
+      this.popupWarningText = "Заполните поля, отмеченные *";
+    }
+  }
 }

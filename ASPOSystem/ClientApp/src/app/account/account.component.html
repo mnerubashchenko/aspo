@@ -10,7 +10,7 @@
   </div>
 
   <div class="dx-field">
-    <div class="dx-field-label">Фамилия</div>
+    <div class="dx-field-label">{{surname}}</div>
     <div class="dx-field-value">
       <dx-text-box id="middlenameUser" name="middlenameUser" [readOnly]="isChanged()" [ngModel]="user[0].middlenameUser" class="form-control"></dx-text-box>
     </div>
@@ -31,7 +31,7 @@
   </div>
 
   <div class="dx-field">
-    <div class="dx-field-label">Логин</div>
+    <div class="dx-field-label">{{login}}</div>
     <div class="dx-field-value">
       <dx-text-box id="loginUser" name="loginUser" [readOnly]="isChanged()" [ngModel]="user[0].loginUser" class="form-control"></dx-text-box>
     </div>
@@ -51,7 +51,7 @@
                      [dataSource]="roles"
                      displayExpr="nameRole"
                      valueExpr="id"
-                     [readOnly]="isChanged()">
+                     [readOnly]=true>
       </dx-select-box>
     </div>
   </div>
@@ -125,4 +125,43 @@
 <div>
   <app-json-maker></app-json-maker>
 </div>
+
+<dx-popup [title]="popupSuccessTitle"
+          [(visible)]="isPopupSuccessVisible"
+          [closeOnOutsideClick]="true"
+          width="400"
+          height="150"
+          [dragEnabled]="false"
+          position="top"
+          class="success">
+  <div>
+    <p class="colorTextSuccess">{{popupSuccessText}}</p>
+  </div>
+</dx-popup>
+
+<dx-popup [title]="popupDangerTitle"
+          [(visible)]="isPopupDangerVisible"
+          [closeOnOutsideClick]="true"
+          width="400"
+          height="150"
+          [dragEnabled]="false"
+          position="top"
+          class="danger">
+  <div>
+    <p class="colorTextDanger">{{popupDangerText}}</p>
+  </div>
+</dx-popup>
+
+<dx-popup [title]="popupWarningTitle"
+          [(visible)]="isPopupWarningVisible"
+          [closeOnOutsideClick]="true"
+          width="400"
+          height="150"
+          [dragEnabled]="false"
+          position="top"
+          class="warning">
+  <div>
+    <p class="colorTextWarning">{{popupWarningText}}</p>
+  </div>
+</dx-popup>
 

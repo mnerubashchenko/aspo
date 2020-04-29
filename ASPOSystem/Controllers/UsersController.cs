@@ -101,7 +101,7 @@ namespace ASPOSystem.Controllers
             }
 
             else 
-                return BadRequest("Данный логин занят");
+                return BadRequest("Данный логин занят!");
         }
 
         [HttpPut]
