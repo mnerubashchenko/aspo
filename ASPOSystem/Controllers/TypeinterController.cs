@@ -16,9 +16,12 @@ namespace ASPOSystem.Controllers
 
         [HttpGet]
         [Route("GetTypeinter"), Authorize(Roles = "Администратор")]
-        public List<Typeinter> GetTypeinter()
+        public List<Typeinter> GetTypeinter(string correction)
         {
-            return db.Typeinter.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            if (correction == "full")
+                return db.Typeinter.ToList();
+            else 
+                return db.Typeinter.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]

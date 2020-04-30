@@ -144,82 +144,27 @@ ID_project UNIQUEIDENTIFIER FOREIGN KEY REFERENCES PROJECT(ID) ON DELETE CASCADE
 ID_interface UNIQUEIDENTIFIER FOREIGN KEY REFERENCES INTERFACES(ID) ON DELETE CASCADE);
 
 ----------------------------------------------------------
-CREATE TRIGGER users_u ON USERS
-AFTER UPDATE
-AS BEGIN
-	IF ((SELECT Login_user FROM deleted) != (SELECT Login_user FROM inserted))
-	BEGIN
-		PRINT 'Нельзя изменить логин'
-		ROLLBACK TRANSACTION
-	END
-END
-
-----------------------------------------------------------
-CREATE TRIGGER comments_i ON COMMENTS
-AFTER INSERT
-AS BEGIN
-	UPDATE COMMENTS 
-	SET DateTime_comment = GETDATE() WHERE ID_comment = (SELECT ID_comment FROM inserted);
-END
-
-DROP TRIGGER comments_i
-
-----------------------------------------------------------
-CREATE TRIGGER project_i ON PROJECT
-AFTER INSERT
-AS BEGIN
-	UPDATE PROJECT 
-	SET DateCreate_project = GETDATE() WHERE ID_project = (SELECT ID_project FROM inserted);
-END
-
-----------------------------------------------------------
-CREATE TRIGGER protocol_i ON PROTOCOL
-AFTER INSERT
-AS BEGIN
-	UPDATE PROTOCOL 
-	SET DateCreate_protocol = GETDATE() WHERE ID_protocol = (SELECT ID_protocol FROM inserted);
-END
-
-----------------------------------------------------------
-CREATE TRIGGER measure_i ON MEASURE
-AFTER INSERT
-AS BEGIN
-	UPDATE MEASURE 
-	SET DateCreate_measure = GETDATE() WHERE ID_measure = (SELECT ID_measure FROM inserted);
-END
-
-----------------------------------------------------------
 CREATE TRIGGER posts_d ON POSTS
 INSTEAD OF DELETE 
 AS BEGIN
-	DECLARE @idpost UNIQUEIDENTIFIER = (SELECT ID_post FROM deleted);
-	DECLARE @iduser UNIQUEIDENTIFIER = (SELECT ID_user FROM USERS WHERE Post_user = @idpost);
+	DECLARE @idpost UNIQUEIDENTIFIER = (SELECT ID FROM deleted);
 
-	UPDATE USERS SET Post_user = '00000000-0000-0000-0000-000000000000' WHERE ID_user = @iduser;
-	DELETE POSTS WHERE ID_post = @idpost;
+	UPDATE USERS SET Post_user = '00000000-0000-0000-0000-000000000000' WHERE Post_user = @idpost;
+
+	DELETE POSTS WHERE ID = @idpost;
 END
 
 ----------------------------------------------------------
 CREATE TRIGGER roles_d ON ROLES
 INSTEAD OF DELETE 
 AS BEGIN
-	DECLARE @idrole UNIQUEIDENTIFIER = (SELECT ID_role FROM deleted);
-	DECLARE @iduser UNIQUEIDENTIFIER = (SELECT ID_user FROM USERS WHERE Role_user = @idrole);
+	DECLARE @idrole UNIQUEIDENTIFIER = (SELECT ID FROM deleted);
 
-	UPDATE USERS SET Role_user = '00000000-0000-0000-0000-000000000000' WHERE ID_user = @iduser;
-	DELETE ROLES WHERE ID_role = @idrole;
+	UPDATE USERS SET Role_user = '00000000-0000-0000-0000-000000000000' WHERE Role_user = @idrole;
+
+	DELETE ROLES WHERE ID = @idrole;
 END
 
-----------------------------------------------------------
-CREATE TRIGGER category_d ON CATEGORY
-INSTEAD OF DELETE 
-AS BEGIN
-	DECLARE @idcategory UNIQUEIDENTIFIER = (SELECT ID_category FROM deleted);
-	DECLARE @idproject UNIQUEIDENTIFIER = (SELECT ID_project FROM PROJECT WHERE Category_project = @idcategory);
-
-	UPDATE PROJECT SET Category_project = '00000000-0000-0000-0000-000000000000' WHERE ID_project = @idproject;
-	DELETE CATEGORY WHERE ID_category = @idcategory;
-END
 
 ----------------------------------------------------------
 CREATE TRIGGER users_d ON USERS
@@ -238,92 +183,64 @@ DROP TRIGGER users_d
 CREATE TRIGGER brands_d ON BRANDS
 INSTEAD OF DELETE 
 AS BEGIN
-	DECLARE @idbrand UNIQUEIDENTIFIER = (SELECT ID_brand FROM deleted);
-	DECLARE @iddevice UNIQUEIDENTIFIER = (SELECT ID_device FROM DEVICES WHERE Brand_device = @idbrand);
+	DECLARE @idbrand UNIQUEIDENTIFIER = (SELECT ID FROM deleted);
 
-	UPDATE DEVICES SET Brand_device = '00000000-0000-0000-0000-000000000000' WHERE ID_device = @iddevice;
-	DELETE BRANDS WHERE ID_brand = @idbrand;
+	UPDATE DEVICES SET Brand = '00000000-0000-0000-0000-000000000000' WHERE Brand = @idbrand;
+
+	DELETE BRANDS WHERE ID = @idbrand;
 END
+
+drop trigger brands_d
 
 ----------------------------------------------------------
 CREATE TRIGGER typedev_d ON TYPEDEV
 INSTEAD OF DELETE 
 AS BEGIN
-	DECLARE @idtypedev UNIQUEIDENTIFIER = (SELECT ID_typedev FROM deleted);
-	DECLARE @iddevice UNIQUEIDENTIFIER = (SELECT ID_device FROM DEVICES WHERE Type_device = @idtypedev);
+	DECLARE @idtypedev UNIQUEIDENTIFIER = (SELECT ID FROM deleted);
 
-	UPDATE DEVICES SET Type_device = '00000000-0000-0000-0000-000000000000' WHERE ID_device = @iddevice;
-	DELETE TYPEDEV WHERE ID_typedev = @idtypedev;
+	UPDATE DEVICES SET Type = '00000000-0000-0000-0000-000000000000' WHERE Type = @idtypedev;
+
+	DELETE TYPEDEV WHERE ID = @idtypedev;
 END
+
+drop trigger typedev_d
 
 ----------------------------------------------------------
 CREATE TRIGGER typeinter_d ON TYPEINTER
 INSTEAD OF DELETE 
 AS BEGIN
-	DECLARE @idtypeinter UNIQUEIDENTIFIER = (SELECT ID_typeinter FROM deleted);
-	DECLARE @idinterface UNIQUEIDENTIFIER = (SELECT ID_interface FROM INTERFACES WHERE Type_interface = @idtypeinter);
+	DECLARE @idtypeinter UNIQUEIDENTIFIER = (SELECT ID FROM deleted);
 
-	UPDATE INTERFACES SET Type_interface = '00000000-0000-0000-0000-000000000000' WHERE ID_interface = @idinterface;
-	DELETE TYPEINTER WHERE ID_typeinter = @idtypeinter;
+	UPDATE INTERFACES SET Type = '00000000-0000-0000-0000-000000000000' WHERE Type = @idtypeinter;
+
+	DELETE TYPEINTER WHERE ID = @idtypeinter;
 END
 
 ----------------------------------------------------------
 CREATE TRIGGER typemeasure_d ON TYPEMEASURE
 INSTEAD OF DELETE 
 AS BEGIN
-	DECLARE @idtypemeasure UNIQUEIDENTIFIER = (SELECT ID_typemeasure FROM deleted);
-	DECLARE @idmeasure UNIQUEIDENTIFIER = (SELECT ID_measure FROM MEASURE WHERE Type_measure = @idtypemeasure);
+	DECLARE @idtypemeasure UNIQUEIDENTIFIER = (SELECT ID FROM deleted);
 
-	UPDATE MEASURE SET Type_measure = '00000000-0000-0000-0000-000000000000' WHERE ID_measure = @idmeasure;
-	DELETE TYPEMEASURE WHERE ID_typemeasure = @idtypemeasure;
+	UPDATE MEASURE SET Type = '00000000-0000-0000-0000-000000000000' WHERE Type = @idtypemeasure;
+
+	DELETE TYPEMEASURE WHERE ID = @idtypemeasure;
 END
 
-----------------------------------------------------------
-CREATE TRIGGER interface_d ON INTERFACES
-INSTEAD OF DELETE 
-AS BEGIN
-	DECLARE @idinterface UNIQUEIDENTIFIER = (SELECT ID_interface FROM deleted);
-	DECLARE @idmeasure UNIQUEIDENTIFIER = (SELECT ID_measure FROM MEASURE WHERE Interface_measure = @idinterface);
+------------------------------------------------------------
+--CREATE TRIGGER protocol_d ON PROTOCOL
+--INSTEAD OF DELETE 
+--AS BEGIN
+--	DECLARE @idprotocol UNIQUEIDENTIFIER = (SELECT ID_protocol FROM deleted);
+--	DECLARE @idcomment UNIQUEIDENTIFIER;
+--	WHILE ((SELECT COUNT(*) FROM COMMENTS_PROTOCOL WHERE Protocol_comment_link = @idprotocol) > 0)
+--		BEGIN
+--			SET @idcomment = (SELECT TOP(1) Comment_link FROM COMMENTS_PROTOCOL WHERE Protocol_comment_link = @idprotocol );
+--			DELETE COMMENTS WHERE ID_comment = @idcomment;
+--		END;
+--	DELETE PROTOCOL WHERE ID_protocol = @idprotocol;
+--END
 
-	UPDATE MEASURE SET Interface_measure = '00000000-0000-0000-0000-000000000000' WHERE ID_measure = @idmeasure;
-	DELETE INTERFACES WHERE ID_interface = @idinterface;
-END
-
-----------------------------------------------------------
-CREATE TRIGGER protocol_d ON PROTOCOL
-INSTEAD OF DELETE 
-AS BEGIN
-	DECLARE @idprotocol UNIQUEIDENTIFIER = (SELECT ID_protocol FROM deleted);
-	DECLARE @idcomment UNIQUEIDENTIFIER;
-	WHILE ((SELECT COUNT(*) FROM COMMENTS_PROTOCOL WHERE Protocol_comment_link = @idprotocol) > 0)
-		BEGIN
-			SET @idcomment = (SELECT TOP(1) Comment_link FROM COMMENTS_PROTOCOL WHERE Protocol_comment_link = @idprotocol );
-			DELETE COMMENTS WHERE ID_comment = @idcomment;
-		END;
-	DELETE PROTOCOL WHERE ID_protocol = @idprotocol;
-END
-
-----------------------------------------------------------
-CREATE TRIGGER devices_measure_d ON DEVICES_MEASURE
-AFTER DELETE
-AS BEGIN
-	DECLARE @idmeas UNIQUEIDENTIFIER = (SELECT Measure_link FROM deleted);
-	IF ((SELECT COUNT(*) FROM DEVICES_MEASURE WHERE Measure_link = @idmeas) = 0)
-		BEGIN
-			INSERT DEVICES_MEASURE (Measure_link, Device_link) VALUES (@idmeas, '00000000-0000-0000-0000-000000000000');
-		END;
-END
-
-----------------------------------------------------------
-CREATE TRIGGER project_protocol_d ON PROJECT_PROTOCOL
-AFTER DELETE
-AS BEGIN
-	DECLARE @idproj UNIQUEIDENTIFIER = (SELECT Project_link FROM deleted);
-	IF ((SELECT COUNT(*) FROM PROJECT_PROTOCOL WHERE Project_link = @idproj) = 0)
-		BEGIN
-			INSERT PROJECT_PROTOCOL (Project_link, Protocol_project_link) VALUES (@idproj, '00000000-0000-0000-0000-000000000000');
-		END;
-END
 
 create login RSSadmin with password = '#Qteltn3', DEFAULT_DATABASE = master, CHECK_EXPIRATION = OFF, CHECK_POLICY = OFF;
 

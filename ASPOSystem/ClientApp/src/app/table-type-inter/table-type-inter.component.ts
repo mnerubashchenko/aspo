@@ -18,18 +18,18 @@ export class TableTypeInterComponent {
     constructor(private typeInterService: TypeinterService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
       this.typeInterService.subject.subscribe(this.typesinterReceived);
-      this.typeInterService.getTypeinter();
+      this.typeInterService.getTypeinter("not full");
       this.baseUrl = baseUrl;
       this.headers = new HttpHeaders().set('content-type', 'application/json');
       this.store = new CustomStore({
         key: "id",
         load: () => this.typesinter,
         insert: (values) => this.http.post<any>(this.baseUrl + 'Typeinter/CreateTypeinter', JSON.stringify(values as ITypeinter), { headers: this.headers }).subscribe(
-          () => { this.typeInterService.getTypeinter(); }),
+          () => { this.typeInterService.getTypeinter("not full"); }),
         update: (key, values) =>
             this.http.put<any>(this.baseUrl + 'Typeinter/UpdateTypeinter', JSON.stringify(values as ITypeinter), { headers: this.headers }).subscribe(
-              () => { this.typeInterService.getTypeinter(); }),
-          remove: (key) => this.http.delete<any>(this.baseUrl + 'Typeinter/DeleteTypeinter', { params: new HttpParams().set('idTypeinter', key) }).subscribe(() => { this.typeInterService.getTypeinter(); })
+              () => { this.typeInterService.getTypeinter("not full"); }),
+          remove: (key) => this.http.delete<any>(this.baseUrl + 'Typeinter/DeleteTypeinter', { params: new HttpParams().set('idTypeinter', key) }).subscribe(() => { this.typeInterService.getTypeinter("not full"); })
       });
     }
 

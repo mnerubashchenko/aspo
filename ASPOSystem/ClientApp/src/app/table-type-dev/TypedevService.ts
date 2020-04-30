@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 
 @Injectable()
@@ -11,8 +11,10 @@ export class TypedevService {
     this.headers = new HttpHeaders().set('content-type', 'application/json');
   }
 
-  getTypedev() {
-      this.http.get<any>(this.baseUrl + 'Typedev/GetTypedev').subscribe(result => {
+  getTypedev(correction: string) {
+    this.http.get<any>(this.baseUrl + 'Typedev/GetTypedev', {
+      params: new HttpParams().set("correction", correction)
+    }).subscribe(result => {
         this.typesdev = result as ITypedev[];
         this.subject.next(this.typesdev);
     }, error => console.error(error));

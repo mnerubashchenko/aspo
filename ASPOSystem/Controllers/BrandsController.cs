@@ -16,9 +16,12 @@ namespace ASPOSystem.Controllers
 
         [HttpGet]
         [Route("GetBrand"), Authorize(Roles = "Администратор")]
-        public List<Brands> GetBrand()
+        public List<Brands> GetBrand(string correction)
         {
-            return db.Brands.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            if (correction == "full")
+                return db.Brands.ToList();
+            else 
+                return db.Brands.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]

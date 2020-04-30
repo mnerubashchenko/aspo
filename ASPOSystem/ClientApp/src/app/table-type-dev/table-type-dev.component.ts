@@ -17,18 +17,18 @@ export class TableTypeDevComponent {
     constructor(private typedevService: TypedevService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
         this.typedevService.subject.subscribe(this.typesdevReceived);
-        this.typedevService.getTypedev();
+        this.typedevService.getTypedev("not full");
         this.baseUrl = baseUrl;
         this.headers = new HttpHeaders().set('content-type', 'application/json');
         this.store = new CustomStore({
           key: "id",
             load: () => this.typesdev,
             insert: (values) => this.http.post<any>(this.baseUrl + 'Typedev/CreateTypedev', JSON.stringify(values as ITypedev), { headers: this.headers }).subscribe(
-              () => { this.typedevService.getTypedev(); }),
+              () => { this.typedevService.getTypedev("not full"); }),
           update: (key, values) =>
               this.http.put<any>(this.baseUrl + 'Typedev/UpdateTypedev', JSON.stringify(values as ITypedev), { headers: this.headers }).subscribe(
-                () => { this.typedevService.getTypedev(); }),
-            remove: (key) => this.http.delete<any>(this.baseUrl + 'Typedev/DeleteTypedev', { params: new HttpParams().set('idTypedev', key) }).subscribe(() => { this.typedevService.getTypedev(); })
+                () => { this.typedevService.getTypedev("not full"); }),
+            remove: (key) => this.http.delete<any>(this.baseUrl + 'Typedev/DeleteTypedev', { params: new HttpParams().set('idTypedev', key) }).subscribe(() => { this.typedevService.getTypedev("not full"); })
         });
     }
 

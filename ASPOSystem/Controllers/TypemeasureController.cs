@@ -16,9 +16,12 @@ namespace ASPOSystem.Controllers
 
         [HttpGet]
         [Route("GetTypemeasure"), Authorize(Roles = "Администратор")]
-        public List<Typemeasure> GetTypemeasure()
+        public List<Typemeasure> GetTypemeasure(string correction)
         {
-            return db.Typemeasure.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            if (correction == "full")
+                return db.Typemeasure.ToList();
+            else
+                return db.Typemeasure.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]

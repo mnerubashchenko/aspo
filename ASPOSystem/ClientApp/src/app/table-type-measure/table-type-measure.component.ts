@@ -17,19 +17,19 @@ export class TableTypeMeasureComponent {
   constructor(private typeMeasureService: TypemeasureService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
       sessionStorage.setItem("locale", 'ru');
     this.typeMeasureService.subject.subscribe(this.typesmeasureReceived);
-    this.typeMeasureService.getTypemeasure();
+    this.typeMeasureService.getTypemeasure("not full");
     this.baseUrl = baseUrl;
     this.headers = new HttpHeaders().set('content-type', 'application/json');
     this.store = new CustomStore({
       key: "id",
       load: () => this.typesmeasure,
       insert: (values) => this.http.post<any>(this.baseUrl + 'Typemeasure/CreateTypemeasure', JSON.stringify(values as ITypemeasure), { headers: this.headers }).subscribe(
-        () => { this.typeMeasureService.getTypemeasure(); }),
+        () => { this.typeMeasureService.getTypemeasure("not full"); }),
       update: (key, values) =>
           this.http.put<any>(this.baseUrl + 'Typemeasure/UpdateTypemeasure', JSON.stringify(values as ITypemeasure), { headers: this.headers }).subscribe(
-              () => { this.typeMeasureService.getTypemeasure(); }),
+            () => { this.typeMeasureService.getTypemeasure("not full"); }),
         remove: (key) => this.http.delete<any>(this.baseUrl + 'Typemeasure/DeleteTypemeasure', { params: new HttpParams().set('idTypemeasure', key) }).subscribe(() => {
-          this.typeMeasureService.getTypemeasure();
+          this.typeMeasureService.getTypemeasure("not full");
         })
     });
     }

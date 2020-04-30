@@ -16,9 +16,12 @@ namespace ASPOSystem.Controllers
 
         [HttpGet]
         [Route("GetTypedev"), Authorize(Roles = "Администратор")]
-        public List<Typedev> GetTypedev()
+        public List<Typedev> GetTypedev(string correction)
         {
-            return db.Typedev.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            if (correction == "full")
+                return db.Typedev.ToList();
+            else
+                return db.Typedev.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
         }
 
         [HttpPost]

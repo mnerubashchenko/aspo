@@ -24,7 +24,7 @@ export class TableMeasuresComponent {
         this.measureService.getMeasures();
 
         this.typemeasureService.subject.subscribe(this.typemeasureReceived);
-        this.typemeasureService.getTypemeasure();
+        this.typemeasureService.getTypemeasure("full");
 
         this.baseUrl = baseUrl;
         this.headers = new HttpHeaders().set('content-type', 'application/json');

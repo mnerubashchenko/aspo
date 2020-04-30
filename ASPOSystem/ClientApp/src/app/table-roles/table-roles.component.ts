@@ -17,18 +17,18 @@ export class TableRolesComponent {
     constructor(private roleService: RoleService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
         this.roleService.subject.subscribe(this.rolesReceived);
-        this.roleService.getRoles();
+        this.roleService.getRoles("not full");
         this.baseUrl = baseUrl;
         this.headers = new HttpHeaders().set('content-type', 'application/json');
         this.store = new CustomStore({
           key: "id",
             load: () => this.roles,
           insert: (values) => this.http.post<any>(this.baseUrl + 'Roles/CreateRole', JSON.stringify(values as IRoles), { headers: this.headers }).subscribe(
-              () => { this.roleService.getRoles(); }),
+            () => { this.roleService.getRoles("not full"); }),
           update: (key, values) =>
               this.http.put<any>(this.baseUrl + 'Roles/UpdateRole', JSON.stringify(values as IRoles), { headers: this.headers }).subscribe(
-                () => { this.roleService.getRoles(); }),
-            remove: (key) => this.http.delete<any>(this.baseUrl + 'Roles/DeleteRole', { params: new HttpParams().set('idRole', key) }).subscribe(() => { this.roleService.getRoles(); })
+                () => { this.roleService.getRoles("not full"); }),
+          remove: (key) => this.http.delete<any>(this.baseUrl + 'Roles/DeleteRole', { params: new HttpParams().set('idRole', key) }).subscribe(() => { this.roleService.getRoles("not full"); })
         });
     }
 

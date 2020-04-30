@@ -27,10 +27,10 @@ export class TableDevicesComponent {
         this.deviceService.getDevices();
 
         this.brandsService.subject.subscribe(this.brandReceived);
-        this.brandsService.getBrands();
+        this.brandsService.getBrands("full");
 
         this.typedevService.subject.subscribe(this.typedevReceived);
-        this.typedevService.getTypedev();
+        this.typedevService.getTypedev("full");
 
         this.baseUrl = baseUrl;
         this.headers = new HttpHeaders().set('content-type', 'application/json');

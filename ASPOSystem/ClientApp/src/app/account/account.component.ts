@@ -49,8 +49,8 @@ export class AccountComponent implements OnInit {
             this.http.get<any>(this.baseUrl + "Users/GetUserForAccount", {
                 params: new HttpParams().set("login", localStorage.getItem("login"))
             }),
-            this.http.get<any>(this.baseUrl + 'Roles/GetRole'),
-            this.http.get<any>(this.baseUrl + 'Posts/GetPost'),
+            this.http.get<any>(this.baseUrl + 'Roles/GetRole', { params: new HttpParams().set("correction", "full") }),
+            this.http.get<any>(this.baseUrl + 'Posts/GetPost', { params: new HttpParams().set("correction", "full") }),
             this.http.get<any>(this.baseUrl + "Projects/GetPersonalProjects", {
                 params: new HttpParams().set("author", localStorage.getItem("login"))
             }),

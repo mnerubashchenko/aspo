@@ -26,10 +26,10 @@ export class TableUsersComponent {
         this.usersService.getUsers("not full");
 
         this.roleService.subject.subscribe(this.rolesReceived);
-        this.roleService.getRoles();
+        this.roleService.getRoles("full");
 
         this.postService.subject.subscribe(this.postsReceived);
-        this.postService.getPosts();
+        this.postService.getPosts("full");
 
         this.baseUrl = baseUrl;
         this.headers = new HttpHeaders().set('content-type', 'application/json');

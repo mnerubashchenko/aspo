@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 
 @Injectable()
@@ -11,8 +11,10 @@ export class TypeinterService {
     this.headers = new HttpHeaders().set('content-type', 'application/json');
   }
 
-  getTypeinter() {
-      this.http.get<any>(this.baseUrl + 'Typeinter/GetTypeinter').subscribe(result => {
+  getTypeinter(correction: string) {
+    this.http.get<any>(this.baseUrl + 'Typeinter/GetTypeinter', {
+      params: new HttpParams().set("correction", correction)
+    }).subscribe(result => {
         this.typesinter = result as ITypeinter[];
         this.subject.next(this.typesinter);
     }, error => console.error(error));

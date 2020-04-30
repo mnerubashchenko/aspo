@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 
 @Injectable()
@@ -11,8 +11,10 @@ export class PostService {
       this.headers = new HttpHeaders().set('content-type', 'application/json');
     }
 
-    getPosts() {
-      this.http.get<any>(this.baseUrl + 'Posts/GetPost').subscribe(result => {
+    getPosts(correction: string) {
+      this.http.get<any>(this.baseUrl + 'Posts/GetPost', {
+        params: new HttpParams().set("correction", correction)
+      }).subscribe(result => {
           this.posts = result as IPosts[];
           this.subject.next(this.posts);
       }, error => console.error(error));

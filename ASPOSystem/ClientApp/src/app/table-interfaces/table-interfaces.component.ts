@@ -24,7 +24,7 @@ export class TableInterfacesComponent {
         this.interfaceService.getInterfaces();
 
         this.typeinterService.subject.subscribe(this.typeinterReceived);
-        this.typeinterService.getTypeinter();
+        this.typeinterService.getTypeinter("full");
 
 
         this.baseUrl = baseUrl;

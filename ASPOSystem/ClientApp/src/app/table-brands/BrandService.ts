@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 
 @Injectable()
@@ -11,8 +11,10 @@ export class BrandService {
     this.headers = new HttpHeaders().set('content-type', 'application/json');
   }
 
-  getBrands() {
-    this.http.get<any>(this.baseUrl + 'Brands/GetBrand').subscribe(result => {
+  getBrands(correction: string) {
+    this.http.get<any>(this.baseUrl + 'Brands/GetBrand', {
+      params: new HttpParams().set("correction", correction)
+    }).subscribe(result => {
         this.brands = result as IBrands[];
         this.subject.next(this.brands);
     }, error => console.error(error));

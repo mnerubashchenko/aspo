@@ -17,18 +17,18 @@ export class TablePostsComponent {
   constructor(private postService: PostService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
         this.postService.subject.subscribe(this.postsReceived);
-        this.postService.getPosts();
+        this.postService.getPosts("not full");
         this.baseUrl = baseUrl;
         this.headers = new HttpHeaders().set('content-type', 'application/json');
         this.store = new CustomStore({
           key: "id",
           load: () => this.posts,
           insert: (values) => this.http.post<any>(this.baseUrl + 'Posts/CreatePost', JSON.stringify(values as IPosts), { headers: this.headers }).subscribe(
-            () => { this.postService.getPosts(); }),
+            () => { this.postService.getPosts("not full"); }),
           update: (key, values) =>
               this.http.put<any>(this.baseUrl + 'Posts/UpdatePost', JSON.stringify(values as IPosts), { headers: this.headers }).subscribe(
-                () => { this.postService.getPosts(); }),
-            remove: (key) => this.http.delete<any>(this.baseUrl + 'Posts/DeletePost', { params: new HttpParams().set('idPost', key) }).subscribe(() => { this.postService.getPosts(); })
+                () => { this.postService.getPosts("not full"); }),
+            remove: (key) => this.http.delete<any>(this.baseUrl + 'Posts/DeletePost', { params: new HttpParams().set('idPost', key) }).subscribe(() => { this.postService.getPosts("not full"); })
         });
     }
 
