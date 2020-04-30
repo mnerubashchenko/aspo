@@ -19,10 +19,13 @@ namespace ASPOSystem.Controllers
 
         [HttpGet]
         [Route("GetUsers"), Authorize(Roles = "Администратор")]
-        public List<Users> GetUsers()
+        public List<Users> GetUsers(string correction)
         {
-            return db.Users.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000"
-                                       && p.Id.ToString() != "11111111-1111-1111-1111-111111111111").ToList();
+            if (correction == "full")
+                return db.Users.ToList();
+            else
+                return db.Users.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000" 
+                && p.Id.ToString() != "11111111-1111-1111-1111-111111111111").ToList();
         }
 
         [HttpGet]

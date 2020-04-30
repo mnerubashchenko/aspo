@@ -2,44 +2,47 @@
               [dataSource]="store"
               [showBorders]="true"
               keyExpr="id"
-              (onRowUpdating)="onRowUpdating($event)">
+              (onRowUpdating)="onRowUpdating($event)"
+              [hoverStateEnabled]="true">
 
-  <dxi-column dataField="nameUser" caption="Имя"></dxi-column>
+ <dxo-filter-row [visible]="true"></dxo-filter-row>
 
-  <dxi-column dataField="middlenameUser" caption="Фамилия"></dxi-column>
+ <dxi-column dataField="nameUser" caption="Имя"></dxi-column>
 
-  <dxi-column dataField="lastnameUser" caption="Отчество"></dxi-column>
+ <dxi-column dataField="middlenameUser" caption="Фамилия"></dxi-column>
 
-  <dxi-column dataField="loginUser" caption="Логин"></dxi-column>
+ <dxi-column dataField="lastnameUser" caption="Отчество"></dxi-column>
 
-  <dxi-column dataField="passwordUser" caption="Пароль"></dxi-column>
+ <dxi-column dataField="loginUser" caption="Логин"></dxi-column>
 
-  <dxi-column dataField="postUser"
-              caption="Должность">
-    <dxo-lookup [dataSource]="posts"
-                displayExpr="namePost"
-                valueExpr="id">
-    </dxo-lookup>
+ <dxi-column dataField="passwordUser" caption="Пароль"></dxi-column>
 
-  </dxi-column>
-  <dxi-column dataField="roleUser"
-              caption="Роль">
-    <dxo-lookup [dataSource]="roles"
-                displayExpr="nameRole"
-                valueExpr="id">
-    </dxo-lookup>
+<dxi-column dataField="postUser"
+                caption="Должность">
+   <dxo-lookup [dataSource]="posts"
+                  displayExpr="namePost"
+                  valueExpr="id">
+   </dxo-lookup>
 
-  </dxi-column>
-  <dxo-editing mode="popup"
-               [allowUpdating]="true"
-               [allowDeleting]="true"
-               [allowAdding]="true">
-    <dxo-popup title="Должности"
-               [showTitle]="true"
-               [width]="700"
-               [height]="300"
-               [position]="{ my: 'top', at: 'top', of: window }">
-    </dxo-popup>
+</dxi-column>
+<dxi-column dataField="roleUser"
+                caption="Роль">
+   <dxo-lookup [dataSource]="roles"
+                  displayExpr="nameRole"
+                  valueExpr="id">
+   </dxo-lookup>
 
-  </dxo-editing>
+</dxi-column>
+<dxo-editing mode="popup"
+                 [allowUpdating]="true"
+                 [allowDeleting]="true"
+                 [allowAdding]="true">
+<dxo-popup title="Должности"
+                 [showTitle]="true"
+                 [width]="700"
+                 [height]="300"
+                 [position]="{ my: 'top', at: 'top', of: window }">
+</dxo-popup>
+
+</dxo-editing>
 </dx-data-grid>

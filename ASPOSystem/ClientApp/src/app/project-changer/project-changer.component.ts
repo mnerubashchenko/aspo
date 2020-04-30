@@ -13,7 +13,7 @@ import { DxSelectBoxComponent } from 'devextreme-angular';
 export class ProjectChangerComponent implements OnInit {
   projects: string;
   projectName: string;
-  projectInfo: IProject = { Id: '', NameProject: '', DescriptionProject: '', DateCreateProject: new Date(), DirectorProject: '' };
+  projectInfo: IProject = { id: '', nameProject: '', descriptionProject: '', dateCreateProject: new Date(), directorProject: '' };
   measures: string[];
   devices: string[];
   interfaces: string[];
@@ -24,6 +24,11 @@ export class ProjectChangerComponent implements OnInit {
   selectedInterfaces: string[] = [];
   selectedCommands: string[] = [];
   selectedTelemetries: string[] = [];
+  checkMeasures: string[];
+  checkDevices: string[];
+  checkInterfaces: string[];
+  checkCommands: string[];
+  checkTelemetries: string[];
   headers: HttpHeaders = new HttpHeaders({
     "Content-Type": "application/json"
   });
@@ -76,38 +81,50 @@ export class ProjectChangerComponent implements OnInit {
       this.projectInfo = res1;
       this.measures = res2;
       this.selectedMeasures = res3;
+      this.checkMeasures = res3;
       this.devices = res4;
       this.selectedDevices = res5;
+      this.checkDevices = res5;
       this.interfaces = res6;
       this.selectedInterfaces = res7;
+      this.checkInterfaces = res7;
       this.commands = res8;
       this.selectedCommands = res9;
+      this.checkCommands = res9;
       this.telemetries = res10;
       this.selectedTelemetries = res11;
+      this.checkTelemetries = res11;
     });
   }
 
   public saveInfoAboutProject = (form: NgForm) => {
-    if (form.controls.nameProject.value != "") {
-      this.http.put<any>(this.baseUrl + 'Projects/UpdateProjectFromProjectChanger',
-        { headers: this.headers }, {
-        params: new HttpParams().set("projectId", form.controls.idProject.value)
-          .set("newProjectName", form.controls.nameProject.value)
-          .set("newProjectDescription", form.controls.descriptionProject.value)
-      }).subscribe(result => {
-        this.http.get<any>(this.baseUrl + 'Projects/GetNamesOfProjects').subscribe(result => {
-          this.projects = result as string;
-        }, error => console.error(error));
-        this.selectBox.value = form.controls.nameProject.value;
-        this.isPopupSuccessVisible = true;
-        this.popupSuccessTitle = "Успешно!";
-        this.popupSuccessText = "Информация о проекте изменена!";
-      }, error => {
-        this.isPopupDangerVisible = true;
-        this.popupDangerTitle = "Ошибка!";
-        this.popupDangerText = error.error;
-      });
+    if (form.controls.nameProject.value == this.projectInfo.nameProject &&
+      form.controls.descriptionProject.value == this.projectInfo.descriptionProject) {
+      this.isPopupWarningVisible = true;
+      this.popupWarningTitle = "Внимание!";
+      this.popupWarningText = "Вы не произвели никаких изменений!";
     }
+    else if (form.controls.nameProject.value != "") {
+      this.http.put<any>(this.baseUrl + 'Projects/UpdateProjectFromProjectChanger',
+      { headers: this.headers }, {
+        params: new HttpParams().set("projectId", form.controls.idProject.value)
+        .set("newProjectName", form.controls.nameProject.value)
+        .set("newProjectDescription", form.controls.descriptionProject.value)
+      }).subscribe(result => {
+         this.http.get<any>(this.baseUrl + 'Projects/GetNamesOfProjects').subscribe(result => {
+         this.projects = result as string;
+         }, error => console.error(error));
+          this.selectBox.value = null;
+          this.selectBox.value = form.controls.nameProject.value;
+          this.isPopupSuccessVisible = true;
+          this.popupSuccessTitle = "Успешно!";
+          this.popupSuccessText = "Информация о проекте изменена!";
+        }, error => {
+          this.isPopupDangerVisible = true;
+          this.popupDangerTitle = "Ошибка!";
+          this.popupDangerText = error.error;
+        });
+      }
 
     else {
       this.isPopupWarningVisible = true;
@@ -117,68 +134,103 @@ export class ProjectChangerComponent implements OnInit {
   }
 
   public saveMeasures() {
-
-    this.http.put<any>(this.baseUrl + 'ProjectMeasure/UpdateLinkFromProjectChanger',
-      { headers: this.headers }, {
+    if (JSON.stringify(this.checkMeasures) != JSON.stringify(this.selectedMeasures)) {
+      this.http.put<any>(this.baseUrl + 'ProjectMeasure/UpdateLinkFromProjectChanger',
+        { headers: this.headers }, {
         params: new HttpParams().set('projectName', this.projectName)
           .set("namesOfMeasures", JSON.stringify(this.selectedMeasures))
-    }).subscribe(res => {
-      this.isPopupSuccessVisible = true;
-      this.popupSuccessTitle = "Успешно!";
-      this.popupSuccessText = "Список измерений проекта изменен!";
-    });
+      }).subscribe(res => {
+        this.checkMeasures = this.selectedMeasures;
+        this.isPopupSuccessVisible = true;
+        this.popupSuccessTitle = "Успешно!";
+        this.popupSuccessText = "Список измерений проекта изменен!";
+      });
+    }
+    else {
+      this.isPopupWarningVisible = true;
+      this.popupWarningTitle = "Внимание!";
+      this.popupWarningText = "Вы не изменили список измерений данного проекта!";
+    }
   }
 
   public saveDevices() {
-
-    this.http.put<any>(this.baseUrl + 'ProjectDevice/UpdateLinkFromProjectChanger',
-      { headers: this.headers }, {
-      params: new HttpParams().set('projectName', this.projectName)
-        .set("namesOfDevices", JSON.stringify(this.selectedDevices))
-    }).subscribe(res => {
-      this.isPopupSuccessVisible = true;
-      this.popupSuccessTitle = "Успешно!";
-      this.popupSuccessText = "Список устройств проекта изменен!";
-    });
+    if (JSON.stringify(this.checkDevices) != JSON.stringify(this.selectedDevices)) {
+      this.http.put<any>(this.baseUrl + 'ProjectDevice/UpdateLinkFromProjectChanger',
+        { headers: this.headers }, {
+        params: new HttpParams().set('projectName', this.projectName)
+          .set("namesOfDevices", JSON.stringify(this.selectedDevices))
+      }).subscribe(res => {
+        this.checkDevices = this.selectedDevices;
+        this.isPopupSuccessVisible = true;
+        this.popupSuccessTitle = "Успешно!";
+        this.popupSuccessText = "Список устройств проекта изменен!";
+      });
+    }
+    else {
+      this.isPopupWarningVisible = true;
+      this.popupWarningTitle = "Внимание!";
+      this.popupWarningText = "Вы не изменили список устройств данного проекта!";
+    }
   }
 
   public saveInterfaces() {
-
-    this.http.put<any>(this.baseUrl + 'ProjectInterface/UpdateLinkFromProjectChanger',
-      { headers: this.headers }, {
-      params: new HttpParams().set('projectName', this.projectName)
-        .set("namesOfInterfaces", JSON.stringify(this.selectedInterfaces))
-    }).subscribe(res => {
-      this.isPopupSuccessVisible = true;
-      this.popupSuccessTitle = "Успешно!";
-      this.popupSuccessText = "Список интерфейсов проекта изменен!";
-    });
+    if (JSON.stringify(this.checkInterfaces) != JSON.stringify(this.selectedInterfaces)) {
+      this.http.put<any>(this.baseUrl + 'ProjectInterface/UpdateLinkFromProjectChanger',
+        { headers: this.headers }, {
+        params: new HttpParams().set('projectName', this.projectName)
+          .set("namesOfInterfaces", JSON.stringify(this.selectedInterfaces))
+      }).subscribe(res => {
+        this.checkInterfaces = this.selectedInterfaces;
+        this.isPopupSuccessVisible = true;
+        this.popupSuccessTitle = "Успешно!";
+        this.popupSuccessText = "Список интерфейсов проекта изменен!";
+      });
+    }
+    else {
+      this.isPopupWarningVisible = true;
+      this.popupWarningTitle = "Внимание!";
+      this.popupWarningText = "Вы не изменили список интерфейсов данного проекта!";
+    }
   }
 
   public saveCommands() {
-
-    this.http.put<any>(this.baseUrl + 'ProjectCommand/UpdateLinkFromProjectChanger',
-      { headers: this.headers }, {
-      params: new HttpParams().set('projectName', this.projectName)
-        .set("namesOfCommands", JSON.stringify(this.selectedCommands))
-    }).subscribe(res => {
-      this.isPopupSuccessVisible = true;
-      this.popupSuccessTitle = "Успешно!";
-      this.popupSuccessText = "Список программных команд проекта изменен!";
-    });
+    if (JSON.stringify(this.checkCommands) != JSON.stringify(this.selectedCommands)) {
+      this.http.put<any>(this.baseUrl + 'ProjectCommand/UpdateLinkFromProjectChanger',
+        { headers: this.headers }, {
+        params: new HttpParams().set('projectName', this.projectName)
+          .set("namesOfCommands", JSON.stringify(this.selectedCommands))
+      }).subscribe(res => {
+        this.checkCommands = this.selectedCommands;
+        this.isPopupSuccessVisible = true;
+        this.popupSuccessTitle = "Успешно!";
+        this.popupSuccessText = "Список программных команд проекта изменен!";
+      });
+    }
+    else {
+      this.isPopupWarningVisible = true;
+      this.popupWarningTitle = "Внимание!";
+      this.popupWarningText = "Вы не изменили список программных команд данного проекта!";
+    }
   }
 
   public saveTelemetries() {
-
-    this.http.put<any>(this.baseUrl + 'ProjectTelemetry/UpdateLinkFromProjectChanger',
-      { headers: this.headers }, {
+    if (JSON.stringify(this.checkTelemetries) != JSON.stringify(this.selectedTelemetries)) {
+      this.http.put<any>(this.baseUrl + 'ProjectTelemetry/UpdateLinkFromProjectChanger',
+        { headers: this.headers }, {
         params: new HttpParams().set('projectName', this.projectName)
-         .set("namesOfTelemetries", JSON.stringify(this.selectedTelemetries))
-    }).subscribe(res => {
-      this.isPopupSuccessVisible = true;
-      this.popupSuccessTitle = "Успешно!";
-      this.popupSuccessText = "Список телеметрий проекта изменен!";
-    });
+          .set("namesOfTelemetries", JSON.stringify(this.selectedTelemetries))
+      }).subscribe(res => {
+        this.checkTelemetries = this.selectedTelemetries;
+        this.isPopupSuccessVisible = true;
+        this.popupSuccessTitle = "Успешно!";
+        this.popupSuccessText = "Список телеметрий проекта изменен!";
+      });
+    }
+    else {
+      this.isPopupWarningVisible = true;
+      this.popupWarningTitle = "Внимание!";
+      this.popupWarningText = "Вы не изменили список телеметрий данного проекта!";
+    }
   }
 
   ngOnInit() {

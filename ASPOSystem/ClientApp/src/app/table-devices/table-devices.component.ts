@@ -3,7 +3,6 @@ import { IDevice, DevicesService } from '../table-devices/DevicesService';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import CustomStore from "devextreme/data/custom_store";
 import { DxDataGridComponent } from 'devextreme-angular';
-import { IInterface, InterfaceService } from '../table-interfaces/InterfaceService';
 import { IBrands, BrandService } from '../table-brands/BrandService';
 import { ITypedev, TypedevService } from '../table-type-dev/TypedevService';
 
@@ -14,22 +13,18 @@ import { ITypedev, TypedevService } from '../table-type-dev/TypedevService';
 })
 export class TableDevicesComponent {
     public devices: IDevice[];
-    public interfaces: IInterface[];
     public brands: IBrands[];
     public types: ITypedev[];
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
-    constructor(private deviceService: DevicesService, private interfaceService: InterfaceService,
+    constructor(private deviceService: DevicesService,
         private brandsService: BrandService, private typedevService: TypedevService, 
         public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
 
         this.deviceService.subject.subscribe(this.devicesReceived);
         this.deviceService.getDevices();
-
-        this.interfaceService.subject.subscribe(this.interfaceReceived);
-        this.interfaceService.getInterfaces();
 
         this.brandsService.subject.subscribe(this.brandReceived);
         this.brandsService.getBrands();
@@ -64,11 +59,6 @@ export class TableDevicesComponent {
 
     devicesReceived = (data: IDevice[]) => {
         this.devices = data;
-        this.dataGrid.instance.refresh();
-    }
-
-    interfaceReceived = (data1: IInterface[]) => {
-        this.interfaces = data1;
         this.dataGrid.instance.refresh();
     }
 

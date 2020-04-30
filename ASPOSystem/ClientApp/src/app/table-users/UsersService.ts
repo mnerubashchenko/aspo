@@ -13,8 +13,10 @@ export class UsersService {
     this.headers = new HttpHeaders().set('content-type', 'application/json');
   }
 
-  getUsers() {
-    this.http.get<any>(this.baseUrl + 'Users/GetUsers').subscribe(result => {
+  getUsers(correction: string) {
+    this.http.get<any>(this.baseUrl + 'Users/GetUsers', {
+      params: new HttpParams().set("correction", correction)
+    }).subscribe(result => {
         this.users = result as IUsers[];
         this.subject.next(this.users);
     }, error => console.error(error));
@@ -31,12 +33,12 @@ export class UsersService {
 }
 
 export interface IUsers {
-    Id: string;
-    NameUser: string;
-    MiddlenameUser: string;
-    LastnameUser: string;
-    LoginUser: string;
-    PasswordUser: string;
-    PostUser: string;
-    RoleUser: string;
+    id: string;
+    nameUser: string;
+    middlenameUser: string;
+    lastnameUser: string;
+    loginUser: string;
+    passwordUser: string;
+    postUser: string;
+    roleUser: string;
 }

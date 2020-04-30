@@ -25,23 +25,28 @@
                 </a>
               </li>
               </ng-container>
-              <ng-container *ngIf="isUserAuthenticated()">
-                <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                  <a [routerLink]='["/"]' (click)='collapse()'>
-                    <span class='glyphicon glyphicon-home'></span> Главная
-                  </a>
-                </li>
-                <li [routerLinkActive]='["link-active"]'>
-                  <a [routerLink]='["/project-creator"]' (click)='collapse()'>
-                    <span class='glyphicon glyphicon-plus'></span> Создать новый проект
-                  </a>
-                </li>
-                <li [routerLinkActive]='["link-active"]'>
-                  <a [routerLink]='["/project-changer"]' (click)='collapse()'>
-                    <span class='glyphicon glyphicon-pencil'></span> Изменить проект
-                  </a>
-                </li>
-              </ng-container>
+            <ng-container *ngIf="isUserAuthenticated()">
+              <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+                <a [routerLink]='["/"]' (click)='collapse()'>
+                  <span class='glyphicon glyphicon-home'></span> Главная
+                </a>
+              </li>
+              <li [routerLinkActive]='["link-active"]'>
+                <a [routerLink]='["/project-creator"]' (click)='collapse()'>
+                  <span class='glyphicon glyphicon-plus'></span> Создать новый проект
+                </a>
+              </li>
+              <li [routerLinkActive]='["link-active"]'>
+                <a [routerLink]='["/project-changer"]' (click)='collapse()'>
+                  <span class='glyphicon glyphicon-pencil'></span> Изменить проект
+                </a>
+              </li>
+              <li [routerLinkActive]='["link-active"]'>
+                <a [routerLink]='["/json-maker"]' (click)='collapse()'>
+                  <span class='glyphicon glyphicon-download-alt'></span> Скачать JSON
+                </a>
+              </li>
+            </ng-container>
               <ng-container *ngIf="isUserAuthenticated() && isUserAdmin()">
                 <li [routerLinkActive]='["link-active"]'>
                   <a [routerLink]='["/handbooks"]' (click)='collapse()'>

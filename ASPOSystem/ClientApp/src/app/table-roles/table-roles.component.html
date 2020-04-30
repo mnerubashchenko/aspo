@@ -2,22 +2,30 @@
               [dataSource]="store"
               [showBorders]="true"
               keyExpr="id"
-              (onRowUpdating)="onRowUpdating($event)">
+              (onRowUpdating)="onRowUpdating($event)"
+              [hoverStateEnabled]="true">
+
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+
   <dxi-column dataField="nameRole" caption="Название роли"></dxi-column>
+
   <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"
                [allowAdding]="true">
+
     <dxo-popup title="Роли"
                [showTitle]="true"
                [width]="500"
                [height]="225"
                [position]="{ my: 'top', at: 'top', of: window }">
     </dxo-popup>
+
     <dxo-form>
       <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
         <dxi-item dataField="nameRole"></dxi-item>
       </dxi-item>
     </dxo-form>
+
   </dxo-editing>
 </dx-data-grid>

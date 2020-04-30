@@ -21,12 +21,11 @@ export class AccountComponent implements OnInit {
     public roles: IRoles[];
     public posts: IPosts[];
     public projects: IProject[];
-    public user: IUsers[] = [{ Id: '', NameUser: '', MiddlenameUser: '', LastnameUser: '', LoginUser: '', PasswordUser: '', RoleUser: '', PostUser: '' }];
+    public user: IUsers[] = [{ id: '', nameUser: '', middlenameUser: '', lastnameUser: '', loginUser: '', passwordUser: '', roleUser: '', postUser: '' }];
     public flagForReadOnly: boolean = true;
     public flagForChangeButtons: boolean = false;
     store: any;
     login: string = "Логин";
-    surname: string = "Фамилия";
     isPopupSuccessVisible: boolean = false;
     popupSuccessTitle: string;
     popupSuccessText: string;
@@ -119,7 +118,6 @@ export class AccountComponent implements OnInit {
         this.flagForReadOnly = !this.flagForReadOnly;
         this.flagForChangeButtons = true;
         this.login = "Логин*";
-        this.surname = "Фамилия*";
     }
 
     private isChanged() {
@@ -133,15 +131,22 @@ export class AccountComponent implements OnInit {
         this.flagForReadOnly = !this.flagForReadOnly;
         this.flagForChangeButtons = false;
         this.login = "Логин";
-        this.surname = "Фамилия";
-    }
-
-  private ConfigMaker() {
-      this.http.post<any>(this.baseUrl + 'JSONMaker/ConfigMaker', { headers: this.headers }, { params: new HttpParams().set("nameProject", "5CBB1B08-F382-EA11-B915-9C5C8E92C175") }).subscribe();
     }
 
   public account = (form: NgForm) => {
-    if (form.controls.loginUser.value != "" && form.controls.middlenameUser.value != "") {
+
+    if (form.controls.middlenameUser.value == this.user[0].middlenameUser
+      && form.controls.nameUser.value == this.user[0].nameUser
+      && form.controls.lastnameUser.value == this.user[0].lastnameUser
+      && form.controls.loginUser.value == this.user[0].loginUser
+      && form.controls.roleUser.value == this.user[0].roleUser
+      && form.controls.postUser.value == this.user[0].postUser) {
+      this.isPopupWarningVisible = true;
+      this.popupWarningTitle = "Внимание!";
+      this.popupWarningText = "Вы не произвели никаких изменений";
+    }
+
+    else if (form.controls.loginUser.value != "" && form.controls.middlenameUser.value != "") {
       this.http.put<any>(this.baseUrl + "Users/UpdateUser", JSON.stringify(form.value as IUsers), {
         headers: new HttpHeaders({
           "Content-Type": "application/json"
@@ -153,7 +158,6 @@ export class AccountComponent implements OnInit {
         this.flagForChangeButtons = false;
         this.flagForReadOnly = !this.flagForReadOnly;
         this.login = "Логин";
-        this.surname = "Фамилия";
         localStorage.removeItem("login");
         localStorage.setItem("login", form.controls.loginUser.value);
         this.usersService.subjectAuth.subscribe(this.userAccountReceived);

@@ -225,14 +225,11 @@ END
 CREATE TRIGGER users_d ON USERS
 INSTEAD OF DELETE 
 AS BEGIN
-	DECLARE @iduser UNIQUEIDENTIFIER = (SELECT ID_user FROM deleted);
-	DECLARE @idproject UNIQUEIDENTIFIER = (SELECT ID_project FROM PROJECT WHERE Director_project = @iduser);
-	WHILE ((SELECT COUNT(ID_comment) FROM COMMENTS WHERE Author_comment = @iduser) != 0)
-	BEGIN
-		UPDATE PROJECT SET Director_project = '00000000-0000-0000-0000-000000000000' WHERE ID_project = @idproject;
-		UPDATE COMMENTS SET Author_comment = '11111111-1111-1111-1111-111111111111' WHERE Author_comment = @iduser;
-	END;
-	DELETE USERS WHERE ID_user = @iduser;
+	DECLARE @iduser UNIQUEIDENTIFIER = (SELECT ID FROM deleted);
+
+	UPDATE PROJECT SET Director_project = '00000000-0000-0000-0000-000000000000' WHERE Director_project = @iduser;
+
+	DELETE USERS WHERE ID = @iduser;
 END
 
 DROP TRIGGER users_d

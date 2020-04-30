@@ -2,17 +2,25 @@
               [dataSource]="store"
               [showBorders]="true"
               keyExpr="id"
-              (onRowUpdating)="onRowUpdating($event)">
+              (onRowUpdating)="onRowUpdating($event)"
+              [hoverStateEnabled]="true">
+
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+
   <dxi-column dataField="nameProject" caption="Название"></dxi-column>
+
   <dxi-column dataField="directorProject"
               caption="Руководитель">
     <dxo-lookup [dataSource]="users"
-                displayExpr="middlenameUser"
+                displayExpr="loginUser"
                 valueExpr="id">
     </dxo-lookup>
   </dxi-column>
+
   <dxi-column dataField="descriptionProject" caption="Описание"></dxi-column>
+
   <dxi-column dataField="dateCreateProject" caption="Дата создания" dataType="datetime"></dxi-column>
+
   <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"
@@ -23,5 +31,6 @@
                [height]="300"
                [position]="{ my: 'top', at: 'top', of: window }">
     </dxo-popup>
+
   </dxo-editing>
 </dx-data-grid>

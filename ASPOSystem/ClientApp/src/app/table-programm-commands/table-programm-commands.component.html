@@ -2,7 +2,10 @@
               [dataSource]="store"
               [showBorders]="true"
               keyExpr="id"
-              (onRowUpdating)="onRowUpdating($event)">
+              (onRowUpdating)="onRowUpdating($event)"
+              [hoverStateEnabled]="true">
+
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
 
   <dxi-column dataField="name" caption="Название команды"></dxi-column>
 
@@ -16,12 +19,11 @@
                [allowUpdating]="true"
                [allowDeleting]="true"
                [allowAdding]="true">
-    <dxo-popup
-      title="Программные команды"
-      [showTitle]="true"
-      [width]="700"
-      [height]="300"
-      [position]="{ my: 'top', at: 'top', of: window }">
+    <dxo-popup title="Программные команды"
+               [showTitle]="true"
+               [width]="700"
+               [height]="300"
+               [position]="{ my: 'top', at: 'top', of: window }">
     </dxo-popup>
   </dxo-editing>
 </dx-data-grid>

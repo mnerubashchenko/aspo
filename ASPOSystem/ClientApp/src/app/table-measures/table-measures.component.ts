@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import CustomStore from "devextreme/data/custom_store";
 import { DxDataGridComponent } from 'devextreme-angular';
 import { ITypemeasure, TypemeasureService } from '../table-type-measure/TypemeasureService';
-import { IInterface, InterfaceService } from '../table-interfaces/InterfaceService';
 
 @Component({
     selector: 'app-table-measures',
@@ -14,11 +13,10 @@ import { IInterface, InterfaceService } from '../table-interfaces/InterfaceServi
 export class TableMeasuresComponent {
     public measures: IMeasure[];
     public types: ITypemeasure[];
-    public interfaces: IInterface[];
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
-    constructor(private measureService: MeasureService, private typemeasureService: TypemeasureService, private interfaceService: InterfaceService,
+    constructor(private measureService: MeasureService, private typemeasureService: TypemeasureService,
         public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
 
@@ -27,9 +25,6 @@ export class TableMeasuresComponent {
 
         this.typemeasureService.subject.subscribe(this.typemeasureReceived);
         this.typemeasureService.getTypemeasure();
-
-        this.interfaceService.subject.subscribe(this.interfaceReceived);
-        this.interfaceService.getInterfaces();
 
         this.baseUrl = baseUrl;
         this.headers = new HttpHeaders().set('content-type', 'application/json');
@@ -63,11 +58,6 @@ export class TableMeasuresComponent {
 
     typemeasureReceived = (data1: ITypemeasure[]) => {
         this.types = data1;
-        this.dataGrid.instance.refresh();
-    }
-
-    interfaceReceived = (data2: IInterface[]) => {
-        this.interfaces = data2;
         this.dataGrid.instance.refresh();
     }
 

@@ -2,7 +2,10 @@
               [dataSource]="store"
               [showBorders]="true"
               keyExpr="id"
-              (onRowUpdating)="onRowUpdating($event)">
+              (onRowUpdating)="onRowUpdating($event)"
+              [hoverStateEnabled]="true">
+
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
 
   <dxi-column dataField="grouup" caption="Группа"></dxi-column>
 
@@ -24,7 +27,7 @@
 
   <dxi-column dataField="status" caption="Статус"></dxi-column>
 
-  <dxi-column dataField="typeMeasure"
+  <dxi-column dataField="type"
               caption="Тип">
     <dxo-lookup [dataSource]="types"
                 displayExpr="nameTypemeasure"

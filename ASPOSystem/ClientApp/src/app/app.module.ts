@@ -134,7 +134,8 @@ export function tokenGetter() {
     { path: 'account', component: AccountComponent },
     { path: 'password-changer', component: PasswordChangerComponent },
     { path: 'project-creator', component: ProjectCreatorComponent },
-    { path: 'project-changer', component: ProjectChangerComponent }
+    { path: 'project-changer', component: ProjectChangerComponent },
+    { path: 'json-maker', component: JsonMakerComponent }
     ]),
     JwtModule.forRoot({
       config: {

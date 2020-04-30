@@ -23,7 +23,7 @@ export class TableUsersComponent {
         sessionStorage.setItem("locale", 'ru');
 
         this.usersService.subject.subscribe(this.usersReceived);
-        this.usersService.getUsers();
+        this.usersService.getUsers("not full");
 
         this.roleService.subject.subscribe(this.rolesReceived);
         this.roleService.getRoles();
@@ -38,11 +38,11 @@ export class TableUsersComponent {
             key: "id",
             load: () => this.users,
             insert: (values) => this.http.post<any>(this.baseUrl + 'Users/CreateUser', JSON.stringify(values as IUsers), { headers: this.headers }).subscribe(
-              () => { this.usersService.getUsers(); }),
+              () => { this.usersService.getUsers("not full"); }),
             update: (key, values) =>
               this.http.put<any>(this.baseUrl + 'Users/UpdateUser', JSON.stringify(values as IUsers), { headers: this.headers }).subscribe(
-                () => { this.usersService.getUsers(); }),
-            remove: (key) => this.http.delete<any>(this.baseUrl + 'Users/DeleteUser', { params: new HttpParams().set('idUser', key) }).subscribe(() => { this.usersService.getUsers(); })
+                () => { this.usersService.getUsers("not full"); }),
+            remove: (key) => this.http.delete<any>(this.baseUrl + 'Users/DeleteUser', { params: new HttpParams().set('idUser', key) }).subscribe(() => { this.usersService.getUsers("not full"); })
           });
         }, 1000);
         

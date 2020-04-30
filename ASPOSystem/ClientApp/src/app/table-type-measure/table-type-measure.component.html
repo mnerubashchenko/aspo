@@ -2,8 +2,13 @@
               [dataSource]="store"
               [showBorders]="true"
               keyExpr="id"
-              (onRowUpdating)="onRowUpdating($event)">
+              (onRowUpdating)="onRowUpdating($event)"
+              [hoverStateEnabled]="true">
+
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+
   <dxi-column dataField="nameTypemeasure" caption="Тип измерения"></dxi-column>
+
   <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"
@@ -14,6 +19,7 @@
                [height]="225"
                [position]="{ my: 'top', at: 'top', of: window }">
     </dxo-popup>
+
     <dxo-form>
       <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
         <dxi-item dataField="nameTypemeasure"></dxi-item>

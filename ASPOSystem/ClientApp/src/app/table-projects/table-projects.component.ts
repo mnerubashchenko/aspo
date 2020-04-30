@@ -24,7 +24,7 @@ export class TableProjectsComponent {
         this.projectService.getProjects();
 
         this.usersService.subject.subscribe(this.usersReceived);
-        this.usersService.getUsers();
+        this.usersService.getUsers("full");
 
         this.baseUrl = baseUrl;
         this.headers = new HttpHeaders().set('content-type', 'application/json');

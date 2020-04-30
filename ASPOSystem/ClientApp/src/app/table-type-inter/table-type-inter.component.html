@@ -2,8 +2,13 @@
               [dataSource]="store"
               [showBorders]="true"
               keyExpr="id"
-              (onRowUpdating)="onRowUpdating($event)">
+              (onRowUpdating)="onRowUpdating($event)"
+              [hoverStateEnabled]="true">
+
   <dxi-column dataField="nameTypeinter" caption="Тип интерфейса"></dxi-column>
+
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+
   <dxo-editing mode="popup"
                [allowUpdating]="true"
                [allowDeleting]="true"
@@ -14,10 +19,12 @@
                [height]="225"
                [position]="{ my: 'top', at: 'top', of: window }">
     </dxo-popup>
+
     <dxo-form>
       <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
         <dxi-item dataField="nameTypeinter"></dxi-item>
       </dxi-item>
     </dxo-form>
+
   </dxo-editing>
 </dx-data-grid>
