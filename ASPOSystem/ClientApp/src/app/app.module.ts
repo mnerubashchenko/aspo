@@ -56,6 +56,8 @@ import { ProjectCommandService } from './table-project-command/ProjectCommandSer
 import { JsonMakerComponent } from './json-maker/json-maker.component';
 import { ProjectCreatorComponent } from './project-creator/project-creator.component';
 import { ProjectChangerComponent } from './project-changer/project-changer.component';
+import { TableCommentsComponent } from './table-comments/table-comments.component';
+import { CommentsService } from './table-comments/CommentsService';
 
 declare var require: any;
 let messagesDe = require("devextreme/localization/messages/de.json"),
@@ -104,7 +106,8 @@ export function tokenGetter() {
     TableProjectCommandComponent,
     JsonMakerComponent,
     ProjectCreatorComponent,
-    ProjectChangerComponent
+    ProjectChangerComponent,
+    TableCommentsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -163,7 +166,8 @@ export function tokenGetter() {
         ProjectDeviceService,
         ProjectInterfaceService,
         ProjectTelemetryService,
-        ProjectCommandService
+        ProjectCommandService,
+        CommentsService
     ],
   bootstrap: [AppComponent]
 })

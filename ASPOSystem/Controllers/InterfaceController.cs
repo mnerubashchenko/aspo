@@ -22,7 +22,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpGet]
-        [Route("GetNamesOfInterfaces"), Authorize(Roles = "Администратор")]
+        [Route("GetNamesOfInterfaces"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetNamesOfInterfaces()
         {
             return db.Interfaces.Select(item => item.Name).ToList();

@@ -7,6 +7,7 @@ namespace ASPOSystem.DBModels
     {
         public Users()
         {
+            Comments = new HashSet<Comments>();
             Project = new HashSet<Project>();
         }
 
@@ -21,6 +22,7 @@ namespace ASPOSystem.DBModels
 
         public Posts PostUserNavigation { get; set; }
         public Roles RoleUserNavigation { get; set; }
+        public ICollection<Comments> Comments { get; set; }
         public ICollection<Project> Project { get; set; }
     }
 }

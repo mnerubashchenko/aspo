@@ -7,6 +7,7 @@ namespace ASPOSystem.DBModels
     {
         public Project()
         {
+            Comments = new HashSet<Comments>();
             ProjectCommand = new HashSet<ProjectCommand>();
             ProjectDevice = new HashSet<ProjectDevice>();
             ProjectInterface = new HashSet<ProjectInterface>();
@@ -21,6 +22,7 @@ namespace ASPOSystem.DBModels
         public DateTime? DateCreateProject { get; set; }
 
         public Users DirectorProjectNavigation { get; set; }
+        public ICollection<Comments> Comments { get; set; }
         public ICollection<ProjectCommand> ProjectCommand { get; set; }
         public ICollection<ProjectDevice> ProjectDevice { get; set; }
         public ICollection<ProjectInterface> ProjectInterface { get; set; }

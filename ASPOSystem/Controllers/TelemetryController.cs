@@ -22,7 +22,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpGet]
-        [Route("GetNamesOfTelemetries"), Authorize(Roles = "Администратор")]
+        [Route("GetNamesOfTelemetries"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetNamesOfTelemetries()
         {
             return db.Telemetry.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").Select(item => item.ShortName).ToList();

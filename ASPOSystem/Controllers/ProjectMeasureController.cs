@@ -23,7 +23,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpGet]
-        [Route("GetLinksForOneProject"), Authorize(Roles = "Администратор")]
+        [Route("GetLinksForOneProject"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetLinksForOneProject(string projectName)
         {
             List<Guid?> idMeasures = db.ProjectMeasure.Where(item => item.IdProject == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).Select(p => p.IdMeasure).ToList();
@@ -47,7 +47,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPost]
-        [Route("CreateLinkFromAccount"), Authorize(Roles = "Администратор")]
+        [Route("CreateLinkFromAccount"), Authorize(Roles = "Администратор, Гость")]
         public void CreateLinkFromAccount([FromBody] List<string> namesOfMeasures)
         {
             Guid idOfProject = db.Project.FirstOrDefault(item => item.DateCreateProject == db.Project.Max(p=>p.DateCreateProject)).Id;
@@ -62,7 +62,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateLink"), Authorize(Roles = "Администратор")]
+        [Route("UpdateLink"), Authorize(Roles = "Администратор, Гость")]
         public void UpdateLink([FromBody] ProjectMeasure updatedLink)
         {
             db.ProjectMeasure.Update(updatedLink);

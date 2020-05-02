@@ -118,6 +118,13 @@ Director_project UNIQUEIDENTIFIER FOREIGN KEY REFERENCES USERS(ID),
 Description_project VARCHAR(200),
 DateCreate_project DATETIME);
 
+CREATE TABLE COMMENTS
+(ID UNIQUEIDENTIFIER PRIMARY KEY DEFAULT newsequentialid(),
+Author_comment  UNIQUEIDENTIFIER FOREIGN KEY REFERENCES USERS(ID),
+Project_comment UNIQUEIDENTIFIER FOREIGN KEY REFERENCES PROJECT(ID),
+Body_comment VARCHAR(200),
+DateCreate_comment DATETIME);
+
 CREATE TABLE PROJECT_MEASURE 
 (ID UNIQUEIDENTIFIER PRIMARY KEY DEFAULT newsequentialid(),
 ID_project UNIQUEIDENTIFIER FOREIGN KEY REFERENCES PROJECT(ID) ON DELETE CASCADE,
@@ -173,7 +180,8 @@ AS BEGIN
 	DECLARE @iduser UNIQUEIDENTIFIER = (SELECT ID FROM deleted);
 
 	UPDATE PROJECT SET Director_project = '00000000-0000-0000-0000-000000000000' WHERE Director_project = @iduser;
-
+	UPDATE COMMENTS SET Author_comment = '11111111-1111-1111-1111-111111111111' WHERE Author_comment = @iduser;
+ 
 	DELETE USERS WHERE ID = @iduser;
 END
 
@@ -228,18 +236,18 @@ AS BEGIN
 END
 
 ------------------------------------------------------------
---CREATE TRIGGER protocol_d ON PROTOCOL
---INSTEAD OF DELETE 
---AS BEGIN
---	DECLARE @idprotocol UNIQUEIDENTIFIER = (SELECT ID_protocol FROM deleted);
---	DECLARE @idcomment UNIQUEIDENTIFIER;
---	WHILE ((SELECT COUNT(*) FROM COMMENTS_PROTOCOL WHERE Protocol_comment_link = @idprotocol) > 0)
---		BEGIN
---			SET @idcomment = (SELECT TOP(1) Comment_link FROM COMMENTS_PROTOCOL WHERE Protocol_comment_link = @idprotocol );
---			DELETE COMMENTS WHERE ID_comment = @idcomment;
---		END;
---	DELETE PROTOCOL WHERE ID_protocol = @idprotocol;
---END
+CREATE TRIGGER project_d ON PROJECT
+INSTEAD OF DELETE 
+AS BEGIN
+	DECLARE @idproject UNIQUEIDENTIFIER = (SELECT ID FROM deleted);
+	WHILE ((SELECT COUNT(*) FROM COMMENTS WHERE Project_comment = @idproject) > 0)
+		BEGIN
+			DELETE COMMENTS WHERE ID = (SELECT TOP(1) ID FROM COMMENTS WHERE Project_comment = @idproject);
+		END;
+	DELETE PROJECT WHERE ID = @idproject;
+END
+
+drop trigger project_d
 
 
 create login RSSadmin with password = '#Qteltn3', DEFAULT_DATABASE = master, CHECK_EXPIRATION = OFF, CHECK_POLICY = OFF;

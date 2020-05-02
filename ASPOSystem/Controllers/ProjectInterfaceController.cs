@@ -23,7 +23,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpGet]
-        [Route("GetLinksForOneProject"), Authorize(Roles = "Администратор")]
+        [Route("GetLinksForOneProject"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetLinksForOneProject(string projectName)
         {
             List<Guid?> idInterfaces = db.ProjectInterface.Where(item => item.IdProject == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).Select(p => p.IdInterface).ToList();
@@ -47,7 +47,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPost]
-        [Route("CreateLinkFromAccount"), Authorize(Roles = "Администратор")]
+        [Route("CreateLinkFromAccount"), Authorize(Roles = "Администратор, Гость")]
         public void CreateLinkFromAccount([FromBody] List<string> namesOfInterfaces)
         {
             Guid idOfProject = db.Project.FirstOrDefault(item => item.DateCreateProject == db.Project.Max(p => p.DateCreateProject)).Id;
@@ -70,7 +70,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateLinkFromProjectChanger")]
+        [Route("UpdateLinkFromProjectChanger"), Authorize(Roles = "Администратор, Гость")]
         public void UpdateLinkFromProjectChanger(string projectName, string namesOfInterfaces)
         {
             List<string> nois = JsonConvert.DeserializeObject<List<string>>(namesOfInterfaces);

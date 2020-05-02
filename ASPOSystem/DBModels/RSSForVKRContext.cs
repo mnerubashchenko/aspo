@@ -16,6 +16,7 @@ namespace ASPOSystem.DBModels
         }
 
         public virtual DbSet<Brands> Brands { get; set; }
+        public virtual DbSet<Comments> Comments { get; set; }
         public virtual DbSet<Devices> Devices { get; set; }
         public virtual DbSet<Interfaces> Interfaces { get; set; }
         public virtual DbSet<Measure> Measure { get; set; }
@@ -50,7 +51,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("BRANDS");
 
                 entity.HasIndex(e => e.NameBrand)
-                    .HasName("UQ__BRANDS__0ADC6A609412DE95")
+                    .HasName("UQ__BRANDS__0ADC6A6095B5E1C2")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -61,6 +62,39 @@ namespace ASPOSystem.DBModels
                     .HasColumnName("Name_brand")
                     .HasMaxLength(40)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Comments>(entity =>
+            {
+                entity.ToTable("COMMENTS");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("ID")
+                    .HasDefaultValueSql("(newsequentialid())");
+
+                entity.Property(e => e.AuthorComment).HasColumnName("Author_comment");
+
+                entity.Property(e => e.BodyComment)
+                    .HasColumnName("Body_comment")
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DateCreateComment)
+                    .HasColumnName("DateCreate_comment")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.ProjectComment).HasColumnName("Project_comment");
+
+                entity.HasOne(d => d.AuthorCommentNavigation)
+                    .WithMany(p => p.Comments)
+                    .HasForeignKey(d => d.AuthorComment)
+                    .HasConstraintName("FK__COMMENTS__Author__6A30C649");
+
+                entity.HasOne(d => d.ProjectCommentNavigation)
+                    .WithMany(p => p.Comments)
+                    .HasForeignKey(d => d.ProjectComment)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK__COMMENTS__Projec__6B24EA82");
             });
 
             modelBuilder.Entity<Devices>(entity =>
@@ -102,12 +136,12 @@ namespace ASPOSystem.DBModels
                 entity.HasOne(d => d.BrandNavigation)
                     .WithMany(p => p.Devices)
                     .HasForeignKey(d => d.Brand)
-                    .HasConstraintName("FK__DEVICES__Brand__21B6055D");
+                    .HasConstraintName("FK__DEVICES__Brand__47DBAE45");
 
                 entity.HasOne(d => d.TypeNavigation)
                     .WithMany(p => p.Devices)
                     .HasForeignKey(d => d.Type)
-                    .HasConstraintName("FK__DEVICES__Type__20C1E124");
+                    .HasConstraintName("FK__DEVICES__Type__46E78A0C");
             });
 
             modelBuilder.Entity<Interfaces>(entity =>
@@ -145,7 +179,7 @@ namespace ASPOSystem.DBModels
                 entity.HasOne(d => d.TypeNavigation)
                     .WithMany(p => p.Interfaces)
                     .HasForeignKey(d => d.Type)
-                    .HasConstraintName("FK__INTERFACES__Type__1CF15040");
+                    .HasConstraintName("FK__INTERFACES__Type__4316F928");
             });
 
             modelBuilder.Entity<Measure>(entity =>
@@ -199,7 +233,7 @@ namespace ASPOSystem.DBModels
                 entity.HasOne(d => d.TypeNavigation)
                     .WithMany(p => p.Measure)
                     .HasForeignKey(d => d.Type)
-                    .HasConstraintName("FK__MEASURE__Type__29572725");
+                    .HasConstraintName("FK__MEASURE__Type__4F7CD00D");
             });
 
             modelBuilder.Entity<Posts>(entity =>
@@ -207,7 +241,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("POSTS");
 
                 entity.HasIndex(e => e.NamePost)
-                    .HasName("UQ__POSTS__7DAD8A7CCA47525C")
+                    .HasName("UQ__POSTS__7DAD8A7C7F379E0F")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -272,7 +306,7 @@ namespace ASPOSystem.DBModels
                 entity.HasOne(d => d.DirectorProjectNavigation)
                     .WithMany(p => p.Project)
                     .HasForeignKey(d => d.DirectorProject)
-                    .HasConstraintName("FK__PROJECT__Directo__403A8C7D");
+                    .HasConstraintName("FK__PROJECT__Directo__66603565");
             });
 
             modelBuilder.Entity<ProjectCommand>(entity =>
@@ -291,13 +325,13 @@ namespace ASPOSystem.DBModels
                     .WithMany(p => p.ProjectCommand)
                     .HasForeignKey(d => d.IdCommand)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__PROJECT_C__ID_Co__49C3F6B7");
+                    .HasConstraintName("FK__PROJECT_C__ID_Co__74AE54BC");
 
                 entity.HasOne(d => d.IdProjectNavigation)
                     .WithMany(p => p.ProjectCommand)
                     .HasForeignKey(d => d.IdProject)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__PROJECT_C__ID_pr__48CFD27E");
+                    .HasConstraintName("FK__PROJECT_C__ID_pr__73BA3083");
             });
 
             modelBuilder.Entity<ProjectDevice>(entity =>
@@ -316,13 +350,13 @@ namespace ASPOSystem.DBModels
                     .WithMany(p => p.ProjectDevice)
                     .HasForeignKey(d => d.IdDevice)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__PROJECT_D__ID_de__534D60F1");
+                    .HasConstraintName("FK__PROJECT_D__ID_de__7E37BEF6");
 
                 entity.HasOne(d => d.IdProjectNavigation)
                     .WithMany(p => p.ProjectDevice)
                     .HasForeignKey(d => d.IdProject)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__PROJECT_D__ID_pr__52593CB8");
+                    .HasConstraintName("FK__PROJECT_D__ID_pr__7D439ABD");
             });
 
             modelBuilder.Entity<ProjectInterface>(entity =>
@@ -341,13 +375,13 @@ namespace ASPOSystem.DBModels
                     .WithMany(p => p.ProjectInterface)
                     .HasForeignKey(d => d.IdInterface)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__PROJECT_I__ID_in__5812160E");
+                    .HasConstraintName("FK__PROJECT_I__ID_in__02FC7413");
 
                 entity.HasOne(d => d.IdProjectNavigation)
                     .WithMany(p => p.ProjectInterface)
                     .HasForeignKey(d => d.IdProject)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__PROJECT_I__ID_pr__571DF1D5");
+                    .HasConstraintName("FK__PROJECT_I__ID_pr__02084FDA");
             });
 
             modelBuilder.Entity<ProjectMeasure>(entity =>
@@ -366,13 +400,13 @@ namespace ASPOSystem.DBModels
                     .WithMany(p => p.ProjectMeasure)
                     .HasForeignKey(d => d.IdMeasure)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__PROJECT_M__ID_me__44FF419A");
+                    .HasConstraintName("FK__PROJECT_M__ID_me__6FE99F9F");
 
                 entity.HasOne(d => d.IdProjectNavigation)
                     .WithMany(p => p.ProjectMeasure)
                     .HasForeignKey(d => d.IdProject)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__PROJECT_M__ID_pr__440B1D61");
+                    .HasConstraintName("FK__PROJECT_M__ID_pr__6EF57B66");
             });
 
             modelBuilder.Entity<ProjectTelemetry>(entity =>
@@ -391,13 +425,13 @@ namespace ASPOSystem.DBModels
                     .WithMany(p => p.ProjectTelemetry)
                     .HasForeignKey(d => d.IdProject)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__PROJECT_T__ID_pr__4D94879B");
+                    .HasConstraintName("FK__PROJECT_T__ID_pr__787EE5A0");
 
                 entity.HasOne(d => d.IdTelemetryNavigation)
                     .WithMany(p => p.ProjectTelemetry)
                     .HasForeignKey(d => d.IdTelemetry)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__PROJECT_T__ID_te__4E88ABD4");
+                    .HasConstraintName("FK__PROJECT_T__ID_te__797309D9");
             });
 
             modelBuilder.Entity<Roles>(entity =>
@@ -405,7 +439,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("ROLES");
 
                 entity.HasIndex(e => e.NameRole)
-                    .HasName("UQ__ROLES__28A576BDDA971529")
+                    .HasName("UQ__ROLES__28A576BD0612E9E6")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -458,7 +492,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("TYPEDEV");
 
                 entity.HasIndex(e => e.NameTypedev)
-                    .HasName("UQ__TYPEDEV__417AA4F358B31768")
+                    .HasName("UQ__TYPEDEV__417AA4F32F2D52EE")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -476,7 +510,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("TYPEINTER");
 
                 entity.HasIndex(e => e.NameTypeinter)
-                    .HasName("UQ__TYPEINTE__BFCBA7761B4EE0F7")
+                    .HasName("UQ__TYPEINTE__BFCBA7766126DB23")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -494,7 +528,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("TYPEMEASURE");
 
                 entity.HasIndex(e => e.NameTypemeasure)
-                    .HasName("UQ__TYPEMEAS__9AE04A48A24BE85B")
+                    .HasName("UQ__TYPEMEAS__9AE04A487373DF2A")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -512,7 +546,7 @@ namespace ASPOSystem.DBModels
                 entity.ToTable("USERS");
 
                 entity.HasIndex(e => e.LoginUser)
-                    .HasName("UQ__USERS__81FA3DEDCC63796D")
+                    .HasName("UQ__USERS__81FA3DED3D7DEFB6")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -550,12 +584,12 @@ namespace ASPOSystem.DBModels
                 entity.HasOne(d => d.PostUserNavigation)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.PostUser)
-                    .HasConstraintName("FK__USERS__Post_user__3B75D760");
+                    .HasConstraintName("FK__USERS__Post_user__619B8048");
 
                 entity.HasOne(d => d.RoleUserNavigation)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleUser)
-                    .HasConstraintName("FK__USERS__Role_user__3C69FB99");
+                    .HasConstraintName("FK__USERS__Role_user__628FA481");
             });
         }
     }

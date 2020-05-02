@@ -22,7 +22,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpGet]
-        [Route("GetNamesOfMeasures"), Authorize(Roles = "Администратор")]
+        [Route("GetNamesOfMeasures"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetNamesOfMeasures()
         {
             return db.Measure.Select(item => item.Name).ToList();

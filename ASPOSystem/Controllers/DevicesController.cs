@@ -23,7 +23,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpGet]
-        [Route("GetNamesOfDevices"), Authorize(Roles = "Администратор")]
+        [Route("GetNamesOfDevices"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetNamesOfDevices()
         {
             return db.Devices.Where(p=> p.Id.ToString() != "00000000-0000-0000-0000-000000000000").Select(item => item.Model).ToList();

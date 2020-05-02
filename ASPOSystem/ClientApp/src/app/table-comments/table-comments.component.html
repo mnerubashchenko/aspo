@@ -1,0 +1,41 @@
+<dx-data-grid id="gridContainer"
+              [dataSource]="store"
+              [showBorders]="true"
+              keyExpr="id"
+              (onRowUpdating)="onRowUpdating($event)"
+              [hoverStateEnabled]="true">
+
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+  <dxi-column dataField="authorComment"
+              caption="Автор комментария">
+    <dxo-lookup [dataSource]="users"
+                displayExpr="loginUser"
+                valueExpr="id">
+    </dxo-lookup>
+  </dxi-column>
+
+  <dxi-column dataField="dateCreateComment" dataType="datetime" caption="Дата"></dxi-column>
+
+  <dxi-column dataField="bodyComment" caption="Комментарий"></dxi-column>
+
+  <dxi-column dataField="projectComment"
+              caption="Проект">
+    <dxo-lookup [dataSource]="projects"
+                displayExpr="nameProject"
+                valueExpr="id">
+    </dxo-lookup>
+  </dxi-column>
+
+  <dxo-editing mode="popup"
+               [allowUpdating]="true"
+               [allowDeleting]="true"
+               [allowAdding]="true">
+    <dxo-popup title="Комментарии"
+               [showTitle]="true"
+               [width]="700"
+               [height]="300"
+               [position]="{ my: 'top', at: 'top', of: window }">
+    </dxo-popup>
+  </dxo-editing>
+</dx-data-grid>

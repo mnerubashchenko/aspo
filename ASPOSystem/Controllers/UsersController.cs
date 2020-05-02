@@ -18,7 +18,7 @@ namespace ASPOSystem.Controllers
         private RSSForVKRContext db = new RSSForVKRContext();
 
         [HttpGet]
-        [Route("GetUsers"), Authorize(Roles = "Администратор")]
+        [Route("GetUsers"), Authorize(Roles = "Администратор, Гость")]
         public List<Users> GetUsers(string correction)
         {
             if (correction == "full")

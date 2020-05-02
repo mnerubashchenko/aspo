@@ -22,7 +22,7 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpGet]
-        [Route("GetNamesOfCommands"), Authorize(Roles = "Администратор")]
+        [Route("GetNamesOfCommands"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetNamesOfCommands()
         {
             return db.Programmcommands.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").Select(item => item.Name).ToList();

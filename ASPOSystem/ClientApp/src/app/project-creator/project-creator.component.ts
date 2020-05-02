@@ -103,6 +103,16 @@ export class ProjectCreatorComponent implements OnInit {
         })
       }).subscribe();
 
+      this.http.post<any>(this.baseUrl + "Comments/CreateComment", {
+        headers: new HttpHeaders({
+          "Content-Type": "application/json"
+        })},
+        {
+          params: new HttpParams().set("nameProject", form.controls.nameProject.value)
+            .set("authorProject", localStorage.getItem("idOfUser"))
+            .set("bodyComment", "Создал проект.")
+        }).subscribe();
+
       this.isPopupSuccessVisible = true;
       this.popupSuccessTitle = "Успешно!";
       this.popupSuccessText = "Проект создан!";
