@@ -16,13 +16,6 @@ namespace ASPOSystem.Controllers
         private RSSForVKRContext db = new RSSForVKRContext();
 
         [HttpGet]
-        [Route("GetLinks"), Authorize(Roles = "Администратор")]
-        public List<ProjectDevice> GetLinks()
-        {
-            return db.ProjectDevice.ToList();
-        }
-
-        [HttpGet]
         [Route("GetLinksForOneProject"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetLinksForOneProject(string projectName)
         {
@@ -39,14 +32,6 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPost]
-        [Route("CreateLink"), Authorize(Roles = "Администратор")]
-        public void CreateLink([FromBody] ProjectDevice newLink)
-        {
-            db.ProjectDevice.Add(newLink);
-            db.SaveChanges();
-        }
-
-        [HttpPost]
         [Route("CreateLinkFromAccount"), Authorize(Roles = "Администратор, Гость")]
         public void CreateLinkFromAccount([FromBody] List<string> namesOfDevices)
         {
@@ -59,14 +44,6 @@ namespace ASPOSystem.Controllers
                 db.ProjectDevice.Add(newLink);
                 db.SaveChanges();
             }
-        }
-
-        [HttpPut]
-        [Route("UpdateLink"), Authorize(Roles = "Администратор")]
-        public void UpdateLink([FromBody] ProjectDevice updatedLink)
-        {
-            db.ProjectDevice.Update(updatedLink);
-            db.SaveChanges();
         }
 
         [HttpPut]
@@ -96,14 +73,6 @@ namespace ASPOSystem.Controllers
                 db.ProjectDevice.Add(Link);
                 db.SaveChanges();
             }
-        }
-
-        [HttpDelete("{id}")]
-        [Route("DeleteLink"), Authorize(Roles = "Администратор")]
-        public void DeleteLink(Guid id)
-        {
-            db.ProjectDevice.Remove(db.ProjectDevice.Find(id));
-            db.SaveChanges();
         }
     }
 }

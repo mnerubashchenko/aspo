@@ -38,11 +38,6 @@
     <None Remove="ClientApp\src\app\table-measures\MeasureService.ts" />
     <None Remove="ClientApp\src\app\table-posts\PostService.ts" />
     <None Remove="ClientApp\src\app\table-programm-commands\PrCommandsService.ts" />
-    <None Remove="ClientApp\src\app\table-project-command\ProjectCommandService.ts" />
-    <None Remove="ClientApp\src\app\table-project-device\ProjectDeviceService.ts" />
-    <None Remove="ClientApp\src\app\table-project-interface\ProjectInterfaceService.ts" />
-    <None Remove="ClientApp\src\app\table-project-measure\ProjectMeasureService.ts" />
-    <None Remove="ClientApp\src\app\table-project-telemetry\ProjectTelemetryService.ts" />
     <None Remove="ClientApp\src\app\table-projects\ProjectService.ts" />
     <None Remove="ClientApp\src\app\table-roles\RoleService.ts" />
     <None Remove="ClientApp\src\app\table-telemetry\TelemetryService.ts" />
@@ -61,11 +56,6 @@
     <TypeScriptCompile Include="ClientApp\src\app\table-measures\MeasureService.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\table-posts\PostService.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\table-programm-commands\PrCommandsService.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\table-project-command\ProjectCommandService.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\table-project-device\ProjectDeviceService.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\table-project-interface\ProjectInterfaceService.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\table-project-measure\ProjectMeasureService.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\table-project-telemetry\ProjectTelemetryService.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\table-projects\ProjectService.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\table-roles\RoleService.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\table-telemetry\TelemetryService.ts" />

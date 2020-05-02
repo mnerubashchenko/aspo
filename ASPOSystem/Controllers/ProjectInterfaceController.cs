@@ -16,13 +16,6 @@ namespace ASPOSystem.Controllers
         private RSSForVKRContext db = new RSSForVKRContext();
 
         [HttpGet]
-        [Route("GetLinks"), Authorize(Roles = "Администратор")]
-        public List<ProjectInterface> GetLinks()
-        {
-            return db.ProjectInterface.ToList();
-        }
-
-        [HttpGet]
         [Route("GetLinksForOneProject"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetLinksForOneProject(string projectName)
         {
@@ -39,14 +32,6 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPost]
-        [Route("CreateLink"), Authorize(Roles = "Администратор")]
-        public void CreateLink([FromBody] ProjectInterface newLink)
-        {
-            db.ProjectInterface.Add(newLink);
-            db.SaveChanges();
-        }
-
-        [HttpPost]
         [Route("CreateLinkFromAccount"), Authorize(Roles = "Администратор, Гость")]
         public void CreateLinkFromAccount([FromBody] List<string> namesOfInterfaces)
         {
@@ -59,14 +44,6 @@ namespace ASPOSystem.Controllers
                 db.ProjectInterface.Add(newLink);
                 db.SaveChanges();
             }
-        }
-
-        [HttpPut]
-        [Route("UpdateLink"), Authorize(Roles = "Администратор")]
-        public void UpdateLink([FromBody] ProjectInterface updatedLink)
-        {
-            db.ProjectInterface.Update(updatedLink);
-            db.SaveChanges();
         }
 
         [HttpPut]
@@ -96,14 +73,6 @@ namespace ASPOSystem.Controllers
                 db.ProjectInterface.Add(Link);
                 db.SaveChanges();
             }
-        }
-
-        [HttpDelete("{id}")]
-        [Route("DeleteLink"), Authorize(Roles = "Администратор")]
-        public void DeleteLink(Guid id)
-        {
-            db.ProjectInterface.Remove(db.ProjectInterface.Find(id));
-            db.SaveChanges();
         }
     }
 }

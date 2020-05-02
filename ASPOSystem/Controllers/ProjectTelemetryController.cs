@@ -16,13 +16,6 @@ namespace ASPOSystem.Controllers
         private RSSForVKRContext db = new RSSForVKRContext();
 
         [HttpGet]
-        [Route("GetLinks"), Authorize(Roles = "Администратор")]
-        public List<ProjectTelemetry> GetLinks()
-        {
-            return db.ProjectTelemetry.ToList();
-        }
-
-        [HttpGet]
         [Route("GetLinksForOneProject"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetLinksForOneProject(string projectName)
         {
@@ -39,14 +32,6 @@ namespace ASPOSystem.Controllers
         }
 
         [HttpPost]
-        [Route("CreateLink"), Authorize(Roles = "Администратор")]
-        public void CreateLink([FromBody] ProjectTelemetry newLink)
-        {
-            db.ProjectTelemetry.Add(newLink);
-            db.SaveChanges();
-        }
-
-        [HttpPost]
         [Route("CreateLinkFromAccount"), Authorize(Roles = "Администратор, Гость")]
         public void CreateLinkFromAccount([FromBody] List<string> namesOfTelemetries)
         {
@@ -59,14 +44,6 @@ namespace ASPOSystem.Controllers
                 db.ProjectTelemetry.Add(newLink);
                 db.SaveChanges();
             }
-        }
-
-        [HttpPut]
-        [Route("UpdateLink"), Authorize(Roles = "Администратор")]
-        public void UpdateLink([FromBody] ProjectTelemetry updatedLink)
-        {
-            db.ProjectTelemetry.Update(updatedLink);
-            db.SaveChanges();
         }
 
         [HttpPut]
@@ -96,14 +73,6 @@ namespace ASPOSystem.Controllers
                 db.ProjectTelemetry.Add(Link);
                 db.SaveChanges();
             }
-        }
-
-        [HttpDelete("{id}")]
-        [Route("DeleteLink"), Authorize(Roles = "Администратор")]
-        public void DeleteLink(Guid id)
-        {
-            db.ProjectTelemetry.Remove(db.ProjectTelemetry.Find(id));
-            db.SaveChanges();
         }
     }
 }

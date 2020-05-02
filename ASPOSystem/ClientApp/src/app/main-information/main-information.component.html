@@ -5,11 +5,6 @@
 <h1>{{ tablename }}</h1>
 <app-table-projects *ngIf ="tablename == 'Проекты'"></app-table-projects>
 <app-table-comments *ngIf="tablename == 'Комментарии к проектам'"></app-table-comments>
-<app-table-project-measure *ngIf="tablename == 'Проекты-Измерения'"></app-table-project-measure>
 <app-table-interfaces *ngIf="tablename == 'Интерфейсы'"></app-table-interfaces>
 <app-table-devices *ngIf="tablename == 'Устройства'"></app-table-devices>
 <app-table-measures *ngIf="tablename == 'Измерения'"></app-table-measures>
-<app-table-project-device *ngIf="tablename == 'Проекты-Устройства'"></app-table-project-device>
-<app-table-project-interface *ngIf="tablename == 'Проекты-Интерфейсы'"></app-table-project-interface>
-<app-table-project-telemetry *ngIf="tablename == 'Проекты-Телеметрия'"></app-table-project-telemetry>
-<app-table-project-command *ngIf="tablename == 'Проекты-Программные команды'"></app-table-project-command>

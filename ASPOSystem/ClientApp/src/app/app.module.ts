@@ -29,7 +29,6 @@ import { ProjectService } from './table-projects/ProjectService';
 import { InterfaceService } from './table-interfaces/InterfaceService';
 import { DevicesService } from './table-devices/DevicesService';
 import { MeasureService } from './table-measures/MeasureService';
-import { ProjectMeasureService } from './table-project-measure/ProjectMeasureService';
 import { locale, loadMessages } from 'devextreme/localization';
 import { TableUsersComponent } from './table-users/table-users.component';
 import { PeopleComponent } from './people/people.component';
@@ -44,15 +43,6 @@ import { AuthGuard } from './guards/auth-guard.service';
 import { RegistrationComponent } from './registration/registration.component';
 import { AccountComponent } from './account/account.component';
 import { PasswordChangerComponent } from './password-changer/password-changer.component';
-import { TableProjectMeasureComponent } from './table-project-measure/table-project-measure.component';
-import { TableProjectDeviceComponent } from './table-project-device/table-project-device.component';
-import { ProjectDeviceService } from './table-project-device/ProjectDeviceService';
-import { TableProjectInterfaceComponent } from './table-project-interface/table-project-interface.component';
-import { ProjectInterfaceService } from './table-project-interface/ProjectInterfaceService';
-import { TableProjectTelemetryComponent } from './table-project-telemetry/table-project-telemetry.component';
-import { ProjectTelemetryService } from './table-project-telemetry/ProjectTelemetryService';
-import { TableProjectCommandComponent } from './table-project-command/table-project-command.component';
-import { ProjectCommandService } from './table-project-command/ProjectCommandService';
 import { JsonMakerComponent } from './json-maker/json-maker.component';
 import { ProjectCreatorComponent } from './project-creator/project-creator.component';
 import { ProjectChangerComponent } from './project-changer/project-changer.component';
@@ -99,11 +89,6 @@ export function tokenGetter() {
     RegistrationComponent,
     AccountComponent,
     PasswordChangerComponent,
-    TableProjectMeasureComponent,
-    TableProjectDeviceComponent,
-    TableProjectInterfaceComponent,
-    TableProjectTelemetryComponent,
-    TableProjectCommandComponent,
     JsonMakerComponent,
     ProjectCreatorComponent,
     ProjectChangerComponent,
@@ -162,11 +147,6 @@ export function tokenGetter() {
         DevicesService,
         MeasureService,
         AuthGuard,
-        ProjectMeasureService,
-        ProjectDeviceService,
-        ProjectInterfaceService,
-        ProjectTelemetryService,
-        ProjectCommandService,
         CommentsService
     ],
   bootstrap: [AppComponent]
