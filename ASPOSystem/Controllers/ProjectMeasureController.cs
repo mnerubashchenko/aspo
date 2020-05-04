@@ -1,4 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿/* Класс "Контроллер связей протоколов и измерений".
+ * Название: ProjectMeasureController.
+ * Язык: C#.
+ * Краткое описание:
+ *      Данный класс позволяет работать со связями протоколов и измерений.
+ * Переменная, используемая в классе:
+ *      db - переменная контекста базы данных.
+ * Функции, используемые в классе:
+ *      GetLinksForOneProject() - вывод названий измерений, используемых в выбранном протоколе;
+ *      CreateLinkFromAccount() - создание связей последнего созданного протокола и выбранных измерений;
+ *      UpdateLinkFromProjectChanger() - изменение связей выбранного протокола и измерений.
+ */
+
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +28,14 @@ namespace ASPOSystem.Controllers
     {
         private RSSForVKRContext db = new RSSForVKRContext();
 
+        /* GetLinksForOneProject() - вывод названий измерений, используемых в выбранном протоколе.
+         * Формальный параметр:
+         *      projectName - название выбранного протокола.
+         * Локальные переменные: 
+         *      idMeasures - идентификаторы измерений, используемых в выбранном протоколе;
+         *      namesOfMeasures - названия измерений, используемых в выбранном протоколе;
+         *      d - переменная, используемая для перебора идентификаторов измерений, используемых в выбранном протоколе.
+         */
         [HttpGet]
         [Route("GetLinksForOneProject"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetLinksForOneProject(string projectName)
@@ -24,13 +45,21 @@ namespace ASPOSystem.Controllers
             List<string> namesOfMeasures = new List<string>();
 
             foreach (Guid d in idMeasures)
-            {
-                namesOfMeasures.Add(db.Measure.FirstOrDefault(i => i.Id == d).Name);
+            {                                                                                                               // Заполнение списка названий,
+                namesOfMeasures.Add(db.Measure.FirstOrDefault(i => i.Id == d).Name);                                        // используемых в протоколе измерений
             }
 
             return namesOfMeasures;
         }
 
+        /* CreateLinkFromAccount() - создание связей последнего созданного протокола и выбранных интерфейсов.
+         * Формальный параметр:
+         *      namesOfMeasures - список выбранных измерений.
+         * Локальные переменные:
+         *      idOfProject - идентификатор последнего созданного протокола;
+         *      newLink - новая связь протокола и измерения;
+         *      nom - переменная, используемая для перебора выбранных измерений.
+         */
         [HttpPost]
         [Route("CreateLinkFromAccount"), Authorize(Roles = "Администратор, Гость")]
         public void CreateLinkFromAccount([FromBody] List<string> namesOfMeasures)
@@ -46,6 +75,18 @@ namespace ASPOSystem.Controllers
             }
         }
 
+        /* UpdateLinkFromProjectChanger() - изменение связей выбранного протокола и измерений.
+         * Формальные параметры:
+         *      projectName - название выбранного протокола;
+         *      namesOfMeasures - список выбранных измерений.
+         * Локальные переменные:
+         *      noms - десериализированный список выбранных измерений;
+         *      idOfProject - идентификатор выбранного протокола;
+         *      links - старые связи выбранного протокола и измерений.
+         *      l - переменная, используемая для перебора старых связей выбранного протокола и измерений;
+         *      nom - переменная, используемая для перебора выбранных измерений для новых связей;
+         *      Link - новая связь выбранного протокола и измерения.
+         */
         [HttpPut]
         [Route("UpdateLinkFromProjectChanger")]
         public void UpdateLinkFromProjectChanger(string projectName, string namesOfMeasures)
@@ -57,8 +98,8 @@ namespace ASPOSystem.Controllers
             List<ProjectMeasure> links = db.ProjectMeasure.Where(link => link.IdProject == idOfProject).ToList();
 
             foreach (ProjectMeasure l in links)
-            {
-                db.ProjectMeasure.Remove(l);
+            {                                                                                                               // Удаление старых связей выбранного
+                db.ProjectMeasure.Remove(l);                                                                                // протокола и  измерений
                 db.SaveChanges();
             }
 
@@ -66,8 +107,8 @@ namespace ASPOSystem.Controllers
             {
                 ProjectMeasure Link = new ProjectMeasure
                 {
-                    IdProject = idOfProject,
-                    IdMeasure = db.Measure.FirstOrDefault(meas => meas.Name == nom).Id
+                    IdProject = idOfProject,                                                                                // Создание связей выбранного
+                    IdMeasure = db.Measure.FirstOrDefault(meas => meas.Name == nom).Id                                      // протокола с выбранными измерениями
                 };
 
                 db.ProjectMeasure.Add(Link);

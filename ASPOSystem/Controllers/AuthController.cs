@@ -1,4 +1,16 @@
-﻿using System;
+﻿/* Класс "Контроллер авторизации".
+ * Название: AuthController.
+ * Язык: C#.
+ * Краткое описание:
+ *      Данный класс производит авторизацию и аутентификацию пользователя.
+ * Переменная, используемая в классе:
+ *      db - переменная контекста базы данных.
+ * Функции, используемые в классе:
+ *      Login() - авторизация и аутентификация пользователя;
+ *      GetSalt_Hash() - получение соли и хэша введенного пользователем пароля.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -17,10 +29,22 @@ namespace ASPOSystem.Controllers
     public class AuthController : Controller
     {
         private RSSForVKRContext db = new RSSForVKRContext();
+
+        /* Login() - авторизация и аутентификация пользователя.
+         * Формальный параметр:
+         *      user - пароль и логин пользователя.
+         * Локальные переменные:
+         *      secretKey - секретный ключ для формирования JWT токена;
+         *      signinCredentials - секретный ключ и алгоритм для кодирования токена;
+         *      role - роль пользователя;
+         *      claims - данные пользователя;
+         *      tokeOptions - настройки JWT токена;
+         *      tokerString - сформированный JWT токен.
+         */
         [HttpPost, Route("login")]
         public IActionResult Login([FromBody]LoginModel user)
         {
-            if (user == null)
+            if (user == null)                                                                    // Проверка на наличие введенных данных
             {
                 return BadRequest("Invalid client request");
             }
@@ -37,7 +61,7 @@ namespace ASPOSystem.Controllers
                     new Claim(ClaimTypes.Role, role.ToString())
                 };
 
-                var tokeOptions = new JwtSecurityToken(
+                var tokeOptions = new JwtSecurityToken(                                           // Определение настроек JWT токена
                     issuer: "http://localhost:5001",
                     audience: "http://localhost:5001",
                     claims: claims,
@@ -53,12 +77,22 @@ namespace ASPOSystem.Controllers
                 return Unauthorized();
             }
         }
+
+        /* GetSalt_Hash() - получение соли и хэша введенного пользователем пароля.
+         * Формальные параметры:
+         *      login - логин пользователя;
+         *      passwd - пароль пользователя.
+         * Локальные переменные:
+         *      u - информация о пользователе, если он существует;
+         *      salt - соль реального пароля пользователя;
+         *      hashed - хэш введенного пользователем пароля на основе реальной соли.
+         */
         private Tuple<string,string> GetSalt_Hash(string login, string psswd) {
-            if (!db.Users.Any(r => r.LoginUser == login))
+            if (!db.Users.Any(r => r.LoginUser == login))                                        // Проверка на существование пользовтеля с введенным логином
                 return Tuple.Create("", "");
             else
             {
-                Users u = db.Users.FirstOrDefault(r => r.LoginUser == login);
+                Users u = db.Users.FirstOrDefault(r => r.LoginUser == login);                    // Хэширование введенного пользователем пароля
                 string salt = u.PasswordUser.ToString().Substring(0, 24);
                 string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                 password: psswd,

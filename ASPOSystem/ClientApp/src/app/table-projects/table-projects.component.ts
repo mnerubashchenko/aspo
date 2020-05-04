@@ -1,4 +1,4 @@
-import { Component, enableProdMode, ViewChild, Inject } from '@angular/core';
+import { Component, ViewChild, Inject, ViewEncapsulation } from '@angular/core';
 import { IProject, ProjectService } from '../table-projects/ProjectService';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import CustomStore from "devextreme/data/custom_store";
@@ -8,7 +8,7 @@ import { IUsers, UsersService } from '../table-users/UsersService';
 @Component({
   selector: 'app-table-projects',
   templateUrl: './table-projects.component.html',
-  styleUrls: ['./table-projects.component.css']
+  styleUrls: ['./table-projects.component.css'],
 })
 export class TableProjectsComponent {
     public projects: IProject[];
@@ -16,6 +16,9 @@ export class TableProjectsComponent {
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
+    isPopupDangerVisible: boolean = false;
+    popupDangerTitle: string;
+    popupDangerText: string;
     constructor(private projectService: ProjectService, private usersService: UsersService,
         public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
@@ -32,8 +35,12 @@ export class TableProjectsComponent {
             this.store = new CustomStore({
                 key: "id",
                 load: () => this.projects,
-                insert: (values) => this.http.post<any>(this.baseUrl + 'Projects/CreateProject', JSON.stringify(values as IProject), { headers: this.headers }).subscribe(
-                    () => { this.projectService.getProjects(); }),
+              insert: (values) => this.http.post<any>(this.baseUrl + 'Projects/CreateProject', JSON.stringify(values as IProject), { headers: this.headers }).subscribe
+                (res => { this.projectService.getProjects(); },
+                 error => {
+              this.isPopupDangerVisible = true;
+              this.popupDangerTitle = "Ошибка!";
+              this.popupDangerText = error.error; }),
                 update: (key, values) =>
                     this.http.put<any>(this.baseUrl + 'Projects/UpdateProject', JSON.stringify(values as IProject), { headers: this.headers }).subscribe(
                         () => { this.projectService.getProjects(); }),
@@ -41,7 +48,7 @@ export class TableProjectsComponent {
             });
         }, 1000);
 
-    }
+  }
 
     onRowUpdating(e) {
         for (var property in e.oldData) {

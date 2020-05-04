@@ -1,4 +1,22 @@
-﻿using System;
+﻿/* Класс "Контроллер протоколов".
+ * Название: ProjectsController.
+ * Язык: C#.
+ * Краткое описание:
+ *      Данный класс позволяет работать с информацией о протоколах.
+ * Переменная, используемая в классе:
+ *      db - переменная контекста базы данных.
+ * Функции, используемые в классе:
+ *      GetProjects() - вывод всех записей из таблицы протоколов;
+ *      GetNamesOfProjects() - вывод названий всех протоколов;
+ *      GetOneProject() - вывод информации об одном выбранном протоколе;
+ *      GetPersonalProjects() -  вывод протоколов, создателем которых является авторизированный пользователь;
+ *      CreateProject() - создание записи о протоколе;
+ *      UpdateProject() - изменение записи о протоколе из расширенной версии приложения;
+ *      UpdateProjectFromProjectChanger() - изменение записи о протоколе из базовой версии приложения;
+ *      DeleteProject() - удаление записи о протоколе.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +32,7 @@ namespace ASPOSystem.Controllers
     {
         private RSSForVKRContext db = new RSSForVKRContext();
 
+        /* GetProjects() - вывод всех записей из таблицы протоколов. */
         [HttpGet]
         [Route("GetProjects"), Authorize(Roles = "Администратор, Гость")]
         public List<Project> GetProjects()
@@ -21,6 +40,7 @@ namespace ASPOSystem.Controllers
             return db.Project.ToList();
         }
 
+        /* GetNamesOfProjects() - вывод названий всех протоколов. */
         [HttpGet]
         [Route("GetNamesOfProjects"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetNamesOfProjects()
@@ -28,6 +48,10 @@ namespace ASPOSystem.Controllers
             return db.Project.Select(item => item.NameProject).ToList();
         }
 
+        /* GetOneProject() - вывод информации об одном выбранном протоколе.
+         * Формальный параметр:
+         *      projectName - название протокола, о котором требуется информация.
+         */
         [HttpGet]
         [Route("GetOneProject"), Authorize(Roles = "Администратор, Гость")]
         public Project GetOneProject(string projectName)
@@ -35,6 +59,10 @@ namespace ASPOSystem.Controllers
             return db.Project.FirstOrDefault(r => r.NameProject == projectName);
         }
 
+        /* GetPersonalProjects() - вывод протоколов, создателем которых является авторизированный пользователь.
+         * Формальный параметр:
+         *      author - логин авторизированного пользователя.
+         */
         [HttpGet]
         [Route("GetPersonalProjects"), Authorize(Roles = "Администратор, Гость")]
         public List<Project> GetPersonalProjects(string author)
@@ -42,13 +70,17 @@ namespace ASPOSystem.Controllers
             return db.Project.Where(p => p.DirectorProject == db.Users.FirstOrDefault(r => r.LoginUser == author).Id).ToList();
         }
 
+        /* CreateProject() - создание записи о протоколе.
+         * Формальный параметр:
+         *      newProject - информация о добавляемом протоколе.
+         */
         [HttpPost]
         [Route("CreateProject"), Authorize(Roles = "Администратор, Гость")]
         public IActionResult CreateProject([FromBody] Project newProject)
         {
-            if (db.Project.Any(i => i.NameProject == newProject.NameProject))
-                return BadRequest("Проект с таким названием уже существует!");
-            else if (newProject.NameProject == "")
+            if (db.Project.Any(i => i.NameProject == newProject.NameProject))                                                        // Проверка занятости введенного
+                return BadRequest("Проект с таким названием уже существует!");                                                       // название протокола
+            else if (newProject.NameProject == "" || newProject.NameProject == null)
                 return BadRequest("Вы не ввели название проекта!");
             else
             {
@@ -60,6 +92,10 @@ namespace ASPOSystem.Controllers
             }
         }
 
+        /* UpdateProject() - изменение записи о протоколе из расширенной версии приложения.
+         * Формальный параметр:
+         *      updatedProject - информация об изменяемом протоколе.
+         */
         [HttpPut]
         [Route("UpdateProject"), Authorize(Roles = "Администратор, Гость")]
         public void UpdateProject([FromBody] Project updatedProject)
@@ -68,16 +104,22 @@ namespace ASPOSystem.Controllers
             db.SaveChanges();
         }
 
+        /* UpdateProjectFromProjectChanger() - изменение записи о протоколе из базовой версии приложения.
+         * Формальные параметры:
+         *      projectId - идентификатор протокола, информацию которого требуется изменить;
+         *      newProjectName - новое название протокола;
+         *      newProjectDescription - новое описание протокола.
+         * Локальная переменная:
+         *      updatedProject - информация об изменяемом протоколе.
+         */
         [HttpPut]
         [Route("UpdateProjectFromProjectChanger")]
         public IActionResult UpdateProjectFromProjectChanger(string projectId, string newProjectName, string newProjectDescription)
         {
             Project updatedProject = db.Project.FirstOrDefault(proj => proj.Id.ToString() == projectId);
 
-            List<string> namesOfProjects = db.Project.Select(item => item.NameProject).ToList();
-
-            if ((updatedProject.NameProject == newProjectName) || (!namesOfProjects.Contains(newProjectName)))
-            {
+            if ((updatedProject.NameProject == newProjectName) || (!db.Project.Any(p => p.NameProject == newProjectName)))           // Проверка занятости введенного 
+            {                                                                                                                        // названия протокола
                 updatedProject.NameProject = newProjectName;
                 updatedProject.DescriptionProject = newProjectDescription;
 
@@ -88,9 +130,12 @@ namespace ASPOSystem.Controllers
 
             else
                 return BadRequest("Проект с таким названием уже существует!");
-
         }
 
+        /* DeleteProject() - удаление записи о протоколе.
+         * Формальный параметр:
+         *      idProject - идентификатор протокола, который требуется удалить.
+         */
         [HttpDelete]
         [Route("DeleteProject"), Authorize(Roles = "Администратор, Гость")]
         public void DeleteProject(Guid idProject)

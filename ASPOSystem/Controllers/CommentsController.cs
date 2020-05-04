@@ -1,4 +1,19 @@
-﻿using ASPOSystem.DBModels;
+﻿/* Класс "Контроллер комментариев к протоколам".
+ * Название: CommentsController.
+ * Язык: C#.
+ * Краткое описание:
+ *      Данный класс позволяет работать с комментариями о протоколах.
+ * Переменная, используемая в классе:
+ *      db - переменная контекста базы данных.
+ * Функции, используемые в классе:
+ *      GetComments() - вывод комментриев ко всем протоколам;
+ *      GetCommentsForOneProject() - вывод комментарием к определенному протоколу;
+ *      CreateComment() - добавление нового комментария;
+ *      UpdateComment() -  изменение комментария;
+ *      DeleteComment() - удаление комментария.
+ */
+
+using ASPOSystem.DBModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -15,6 +30,7 @@ namespace ASPOSystem.Controllers
     {
         private RSSForVKRContext db = new RSSForVKRContext();
 
+        /* GetComments() - вывод комментриев ко всем протоколам. */
         [HttpGet]
         [Route("GetComments"), Authorize(Roles = "Администратор")]
         public List<Comments> GetComments()
@@ -22,6 +38,10 @@ namespace ASPOSystem.Controllers
             return db.Comments.ToList();
         }
 
+        /* GetCommentsForOneProject() - вывод комментарием к определенному протоколу.
+         * Формальный параметр:
+         *      projectName - название протокола, к которому нужно получить комментарии.
+         */
         [HttpGet]
         [Route("GetCommentsForOneProject"), Authorize(Roles = "Администратор, Гость")]
         public string GetCommentsForOneProject(string projectName)
@@ -30,6 +50,14 @@ namespace ASPOSystem.Controllers
                    new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
         }
 
+        /* CreateComment() - добавление нового комментария.
+         * Формальные параметы:
+         *      nameProject - название протокола, к которому нужно создать комментарий;
+         *      authorProject - идентификатор автора комментария;
+         *      bodyComment - текст комментария.
+         * Локальная переменная:
+         *      newComment - новый комментарий.
+         */
         [HttpPost]
         [Route("CreateComment"), Authorize(Roles = "Администратор, Гость")]
         public void CreateComment(string nameProject, Guid authorProject, string bodyComment)
@@ -44,6 +72,10 @@ namespace ASPOSystem.Controllers
             db.SaveChanges();
         }
 
+        /* UpdateComment() - изменение комментария.
+         * Формальный параметр:
+         *      updatedComment - изменяемый комментарий.
+         */
         [HttpPut]
         [Route("UpdateComment"), Authorize(Roles = "Администратор")]
         public void UpdateComment([FromBody] Comments updatedComment)
@@ -52,6 +84,10 @@ namespace ASPOSystem.Controllers
             db.SaveChanges();
         }
 
+        /* DeleteComment() - удаление комментария.
+         * Формальный параметр:
+         *      id - идентификатор комментария, который требуется удалить.
+         */
         [HttpDelete]
         [Route("DeleteComment"), Authorize(Roles = "Администратор")]
         public void DeleteComment(Guid id)

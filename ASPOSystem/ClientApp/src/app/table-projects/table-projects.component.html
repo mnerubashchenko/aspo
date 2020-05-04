@@ -7,10 +7,13 @@
 
   <dxo-filter-row [visible]="true"></dxo-filter-row>
 
-  <dxi-column dataField="nameProject" caption="Название"></dxi-column>
+  <dxi-column dataField="nameProject" caption="Название">
+    <dxi-validation-rule type="required"></dxi-validation-rule>
+  </dxi-column>
 
   <dxi-column dataField="directorProject"
               caption="Руководитель">
+    <dxi-validation-rule type="required"></dxi-validation-rule>
     <dxo-lookup [dataSource]="users"
                 displayExpr="loginUser"
                 valueExpr="id">
@@ -34,3 +37,16 @@
 
   </dxo-editing>
 </dx-data-grid>
+
+<dx-popup [title]="popupDangerTitle"
+          [(visible)]="isPopupDangerVisible"
+          [closeOnOutsideClick]="true"
+          width="400"
+          height="150"
+          [dragEnabled]="false"
+          position="top"
+          class="danger">
+  <div>
+    <p class="colorTextDanger">{{popupDangerText}}</p>
+  </div>
+</dx-popup>
