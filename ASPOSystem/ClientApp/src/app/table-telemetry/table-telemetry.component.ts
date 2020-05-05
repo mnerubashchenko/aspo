@@ -11,11 +11,13 @@ import { DxDataGridComponent } from 'devextreme-angular';
 })
 export class TableTelemetryComponent {
     public telemetries: ITelemetry[];
+    public telemetriesValidate: ITelemetry[];
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
     constructor(private telemetryService: TelemetryService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
+        this.asyncValidation = this.asyncValidation.bind(this);
         this.telemetryService.subject.subscribe(this.telemetryReceived);
         this.telemetryService.getTelemetry();
         this.baseUrl = baseUrl;
@@ -40,8 +42,17 @@ export class TableTelemetryComponent {
       }
     }
 
+  asyncValidation(params) {
+    let cleanTelemetriesValidate = this.telemetriesValidate.filter(item => item.id != params.data.id);
+    let check = (cleanTelemetriesValidate.find(item => item.shortName.toLowerCase() == params.value.toLowerCase()) != null) ? false : true;
+    return new Promise((resolve) => {
+      resolve(check === true);
+    });
+  }
+
     telemetryReceived = (data: ITelemetry[]) => {
         this.telemetries = data;
+        this.telemetriesValidate = data;
         this.dataGrid.instance.refresh();
   }
 

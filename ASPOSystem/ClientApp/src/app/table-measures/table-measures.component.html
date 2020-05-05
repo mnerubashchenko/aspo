@@ -15,7 +15,13 @@
 
   <dxi-column dataField="parentId" caption="ID родительского элемента"></dxi-column>
 
-  <dxi-column dataField="name" caption="Название"></dxi-column>
+  <dxi-column dataField="name" caption="Название">
+    <dxi-validation-rule type="required"></dxi-validation-rule>
+    <dxi-validation-rule type="async"
+                         message="Данное измерение уже существует."
+                         [validationCallback]="asyncValidation">
+    </dxi-validation-rule>
+  </dxi-column>
 
   <dxi-column dataField="caption" caption="Описание"></dxi-column>
 
@@ -29,6 +35,7 @@
 
   <dxi-column dataField="type"
               caption="Тип">
+    <dxi-validation-rule type="required"></dxi-validation-rule>
     <dxo-lookup [dataSource]="types"
                 displayExpr="nameTypemeasure"
                 valueExpr="id">
@@ -44,7 +51,7 @@
     <dxo-popup title="Измерения"
                [showTitle]="true"
                [width]="700"
-               [height]="300"
+               [height]="450"
                [position]="{ my: 'top', at: 'top', of: window }">
     </dxo-popup>
 

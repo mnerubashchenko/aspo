@@ -13,14 +13,18 @@ import { IRoles, RoleService } from '../table-roles/RoleService';
 })
 export class TableUsersComponent {
     public users: IUsers[];
+    public usersValidate: IUsers[];
     public roles: IRoles[];
     public posts: IPosts[];
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
+    loginPattern: any = /^[A-Za-z0-9]+$/;
     constructor(private usersService: UsersService, private roleService: RoleService, private postService: PostService,
       public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
+
+        this.asyncValidation = this.asyncValidation.bind(this);
 
         this.usersService.subject.subscribe(this.usersReceived);
         this.usersService.getUsers("not full");
@@ -56,8 +60,17 @@ export class TableUsersComponent {
         }
     }
 
+  asyncValidation(params) {
+    let cleanUsersValidate = this.usersValidate.filter(item => item.id != params.data.id);
+    let check = (cleanUsersValidate.find(item => item.loginUser == params.value) != null) ? false : true;
+    return new Promise((resolve) => {
+      resolve(check === true);
+    });
+  }
+
     usersReceived = (data: IUsers[]) => {
         this.users = data;
+        this.usersValidate = data;
         this.dataGrid.instance.refresh();
     }
 

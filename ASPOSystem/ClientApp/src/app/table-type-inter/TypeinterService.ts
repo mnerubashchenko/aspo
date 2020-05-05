@@ -23,6 +23,6 @@ export class TypeinterService {
 }
 
 export interface ITypeinter {
-  Id: string;
-  NameTypeinter: string;
+  id: string;
+  nameTypeinter: string;
 }

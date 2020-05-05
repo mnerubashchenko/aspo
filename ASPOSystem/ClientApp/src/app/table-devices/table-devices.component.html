@@ -9,6 +9,7 @@
 
   <dxi-column dataField="type"
               caption="Тип">
+    <dxi-validation-rule type="required"></dxi-validation-rule>
     <dxo-lookup [dataSource]="types"
                 displayExpr="nameTypedev"
                 valueExpr="id">
@@ -19,13 +20,20 @@
 
   <dxi-column dataField="brand"
               caption="Бренд">
+    <dxi-validation-rule type="required"></dxi-validation-rule>
     <dxo-lookup [dataSource]="brands"
                 displayExpr="nameBrand"
                 valueExpr="id">
     </dxo-lookup>
   </dxi-column>
 
-  <dxi-column dataField="model" caption="Модель"></dxi-column>
+  <dxi-column dataField="model" caption="Модель">
+    <dxi-validation-rule type="required"></dxi-validation-rule>
+    <dxi-validation-rule type="async"
+                         message="Данная модель уже существует."
+                         [validationCallback]="asyncValidation">
+    </dxi-validation-rule>
+  </dxi-column>
 
   <dxi-column dataField="status" caption="статус"></dxi-column>
 
@@ -44,7 +52,7 @@
     <dxo-popup title="Устройства"
                [showTitle]="true"
                [width]="700"
-               [height]="300"
+               [height]="400"
                [position]="{ my: 'top', at: 'top', of: window }">
     </dxo-popup>
   </dxo-editing>

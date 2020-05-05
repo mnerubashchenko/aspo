@@ -170,9 +170,15 @@ namespace ASPOSystem.Controllers
             string saltOfOldPass = user.PasswordUser.ToString().Substring(0, 24);
 
             string hashedOldPass = HashPassword(saltOfOldPass, oldPassword);
+            
+            if (hashedOldPass != user.PasswordUser.ToString())
+                return BadRequest("Неправильно введен ваш текущий пароль");
+            
+            else if (HashPassword(saltOfOldPass, newPassword) == user.PasswordUser)                                           // Проверка правильности                                                                                                   
+                return BadRequest("Новый пароль не должен совпадать с текущим");                                              // введенного старого пароля
 
-            if (hashedOldPass == user.PasswordUser.ToString())                                                                // Проверка правильности
-            {                                                                                                                 // введенного старого пароля
+            else
+            {
                 var salt = new byte[128 / 8];
 
                 using (var rng = RandomNumberGenerator.Create())
@@ -186,9 +192,7 @@ namespace ASPOSystem.Controllers
 
                 return Ok();
             }
-
-            else 
-                return BadRequest("Неправильно введен ваш старый пароль");
+                
         }
 
 

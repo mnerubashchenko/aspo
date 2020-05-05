@@ -33,7 +33,11 @@
   <div class="dx-field">
     <div class="dx-field-label">{{login}}</div>
     <div class="dx-field-value">
-      <dx-text-box id="loginUser" name="loginUser" [readOnly]="isChanged()" [ngModel]="user[0].loginUser" class="form-control"></dx-text-box>
+      <dx-text-box id="loginUser" name="loginUser" [readOnly]="isChanged()" [ngModel]="user[0].loginUser" class="form-control">
+        <dx-validator>
+          <dxi-validation-rule type="pattern" [pattern]="loginPattern" message="Логин может состоять только из латинских букв и цифр"></dxi-validation-rule>
+        </dx-validator>
+      </dx-text-box>
     </div>
   </div>
 
@@ -70,25 +74,38 @@
     </div>
   </div>
 
-  <div>
-    <button *ngIf="flagForChangeButtons==false" type="button" class="btn btn-dark" (click)='buttonIsPressed()'>Редактировать профиль</button>
+  <div *ngIf="flagForChangeButtons==false">
+    <dx-button text="Редактировать профиль"
+               type="normal"
+               (onClick)="buttonIsPressed()">
+    </dx-button>
   </div>
 
   <p></p>
 
-  <div>
-    <button *ngIf="flagForChangeButtons==false" [routerLink]='["/password-changer"]' type="button" class="btn btn-dark">Сменить пароль</button>
+  <div *ngIf="flagForChangeButtons==false">
+    <dx-button text="Сменить пароль"
+               type="normal"
+               [routerLink]='["/password-changer"]'>
+    </dx-button>
   </div>
 
-  <div>
-    <button *ngIf="flagForChangeButtons==true" type="submit" class="btn btn-success">Сохранить изменения</button>
+  <div *ngIf="flagForChangeButtons==true">
+    <dx-button text="Сохранить изменения"
+               type="success"
+               [useSubmitBehavior]="true">
+    </dx-button>
   </div>
 
   <p></p>
 
-  <div>
-    <button *ngIf="flagForChangeButtons==true" type="button" class="btn btn-danger" (click)='cancel()'>Отмена</button>
+  <div *ngIf="flagForChangeButtons==true">
+    <dx-button text="Отмена"
+               type="danger"
+               (onClick)="cancel()">
+    </dx-button>
   </div>
+
 </form>
 
 <h1>Мои проекты</h1>

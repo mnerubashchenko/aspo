@@ -12,11 +12,13 @@ import { DxDataGridComponent } from 'devextreme-angular';
 })
 export class TableTypeInterComponent {
   public typesinter: ITypeinter[];
+  public typesinterValidate: ITypeinter[];
   @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
   store: any;
   headers: HttpHeaders;
     constructor(private typeInterService: TypeinterService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
-        sessionStorage.setItem("locale", 'ru');
+      sessionStorage.setItem("locale", 'ru');
+      this.asyncValidation = this.asyncValidation.bind(this);
       this.typeInterService.subject.subscribe(this.typesinterReceived);
       this.typeInterService.getTypeinter("not full");
       this.baseUrl = baseUrl;
@@ -41,8 +43,17 @@ export class TableTypeInterComponent {
       }
     }
 
+  asyncValidation(params) {
+    let cleanTypesinterValidate = this.typesinterValidate.filter(item => item.id != params.data.id);
+    let check = (cleanTypesinterValidate.find(item => item.nameTypeinter.toLowerCase() == params.value.toLowerCase()) != null) ? false : true;
+    return new Promise((resolve) => {
+      resolve(check === true);
+    });
+  }
+
     typesinterReceived = (data: ITypeinter[]) => {
       this.typesinter = data;
+      this.typesinterValidate = data;
       this.dataGrid.instance.refresh();
   }
 

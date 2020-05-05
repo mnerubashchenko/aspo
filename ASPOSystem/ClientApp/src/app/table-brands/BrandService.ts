@@ -23,6 +23,6 @@ export class BrandService {
 }
 
 export interface IBrands {
-  Id: string;
-  NameBrand: string;
+  id: string;
+  nameBrand: string;
 }

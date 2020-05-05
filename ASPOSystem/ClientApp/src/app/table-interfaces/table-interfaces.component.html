@@ -7,7 +7,13 @@
 
   <dxo-filter-row [visible]="true"></dxo-filter-row>
 
-  <dxi-column dataField="name" caption="Название"></dxi-column>
+  <dxi-column dataField="name" caption="Название">
+    <dxi-validation-rule type="required"></dxi-validation-rule>
+    <dxi-validation-rule type="async"
+                         message="Данный интерфейс уже существует."
+                         [validationCallback]="asyncValidation">
+    </dxi-validation-rule>
+  </dxi-column>
 
   <dxi-column dataField="isReadyStatus" caption="Статус готовности"></dxi-column>
 
@@ -17,6 +23,7 @@
 
   <dxi-column dataField="type"
               caption="Тип">
+    <dxi-validation-rule type="required"></dxi-validation-rule>
     <dxo-lookup [dataSource]="types"
                 displayExpr="nameTypeinter"
                 valueExpr="id">
@@ -31,10 +38,10 @@
                [allowUpdating]="true"
                [allowDeleting]="true"
                [allowAdding]="true">
-    <dxo-popup title="Проекты"
+    <dxo-popup title="Интерфейсы"
                [showTitle]="true"
                [width]="700"
-               [height]="300"
+               [height]="350"
                [position]="{ my: 'top', at: 'top', of: window }">
     </dxo-popup>
   </dxo-editing>

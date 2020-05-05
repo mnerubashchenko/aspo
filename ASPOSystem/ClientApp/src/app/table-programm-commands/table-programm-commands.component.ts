@@ -11,11 +11,13 @@ import { DxDataGridComponent } from 'devextreme-angular';
 })
 export class TableProgrammCommandsComponent {
     public commands: IProgrammcommands[];
+    public commandsValidate: IProgrammcommands[];
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
     constructor(private commandService: PrCommandsService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
+        this.asyncValidation = this.asyncValidation.bind(this);
         this.commandService.subject.subscribe(this.commandReceived);
         this.commandService.getCommand();
         this.baseUrl = baseUrl;
@@ -40,8 +42,17 @@ export class TableProgrammCommandsComponent {
       }
     }
 
+  asyncValidation(params) {
+    let cleanCommandsValidate = this.commandsValidate.filter(item => item.id != params.data.id);
+    let check = (cleanCommandsValidate.find(item => item.name.toLowerCase() == params.value.toLowerCase()) != null) ? false : true;
+    return new Promise((resolve) => {
+      resolve(check === true);
+    });
+  }
+
     commandReceived = (data: IProgrammcommands[]) => {
         this.commands = data;
+        this.commandsValidate = data;
         this.dataGrid.instance.refresh();
   }
 

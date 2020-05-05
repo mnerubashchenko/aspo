@@ -12,6 +12,7 @@ import { ITypeinter, TypeinterService } from '../table-type-inter/TypeinterServi
 })
 export class TableInterfacesComponent {
     public interfaces: IInterface[];
+    public interfacesValidate: IInterface[];
     public types: ITypeinter[];
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
@@ -19,7 +20,7 @@ export class TableInterfacesComponent {
     constructor(private interfaceService: InterfaceService, private typeinterService: TypeinterService,
         public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
-
+        this.asyncValidation = this.asyncValidation.bind(this);
         this.interfaceService.subject.subscribe(this.interfaceReceived);
         this.interfaceService.getInterfaces();
 
@@ -52,8 +53,17 @@ export class TableInterfacesComponent {
         }
     }
 
+  asyncValidation(params) {
+    let cleanDInterfacesValidate = this.interfacesValidate.filter(item => item.id != params.data.id);
+    let check = (cleanDInterfacesValidate.find(item => item.name.toLowerCase() == params.value.toLowerCase()) != null) ? false : true;
+    return new Promise((resolve) => {
+      resolve(check === true);
+    });
+  }
+
     interfaceReceived = (data: IInterface[]) => {
         this.interfaces = data;
+        this.interfacesValidate = data;
         this.dataGrid.instance.refresh();
     }
 

@@ -9,6 +9,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
   styleUrls: ['./password-changer.component.css']
 })
 export class PasswordChangerComponent implements OnInit {
+    password: string = "";
     check: boolean = true;
     flagOfError: boolean;
     textOfError: string;
@@ -17,14 +18,12 @@ export class PasswordChangerComponent implements OnInit {
     }
 
     public passChange = (form: NgForm) => {
-        this.check = (form.controls.passwordUser.value == form.controls.passwordConfirm.value) ? true : false;
 
         var params = new HttpParams()
             .set('login', localStorage.getItem("login"))
             .set('oldPassword', form.controls.oldPassword.value)
             .set('newPassword', form.controls.passwordUser.value);
 
-        if (this.check) {
         this.http.put(this.baseUrl + "Users/PasswordChanger", {
             headers: new HttpHeaders({ "Content-Type": "application/json" })
         }, { params })
@@ -32,10 +31,14 @@ export class PasswordChangerComponent implements OnInit {
               this.router.navigate(["account"]);
               this.flagOfError = false;
             }, error => {
-              this.flagOfError = true; this.textOfError = error.error;
+                this.flagOfError = true;
+                this.textOfError = error.error;
             });
-        }
-    }
+  }
+
+  passwordComparison = () => {
+    return this.password;
+  }
 
   ngOnInit() {
   }

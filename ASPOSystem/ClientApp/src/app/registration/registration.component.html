@@ -2,20 +2,36 @@
   <div class="container-fluid">
     <h2 class="form-signin-heading">Регистрация</h2>
     <br />
-    <label for="username" class="sr-only">Email address</label>
-    <input type="email" id="loginUser" name="loginUser" ngModel class="form-control" placeholder="Введите логин" required autofocus #loginUser="ngModel">
+    <dx-text-box id="loginUser" name="loginUser" class="form-control" ngModel placeholder="Введите логин">
+      <dx-validator>
+        <dxi-validation-rule type="required" message="Логин необходимо ввести"></dxi-validation-rule>
+        <dxi-validation-rule type="pattern" [pattern]="loginPattern" message="Логин может состоять только из латинских букв и цифр"></dxi-validation-rule>
+      </dx-validator>
+    </dx-text-box>
     <br />
-    <label for="passwordUser" class="sr-only">Password</label>
-    <input type="password" id="passwordUser" name="passwordUser" ngModel class="form-control" placeholder="Введите пароль" required #passwordUser="ngModel">
+    <dx-text-box id="passwordUser" name="passwordUser" class="form-control" [(value)]="password" mode="password" ngModel placeholder="Введите пароль">
+      <dx-validator>
+        <dxi-validation-rule type="required" message="Пароль необходимо ввести"></dxi-validation-rule>
+      </dx-validator>
+    </dx-text-box>
     <br />
-    <label for="passwordConfirm" class="sr-only">Password</label>
-    <input type="password" id="passwordConfirm" name="passwordConfirm" ngModel class="form-control" placeholder="Повторите пароль" required #passwordConfirm="ngModel">
+    <dx-text-box id="confirmPassword" name="confirmPassword" class="form-control" mode="password" ngModel placeholder="Повторите пароль">
+      <dx-validator>
+        <dxi-validation-rule type="required" message="Пароль необходимо подтвердить"></dxi-validation-rule>
+        <dxi-validation-rule type="compare" [comparisonTarget]="passwordComparison" message="Пароль и подтверждение не совпадают"></dxi-validation-rule>
+      </dx-validator>
+    </dx-text-box>
     <br />
-    <button [disabled]="loginUser.invalid || passwordUser.invalid || passwordConfirm.invalid" class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
+    <div>
+      <dx-button text="Зарегистрироваться"
+                 type="default"
+                 [useSubmitBehavior]="true">
+      </dx-button>
+      <p></p>
+      <dx-validation-summary id="summary"></dx-validation-summary>
+    </div>
   </div>
   <p></p>
-  <div *ngIf="invalidLogin" class="alert alert-danger">{{ this.textError }}</div>
-  <div *ngIf="!check" class="alert alert-danger">Пароли не совпадают.</div>
 </form>
 
 <dx-popup [title]="popupSuccessTitle"

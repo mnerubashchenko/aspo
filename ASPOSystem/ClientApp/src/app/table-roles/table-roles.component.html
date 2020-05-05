@@ -7,7 +7,13 @@
 
   <dxo-filter-row [visible]="true"></dxo-filter-row>
 
-  <dxi-column dataField="nameRole" caption="Название роли"></dxi-column>
+  <dxi-column dataField="nameRole" caption="Название роли">
+    <dxi-validation-rule type="required"></dxi-validation-rule>
+    <dxi-validation-rule type="async"
+                         message="Данная роль уже существует."
+                         [validationCallback]="asyncValidation">
+    </dxi-validation-rule>
+  </dxi-column>
 
   <dxo-editing mode="popup"
                [allowUpdating]="true"
@@ -17,7 +23,7 @@
     <dxo-popup title="Роли"
                [showTitle]="true"
                [width]="500"
-               [height]="225"
+               [height]="250"
                [position]="{ my: 'top', at: 'top', of: window }">
     </dxo-popup>
 

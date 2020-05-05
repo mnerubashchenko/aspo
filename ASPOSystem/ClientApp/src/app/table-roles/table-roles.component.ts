@@ -11,11 +11,13 @@ import { DxDataGridComponent } from 'devextreme-angular';
 })
 export class TableRolesComponent {
     public roles: IRoles[];
+    public rolesValidate: IRoles[];
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
     constructor(private roleService: RoleService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
+        this.asyncValidation = this.asyncValidation.bind(this);
         this.roleService.subject.subscribe(this.rolesReceived);
         this.roleService.getRoles("not full");
         this.baseUrl = baseUrl;
@@ -40,8 +42,17 @@ export class TableRolesComponent {
       }
     }
 
+  asyncValidation(params) {
+    let cleanRolesValidate = this.rolesValidate.filter(item => item.id != params.data.id);
+    let check = (cleanRolesValidate.find(item => item.nameRole.toLowerCase() == params.value.toLowerCase()) != null) ? false : true;
+    return new Promise((resolve) => {
+      resolve(check === true);
+    });
+  }
+
     rolesReceived = (data: IRoles[]) => {
         this.roles = data;
+        this.rolesValidate = data;
         this.dataGrid.instance.refresh();
     }
 

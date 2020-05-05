@@ -10,18 +10,19 @@ import { IUsers, UsersService } from '../table-users/UsersService';
   templateUrl: './table-projects.component.html',
   styleUrls: ['./table-projects.component.css'],
 })
+
 export class TableProjectsComponent {
     public projects: IProject[];
     public users: IUsers[];
+    public projectsValidate: IProject[];
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
-    isPopupDangerVisible: boolean = false;
-    popupDangerTitle: string;
-    popupDangerText: string;
     constructor(private projectService: ProjectService, private usersService: UsersService,
         public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
+
+        this.asyncValidation = this.asyncValidation.bind(this);
         
         this.projectService.subject.subscribe(this.projectReceived);
         this.projectService.getProjects();
@@ -35,12 +36,8 @@ export class TableProjectsComponent {
             this.store = new CustomStore({
                 key: "id",
                 load: () => this.projects,
-              insert: (values) => this.http.post<any>(this.baseUrl + 'Projects/CreateProject', JSON.stringify(values as IProject), { headers: this.headers }).subscribe
-                (res => { this.projectService.getProjects(); },
-                 error => {
-              this.isPopupDangerVisible = true;
-              this.popupDangerTitle = "Ошибка!";
-              this.popupDangerText = error.error; }),
+              insert: (values) => this.http.post<any>(this.baseUrl + 'Projects/CreateProject', JSON.stringify(values as IProject), { headers: this.headers }).subscribe(
+                () => { this.projectService.getProjects(); }),
                 update: (key, values) =>
                     this.http.put<any>(this.baseUrl + 'Projects/UpdateProject', JSON.stringify(values as IProject), { headers: this.headers }).subscribe(
                         () => { this.projectService.getProjects(); }),
@@ -58,8 +55,17 @@ export class TableProjectsComponent {
         }
     }
 
+  asyncValidation(params) {
+    let cleanProjectValidate = this.projectsValidate.filter(item => item.id != params.data.id);
+    let check = (cleanProjectValidate.find(item => item.nameProject.toLowerCase() == params.value.toLowerCase()) != null) ? false : true;
+    return new Promise((resolve) => {
+        resolve(check === true);
+    });
+  }
+
     projectReceived = (data: IProject[]) => {
         this.projects = data;
+        this.projectsValidate = data;
         this.dataGrid.instance.refresh();
     }
 

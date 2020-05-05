@@ -20,11 +20,11 @@ export class DevicesService {
 }
 
 export interface IDevice {
-  Id: string;
+  id: string;
   Type: string;
   Caption: string;
   Brand: string;
-  Model: string;
+  model: string;
   Status: string;
   IpInput: string;
   ActualIp: string;

@@ -13,6 +13,7 @@ import { ITypedev, TypedevService } from '../table-type-dev/TypedevService';
 })
 export class TableDevicesComponent {
     public devices: IDevice[];
+    public devicesValidate: IDevice[];
     public brands: IBrands[];
     public types: ITypedev[];
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
@@ -22,7 +23,7 @@ export class TableDevicesComponent {
         private brandsService: BrandService, private typedevService: TypedevService, 
         public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
-
+        this.asyncValidation = this.asyncValidation.bind(this);
         this.deviceService.subject.subscribe(this.devicesReceived);
         this.deviceService.getDevices();
 
@@ -57,8 +58,17 @@ export class TableDevicesComponent {
         }
     }
 
+  asyncValidation(params) {
+    let cleanDevicesValidate = this.devicesValidate.filter(item => item.id != params.data.id);
+    let check = (cleanDevicesValidate.find(item => item.model.toLowerCase() == params.value.toLowerCase()) != null) ? false : true;
+    return new Promise((resolve) => {
+      resolve(check === true);
+    });
+  }
+    
     devicesReceived = (data: IDevice[]) => {
         this.devices = data;
+        this.devicesValidate = data;
         this.dataGrid.instance.refresh();
     }
 

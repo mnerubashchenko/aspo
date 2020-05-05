@@ -11,11 +11,13 @@ import CustomStore from "devextreme/data/custom_store";
 })
 export class TablePostsComponent {
     public posts: IPosts[];
+    public postsValidate: IPosts[];
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
   constructor(private postService: PostService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
+        this.asyncValidation = this.asyncValidation.bind(this);
         this.postService.subject.subscribe(this.postsReceived);
         this.postService.getPosts("not full");
         this.baseUrl = baseUrl;
@@ -40,8 +42,17 @@ export class TablePostsComponent {
     }
   }
 
+  asyncValidation(params) {
+    let cleanPostsValidate = this.postsValidate.filter(item => item.id != params.data.id);
+    let check = (cleanPostsValidate.find(item => item.namePost.toLowerCase() == params.value.toLowerCase()) != null) ? false : true;
+    return new Promise((resolve) => {
+      resolve(check === true);
+    });
+  }
+
     postsReceived = (data: IPosts[]) => {
         this.posts = data;
+        this.postsValidate = data;
         this.dataGrid.instance.refresh();
     }
 

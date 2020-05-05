@@ -22,6 +22,6 @@ export class PostService {
 }
 
 export interface IPosts {
-  Id: string;
-  NamePost: string;
+  id: string;
+  namePost: string;
 }

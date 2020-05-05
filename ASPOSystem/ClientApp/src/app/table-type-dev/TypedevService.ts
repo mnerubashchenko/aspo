@@ -23,6 +23,6 @@ export class TypedevService {
 }
 
 export interface ITypedev {
-  Id: string;
-  NameTypedev: string;
+  id: string;
+  nameTypedev: string;
 }

@@ -11,11 +11,13 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 })
 export class TableBrandsComponent implements OnInit {
     public brands: IBrands[];
+    public brandsValidate: IBrands[]
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
     constructor(private brandService: BrandService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
+        this.asyncValidation = this.asyncValidation.bind(this);
         this.brandService.subject.subscribe(this.brandReceived);
         this.brandService.getBrands("not full");
         this.baseUrl = baseUrl;
@@ -39,9 +41,18 @@ export class TableBrandsComponent implements OnInit {
       }
     }
 
+  asyncValidation(params) {
+    let cleanBrandsValidate = this.brandsValidate.filter(item => item.id != params.data.id);
+    let check = (cleanBrandsValidate.find(item => item.nameBrand.toLowerCase() == params.value.toLowerCase()) != null) ? false : true;
+    return new Promise((resolve) => {
+      resolve(check === true);
+    });
+  }
+
 
     brandReceived = (data: IBrands[]) => {
         this.brands = data;
+        this.brandsValidate = data;
         this.dataGrid.instance.refresh();
     }
 

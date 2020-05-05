@@ -20,8 +20,8 @@ export class PrCommandsService {
 }
 
 export interface IProgrammcommands {
-  Id: string;
-  Name: string;
+  id: string;
+  name: string;
   Code: string;
   LongName: string;
   Device: string;

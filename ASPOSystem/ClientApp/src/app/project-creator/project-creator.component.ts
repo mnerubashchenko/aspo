@@ -121,7 +121,7 @@ export class ProjectCreatorComponent implements OnInit {
       form.controls.descriptionProject.setValue("");
     },
       error => {
-        if (error.error == "Проект с таким именем уже существует!") {
+        if (error.error == "Проект с таким названием уже существует!") {
           this.isPopupDangerVisible = true;
           this.popupDangerTitle = "Ошибка!";
           this.popupDangerText = error.error;

@@ -12,6 +12,7 @@ import { ITypemeasure, TypemeasureService } from '../table-type-measure/Typemeas
 })
 export class TableMeasuresComponent {
     public measures: IMeasure[];
+    public measuresValidate: IMeasure[];
     public types: ITypemeasure[];
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
@@ -19,7 +20,7 @@ export class TableMeasuresComponent {
     constructor(private measureService: MeasureService, private typemeasureService: TypemeasureService,
         public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
-
+        this.asyncValidation = this.asyncValidation.bind(this);
         this.measureService.subject.subscribe(this.measureReceived);
         this.measureService.getMeasures();
 
@@ -51,8 +52,17 @@ export class TableMeasuresComponent {
         }
     }
 
+  asyncValidation(params) {
+    let cleanMeasuresValidate = this.measuresValidate.filter(item => item.id != params.data.id);
+    let check = (cleanMeasuresValidate.find(item => item.name.toLowerCase() == params.value.toLowerCase()) != null) ? false : true;
+    return new Promise((resolve) => {
+      resolve(check === true);
+    });
+  }
+
     measureReceived = (data: IMeasure[]) => {
         this.measures = data;
+        this.measuresValidate = data;
         this.dataGrid.instance.refresh();
     }
 

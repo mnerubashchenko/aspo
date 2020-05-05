@@ -13,9 +13,18 @@
 
  <dxi-column dataField="lastnameUser" caption="Отчество"></dxi-column>
 
- <dxi-column dataField="loginUser" caption="Логин"></dxi-column>
+ <dxi-column dataField="loginUser" caption="Логин">
+   <dxi-validation-rule type="required"></dxi-validation-rule>
+   <dxi-validation-rule type="async"
+                        message="Данный логин занят."
+                        [validationCallback]="asyncValidation">
+   </dxi-validation-rule>
+   <dxi-validation-rule type="pattern" [pattern]="loginPattern" message="Логин может состоять только из латинских букв и цифр"></dxi-validation-rule>
+ </dxi-column>
 
- <dxi-column dataField="passwordUser" caption="Пароль"></dxi-column>
+ <dxi-column dataField="passwordUser" caption="Пароль" mode="password">
+   <dxi-validation-rule type="required"></dxi-validation-rule>
+ </dxi-column>
 
 <dxi-column dataField="postUser"
                 caption="Должность">
@@ -26,11 +35,12 @@
 
 </dxi-column>
 <dxi-column dataField="roleUser"
-                caption="Роль">
-   <dxo-lookup [dataSource]="roles"
-                  displayExpr="nameRole"
-                  valueExpr="id">
-   </dxo-lookup>
+            caption="Роль">
+  <dxi-validation-rule type="required"></dxi-validation-rule>
+  <dxo-lookup [dataSource]="roles"
+              displayExpr="nameRole"
+              valueExpr="id">
+  </dxo-lookup>
 
 </dxi-column>
 <dxo-editing mode="popup"

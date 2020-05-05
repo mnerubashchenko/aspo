@@ -21,11 +21,11 @@ export class TelemetryService {
 }
 
 export interface ITelemetry {
-  Id: string;
+  id: string;
   HasItems: string;
   ParentId: string;
   LongName: string;
-  ShortName: string;
+  shortName: string;
   ByteNumber: number;
   StartBit: number;
   Lenght: number;

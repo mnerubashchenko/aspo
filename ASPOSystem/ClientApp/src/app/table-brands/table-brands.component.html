@@ -7,7 +7,13 @@
 
   <dxo-filter-row [visible]="true"></dxo-filter-row>
 
-  <dxi-column dataField="nameBrand" caption="Название бренда"></dxi-column>
+  <dxi-column dataField="nameBrand" caption="Название бренда">
+    <dxi-validation-rule type="required"></dxi-validation-rule>
+    <dxi-validation-rule type="async"
+                         message="Данный бренд уже существует."
+                         [validationCallback]="asyncValidation">
+    </dxi-validation-rule>
+  </dxi-column>
 
   <dxo-editing mode="popup"
                [allowUpdating]="true"
@@ -16,13 +22,19 @@
     <dxo-popup title="Бренды устройств"
                [showTitle]="true"
                [width]="500"
-               [height]="225"
+               [height]="250"
                [position]="{ my: 'top', at: 'top', of: window }">
     </dxo-popup>
 
     <dxo-form>
       <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
-        <dxi-item dataField="nameBrand"></dxi-item>
+        <dxi-item dataField="nameBrand">
+          <dxi-validation-rule type="required"></dxi-validation-rule>
+          <dxi-validation-rule type="async"
+                               message="Данный бренд уже существует."
+                               [validationCallback]="asyncValidation">
+          </dxi-validation-rule>
+        </dxi-item>
       </dxi-item>
     </dxo-form>
 

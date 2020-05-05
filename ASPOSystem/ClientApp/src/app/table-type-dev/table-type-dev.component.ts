@@ -11,11 +11,13 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 })
 export class TableTypeDevComponent {
     public typesdev: ITypedev[];
+    typesdevValidate: ITypedev[];
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
     constructor(private typedevService: TypedevService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
+        this.asyncValidation = this.asyncValidation.bind(this);
         this.typedevService.subject.subscribe(this.typesdevReceived);
         this.typedevService.getTypedev("not full");
         this.baseUrl = baseUrl;
@@ -40,10 +42,19 @@ export class TableTypeDevComponent {
       }
     }
 
+  asyncValidation(params) {
+    let cleanTypesdevValidate = this.typesdevValidate.filter(item => item.id != params.data.id);
+    let check = (cleanTypesdevValidate.find(item => item.nameTypedev.toLowerCase() == params.value.toLowerCase()) != null) ? false : true;
+    return new Promise((resolve) => {
+      resolve(check === true);
+    });
+  }
+
     typesdevReceived = (data: ITypedev[]) => {
         this.typesdev = data;
+        this.typesdevValidate = data;
         this.dataGrid.instance.refresh();
-  }
+    }
 
   ngOnInit() {
 

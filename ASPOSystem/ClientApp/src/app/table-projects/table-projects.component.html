@@ -9,6 +9,10 @@
 
   <dxi-column dataField="nameProject" caption="Название">
     <dxi-validation-rule type="required"></dxi-validation-rule>
+    <dxi-validation-rule type="async"
+                         message="Проект с таким названием уже существует."
+                         [validationCallback]="asyncValidation">
+    </dxi-validation-rule>
   </dxi-column>
 
   <dxi-column dataField="directorProject"
@@ -37,16 +41,3 @@
 
   </dxo-editing>
 </dx-data-grid>
-
-<dx-popup [title]="popupDangerTitle"
-          [(visible)]="isPopupDangerVisible"
-          [closeOnOutsideClick]="true"
-          width="400"
-          height="150"
-          [dragEnabled]="false"
-          position="top"
-          class="danger">
-  <div>
-    <p class="colorTextDanger">{{popupDangerText}}</p>
-  </div>
-</dx-popup>

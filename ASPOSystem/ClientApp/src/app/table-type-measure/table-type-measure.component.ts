@@ -11,11 +11,13 @@ import { DxDataGridComponent } from 'devextreme-angular';
 })
 export class TableTypeMeasureComponent {
   public typesmeasure: ITypemeasure[];
+  public typesmeasureValidate: ITypemeasure[];
   @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
   store: any;
   headers: HttpHeaders;
   constructor(private typeMeasureService: TypemeasureService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
-      sessionStorage.setItem("locale", 'ru');
+    sessionStorage.setItem("locale", 'ru');
+    this.asyncValidation = this.asyncValidation.bind(this);
     this.typeMeasureService.subject.subscribe(this.typesmeasureReceived);
     this.typeMeasureService.getTypemeasure("not full");
     this.baseUrl = baseUrl;
@@ -42,8 +44,17 @@ export class TableTypeMeasureComponent {
     }
   }
 
+  asyncValidation(params) {
+    let cleanTypesmeasureValidate = this.typesmeasureValidate.filter(item => item.id != params.data.id);
+    let check = (cleanTypesmeasureValidate.find(item => item.nameTypemeasure.toLowerCase() == params.value.toLowerCase()) != null) ? false : true;
+    return new Promise((resolve) => {
+      resolve(check === true);
+    });
+  }
+
     typesmeasureReceived = (data: ITypemeasure[]) => {
       this.typesmeasure = data;
+      this.typesmeasureValidate = data;
       this.dataGrid.instance.refresh();
   }
 

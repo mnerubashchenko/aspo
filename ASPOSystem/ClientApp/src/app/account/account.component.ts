@@ -35,7 +35,7 @@ export class AccountComponent implements OnInit {
     isPopupWarningVisible: boolean = false;
     popupWarningTitle: string;
     popupWarningText: string;
-    
+    loginPattern: any = /^[A-Za-z0-9]+$/;
 
     headers: HttpHeaders = new HttpHeaders({
         "Content-Type": "application/json"

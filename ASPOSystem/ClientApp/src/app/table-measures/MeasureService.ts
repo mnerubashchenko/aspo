@@ -20,12 +20,12 @@ export class MeasureService {
 }
 
 export interface IMeasure {
-    Id: string;
+    id: string;
     Grouup: string;
     IsParent: string;
     IdMeasure: string;
     ParentId: string;
-    Name: string;
+    name: string;
     Caption: string;
     MinValue: string;
     MaxValue: string;
