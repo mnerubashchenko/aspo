@@ -52,12 +52,6 @@ export class AccountComponent implements OnInit {
             this.projects = res4;
         });
 
-        //this.roleService.subject.subscribe(this.rolesReceived);
-        //this.roleService.getRoles();
-
-        //this.postService.subject.subscribe(this.postsReceived);
-        //this.postService.getPosts();
-
         this.projectService.subject.subscribe(this.projectReceived);
         this.projectService.getPersonalProjects();
 
@@ -83,14 +77,6 @@ export class AccountComponent implements OnInit {
     userAccountReceived = (data: IUsers[]) => {
         this.user = data;
     }
-
-    //rolesReceived = (data1: IRoles[]) => {
-    //    this.roles = data1;
-    //}
-
-    //postsReceived = (data2: IPosts[]) => {
-    //    this.posts = data2;
-    //}
 
     projectReceived = (data3: IProject[]) => {
         this.projects = data3;

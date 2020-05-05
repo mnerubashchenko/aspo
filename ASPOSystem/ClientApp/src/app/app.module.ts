@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { DxDataGridModule, DxSelectBoxModule, DxTextBoxModule, DxListModule, DxTabPanelModule, DxPopupModule, DxValidatorModule, DxButtonModule, DxValidationSummaryModule } from 'devextreme-angular';
+import { DxDataGridModule, DxSelectBoxModule, DxTextBoxModule, DxListModule, DxTabPanelModule, DxPopupModule, DxValidatorModule, DxButtonModule, DxValidationSummaryModule, DxValidationGroupComponent } from 'devextreme-angular';
 import { TableBrandsComponent } from './table-brands/table-brands.component';
 import { TablePostsComponent } from './table-posts/table-posts.component';
 import { TableRolesComponent } from './table-roles/table-roles.component';
@@ -92,7 +92,8 @@ export function tokenGetter() {
     JsonMakerComponent,
     ProjectCreatorComponent,
     ProjectChangerComponent,
-    TableCommentsComponent
+    TableCommentsComponent,
+    DxValidationGroupComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

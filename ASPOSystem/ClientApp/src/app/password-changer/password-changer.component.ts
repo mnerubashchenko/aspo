@@ -10,38 +10,46 @@ import notify from 'devextreme/ui/notify';
   styleUrls: ['./password-changer.component.css']
 })
 export class PasswordChangerComponent implements OnInit {
-    password: string = "";
     check: boolean = true;
     constructor(private router: Router, private http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         this.baseUrl = baseUrl;
     }
 
     public passChange = (form: NgForm) => {
-
+      this.check = (form.controls.passwordUser.value == form.controls.passwordConfirm.value) ? true : false;
         var params = new HttpParams()
             .set('login', localStorage.getItem("login"))
             .set('oldPassword', form.controls.oldPassword.value)
             .set('newPassword', form.controls.passwordUser.value);
 
+      if (this.check) {
         this.http.put(this.baseUrl + "Users/PasswordChanger", {
-            headers: new HttpHeaders({ "Content-Type": "application/json" })
+          headers: new HttpHeaders({ "Content-Type": "application/json" })
         }, { params })
-            .subscribe(response => {
-              this.router.navigate(["account"]);
-            }, error => {
-                notify({
-                  message: error.error, width: 300, shading: false,
-                  position: { my: 'top', at: 'top', of: window, offset: '0 10' },
-                  animation: {
-                    show: { duration: 300, type: "slide", from: { top: -50 } },
-                    hide: { duration: 300, type: "slide", to: { top: -50 } }
-                  }
-                }, "error", 1000);
-            });
-  }
+          .subscribe(response => {
+            this.router.navigate(["account"]);
+          }, error => {
+            notify({
+              message: error.error, width: 300, shading: false,
+              position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+              animation: {
+                show: { duration: 300, type: "slide", from: { top: -50 } },
+                hide: { duration: 300, type: "slide", to: { top: -50 } }
+              }
+            }, "error", 1000);
+          });
+      }
 
-  passwordComparison = () => {
-    return this.password;
+      else {
+        notify({
+          message: "Пароли не совпадают", width: 300, shading: false,
+          position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+          animation: {
+            show: { duration: 300, type: "slide", from: { top: -50 } },
+            hide: { duration: 300, type: "slide", to: { top: -50 } }
+          }
+        }, "error", 1000);
+      }
   }
 
   ngOnInit() {

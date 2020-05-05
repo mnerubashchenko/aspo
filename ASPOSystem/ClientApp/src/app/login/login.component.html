@@ -1,23 +1,18 @@
-<form action="your-action" class="form-signin" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+<form class="form-signin" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
   <div class="container-fluid">
     <h2 class="form-signin-heading">Авторизация</h2>
     <br />
-    <dx-text-box id="username" name="username" class="form-control" ngModel placeholder="Введите логин">
-      <dx-validator>
-        <dxi-validation-rule type="required" message="Введите логин"></dxi-validation-rule>
-      </dx-validator>
-    </dx-text-box>
+    <label for="username" class="sr-only">Логин</label>
+    <input type="email" id="username" name="username" ngModel class="form-control" placeholder="Логин" required autofocus #username="ngModel">
     <br />
-    <dx-text-box id="password" name="password" class="form-control" mode="password" ngModel placeholder="Введите пароль">
-      <dx-validator>
-        <dxi-validation-rule type="required" message=""></dxi-validation-rule>
-      </dx-validator>
-    </dx-text-box>
+    <label for="password" class="sr-only">Пароль</label>
+    <input type="password" id="password" name="password" ngModel class="form-control" placeholder="Пароль" required #password="ngModel">
     <br />
     <dx-button text="Войти"
                type="default"
-               [useSubmitBehavior]="true">
+               [useSubmitBehavior]="true"
+               [disabled]="username.invalid || password.invalid">
     </dx-button>
   </div>
-  <p></p>
 </form>
+
