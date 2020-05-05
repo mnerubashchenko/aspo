@@ -101,7 +101,7 @@ export class AccountComponent implements OnInit {
     }
 
     private cancel() {
-        this.usersService.subjectAuth.subscribe(this.userAccountReceived);
+        this.usersService.subject.subscribe(this.userAccountReceived);
         this.usersService.getUserForAccount();
         this.form.resetForm(this.user[0]);
         this.flagForReadOnly = !this.flagForReadOnly;
@@ -109,7 +109,6 @@ export class AccountComponent implements OnInit {
     }
 
   public account = (form: NgForm) => {
-
     if (form.controls.middlenameUser.value == this.user[0].middlenameUser
       && form.controls.nameUser.value == this.user[0].nameUser
       && form.controls.lastnameUser.value == this.user[0].lastnameUser
@@ -144,7 +143,7 @@ export class AccountComponent implements OnInit {
         this.flagForReadOnly = !this.flagForReadOnly;
         localStorage.removeItem("login");
         localStorage.setItem("login", form.controls.loginUser.value);
-        this.usersService.subjectAuth.subscribe(this.userAccountReceived);
+        this.usersService.subject.subscribe(this.userAccountReceived);
         this.usersService.getUserForAccount();
         }, error => {
           notify({

@@ -33,6 +33,7 @@ export class TableBrandsComponent implements OnInit {
           remove: (key) => this.http.delete<any>(this.baseUrl + 'Brands/DeleteBrand', { params: new HttpParams().set('id', key) }).subscribe(() => { this.brandService.getBrands("not full"); })
         });
     }
+
     onRowUpdating(e) {
       for (var property in e.oldData) {
         if (!e.newData.hasOwnProperty(property)) {
@@ -57,7 +58,7 @@ export class TableBrandsComponent implements OnInit {
     }
 
   ngOnInit() {
-    let token = localStorage.getItem("jwt");
+
   }
 
 }
