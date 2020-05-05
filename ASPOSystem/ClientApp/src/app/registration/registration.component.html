@@ -33,17 +33,3 @@
   </div>
   <p></p>
 </form>
-
-<dx-popup [title]="popupSuccessTitle"
-          [(visible)]="isPopupSuccessVisible"
-          [closeOnOutsideClick]="true"
-          width="400"
-          height="150"
-          [dragEnabled]="false"
-          (onHidden)="route()"
-          position="top"
-          class="success">
-  <div>
-    <p class="colorTextSuccess">{{popupSuccessText}}</p>
-  </div>
-</dx-popup>

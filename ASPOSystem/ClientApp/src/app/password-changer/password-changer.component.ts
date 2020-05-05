@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from "@angular/router";
 import { NgForm } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import notify from 'devextreme/ui/notify';
 
 @Component({
   selector: 'app-password-changer',
@@ -11,8 +12,6 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 export class PasswordChangerComponent implements OnInit {
     password: string = "";
     check: boolean = true;
-    flagOfError: boolean;
-    textOfError: string;
     constructor(private router: Router, private http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         this.baseUrl = baseUrl;
     }
@@ -29,10 +28,15 @@ export class PasswordChangerComponent implements OnInit {
         }, { params })
             .subscribe(response => {
               this.router.navigate(["account"]);
-              this.flagOfError = false;
             }, error => {
-                this.flagOfError = true;
-                this.textOfError = error.error;
+                notify({
+                  message: error.error, width: 300, shading: false,
+                  position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+                  animation: {
+                    show: { duration: 300, type: "slide", from: { top: -50 } },
+                    hide: { duration: 300, type: "slide", to: { top: -50 } }
+                  }
+                }, "error", 1000);
             });
   }
 

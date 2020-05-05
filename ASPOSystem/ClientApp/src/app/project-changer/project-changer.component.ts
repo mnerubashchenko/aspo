@@ -6,6 +6,7 @@ import { NgForm } from '@angular/forms';
 import { DxSelectBoxComponent } from 'devextreme-angular';
 import { IComments } from '../table-comments/CommentsService';
 import { IUsers } from '../table-users/UsersService';
+import notify from 'devextreme/ui/notify';
 
 @Component({
   selector: 'app-project-changer',
@@ -38,15 +39,6 @@ export class ProjectChangerComponent implements OnInit {
     "Content-Type": "application/json"
   });
   @ViewChild(DxSelectBoxComponent) selectBox: DxSelectBoxComponent;
-  isPopupSuccessVisible: boolean = false;
-  popupSuccessTitle: string;
-  popupSuccessText: string;
-  isPopupDangerVisible: boolean = false;
-  popupDangerTitle: string;
-  popupDangerText: string;
-  isPopupWarningVisible: boolean = false;
-  popupWarningTitle: string;
-  popupWarningText: string;
 
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
     this.http.get<any>(this.baseUrl + 'Projects/GetNamesOfProjects').subscribe(result => {
@@ -116,9 +108,14 @@ export class ProjectChangerComponent implements OnInit {
 
     if (form.controls.nameProject.value == this.projectInfo.nameProject &&
       form.controls.descriptionProject.value == this.projectInfo.descriptionProject) {
-      this.isPopupWarningVisible = true;
-      this.popupWarningTitle = "Внимание!";
-      this.popupWarningText = "Вы не произвели никаких изменений!";
+      notify({
+        message: "Вы не произвели никаких изменений!", width: 300, shading: false,
+        position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+        animation: {
+          show: { duration: 300, type: "slide", from: { top: -50 } },
+          hide: { duration: 300, type: "slide", to: { top: -50 } }
+        }
+      }, "warning", 1000);
     }
 
     else if (form.controls.nameProject.value != "") {
@@ -137,23 +134,37 @@ export class ProjectChangerComponent implements OnInit {
               .set("authorProject", localStorage.getItem("idOfUser"))
               .set("bodyComment", "Изменил информацию о проекте.")
           }).subscribe(res => { });
-          this.isPopupSuccessVisible = true;
-          this.popupSuccessTitle = "Успешно!";
-          this.popupSuccessText = "Информация о проекте изменена!";
+        notify({
+          message: "Информация о проекте изменена!", width: 300, shading: false,
+          position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+          animation: {
+            show: { duration: 300, type: "slide", from: { top: -50 } },
+            hide: { duration: 300, type: "slide", to: { top: -50 } }
+          }
+        }, "success", 1000);
           this.selectBox.value = null;
           this.selectBox.value = form.controls.nameProject.value;
 
         }, error => {
-          this.isPopupDangerVisible = true;
-          this.popupDangerTitle = "Ошибка!";
-          this.popupDangerText = error.error;
+          notify({
+            message: error.error, width: 300, shading: false,
+            position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+            animation: {
+              show: { duration: 300, type: "slide", from: { top: -50 } },
+              hide: { duration: 300, type: "slide", to: { top: -50 } }
+            }
+          }, "error", 1000);
         });
       }
-
     else {
-      this.isPopupWarningVisible = true;
-      this.popupWarningTitle = "Внимание!";
-      this.popupWarningText = "Введите название проекта!";
+      notify({
+        message: "Введите название проекта!", width: 300, shading: false,
+        position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+        animation: {
+          show: { duration: 300, type: "slide", from: { top: -50 } },
+          hide: { duration: 300, type: "slide", to: { top: -50 } }
+        }
+      }, "warning", 1000);
     }
   }
 
@@ -166,15 +177,25 @@ export class ProjectChangerComponent implements OnInit {
       }).subscribe(res => {
         this.addComment("Изменил список измерений проекта.");
         this.checkMeasures = this.selectedMeasures;
-        this.isPopupSuccessVisible = true;
-        this.popupSuccessTitle = "Успешно!";
-        this.popupSuccessText = "Список измерений проекта изменен!";
+        notify({
+          message: "Список измерений проекта изменен!", width: 300, shading: false,
+          position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+          animation: {
+            show: { duration: 300, type: "slide", from: { top: -50 } },
+            hide: { duration: 300, type: "slide", to: { top: -50 } }
+          }
+        }, "success", 1000);
       });
     }
     else {
-      this.isPopupWarningVisible = true;
-      this.popupWarningTitle = "Внимание!";
-      this.popupWarningText = "Вы не изменили список измерений данного проекта!";
+      notify({
+        message: "Вы не изменили список измерений данного проекта!", width: 300, shading: false,
+        position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+        animation: {
+          show: { duration: 300, type: "slide", from: { top: -50 } },
+          hide: { duration: 300, type: "slide", to: { top: -50 } }
+        }
+      }, "warning", 1000);
     }
   }
 
@@ -187,15 +208,25 @@ export class ProjectChangerComponent implements OnInit {
       }).subscribe(res => {
         this.addComment("Изменил список устройств проекта.");
         this.checkDevices = this.selectedDevices;
-        this.isPopupSuccessVisible = true;
-        this.popupSuccessTitle = "Успешно!";
-        this.popupSuccessText = "Список устройств проекта изменен!";
+        notify({
+          message: "Список устройств проекта изменен!", width: 300, shading: false,
+          position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+          animation: {
+            show: { duration: 300, type: "slide", from: { top: -50 } },
+            hide: { duration: 300, type: "slide", to: { top: -50 } }
+          }
+        }, "success", 1000);
       });
     }
     else {
-      this.isPopupWarningVisible = true;
-      this.popupWarningTitle = "Внимание!";
-      this.popupWarningText = "Вы не изменили список устройств данного проекта!";
+      notify({
+        message: "Вы не изменили список устройств данного проекта!", width: 300, shading: false,
+        position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+        animation: {
+          show: { duration: 300, type: "slide", from: { top: -50 } },
+          hide: { duration: 300, type: "slide", to: { top: -50 } }
+        }
+      }, "warning", 1000);
     }
   }
 
@@ -208,15 +239,25 @@ export class ProjectChangerComponent implements OnInit {
       }).subscribe(res => {
         this.addComment("Изменил список интерфейсов проекта.");
         this.checkInterfaces = this.selectedInterfaces;
-        this.isPopupSuccessVisible = true;
-        this.popupSuccessTitle = "Успешно!";
-        this.popupSuccessText = "Список интерфейсов проекта изменен!";
+        notify({
+          message: "Список интерфейсов проекта изменен!", width: 300, shading: false,
+          position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+          animation: {
+            show: { duration: 300, type: "slide", from: { top: -50 } },
+            hide: { duration: 300, type: "slide", to: { top: -50 } }
+          }
+        }, "success", 1000);
       });
     }
     else {
-      this.isPopupWarningVisible = true;
-      this.popupWarningTitle = "Внимание!";
-      this.popupWarningText = "Вы не изменили список интерфейсов данного проекта!";
+      notify({
+        message: "Вы не изменили список интерфейсов данного проекта!", width: 300, shading: false,
+        position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+        animation: {
+          show: { duration: 300, type: "slide", from: { top: -50 } },
+          hide: { duration: 300, type: "slide", to: { top: -50 } }
+        }
+      }, "warning", 1000);
     }
   }
 
@@ -229,15 +270,25 @@ export class ProjectChangerComponent implements OnInit {
       }).subscribe(res => {
         this.addComment("Изменил список программных команд проекта.");
         this.checkCommands = this.selectedCommands;
-        this.isPopupSuccessVisible = true;
-        this.popupSuccessTitle = "Успешно!";
-        this.popupSuccessText = "Список программных команд проекта изменен!";
+        notify({
+          message: "Список программных команд проекта изменен!", width: 300, shading: false,
+          position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+          animation: {
+            show: { duration: 300, type: "slide", from: { top: -50 } },
+            hide: { duration: 300, type: "slide", to: { top: -50 } }
+          }
+        }, "success", 1000);
       });
     }
     else {
-      this.isPopupWarningVisible = true;
-      this.popupWarningTitle = "Внимание!";
-      this.popupWarningText = "Вы не изменили список программных команд данного проекта!";
+      notify({
+        message: "Вы не изменили список программных команд данного проекта!", width: 300, shading: false,
+        position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+        animation: {
+          show: { duration: 300, type: "slide", from: { top: -50 } },
+          hide: { duration: 300, type: "slide", to: { top: -50 } }
+        }
+      }, "warning", 1000);
     }
   }
 
@@ -250,15 +301,25 @@ export class ProjectChangerComponent implements OnInit {
       }).subscribe(res => {
         this.addComment("Изменил список телеметрий проекта.");
         this.checkTelemetries = this.selectedTelemetries;
-        this.isPopupSuccessVisible = true;
-        this.popupSuccessTitle = "Успешно!";
-        this.popupSuccessText = "Список телеметрий проекта изменен!";
+        notify({
+          message: "Список телеметрий проекта изменен!", width: 300, shading: false,
+          position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+          animation: {
+            show: { duration: 300, type: "slide", from: { top: -50 } },
+            hide: { duration: 300, type: "slide", to: { top: -50 } }
+          }
+        }, "success", 1000);
       });
     }
     else {
-      this.isPopupWarningVisible = true;
-      this.popupWarningTitle = "Внимание!";
-      this.popupWarningText = "Вы не изменили список телеметрий данного проекта!";
+      notify({
+        message: "Вы не изменили список телеметрий данного проекта!", width: 300, shading: false,
+        position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+        animation: {
+          show: { duration: 300, type: "slide", from: { top: -50 } },
+          hide: { duration: 300, type: "slide", to: { top: -50 } }
+        }
+      }, "warning", 1000);
     }
   }
 

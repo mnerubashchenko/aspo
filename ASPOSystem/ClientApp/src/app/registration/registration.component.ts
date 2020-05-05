@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import { Router } from "@angular/router";
 import { NgForm } from '@angular/forms';
+import notify from 'devextreme/ui/notify';
 
 @Component({
   selector: 'app-registration',
@@ -34,11 +35,16 @@ export class RegistrationComponent {
     "Content-Type": "application/json"
     })
     }).subscribe(response => {
-    this.isPopupSuccessVisible = true;
-    this.popupSuccessTitle = "Успешно!";
-    this.popupSuccessText = "Регистрация завершена!";
+        this.router.navigate(["login"]);
     }, err => {
-    this.textError = err.error;
+        notify({
+          message: err.error, width: 300, shading: false,
+          position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+          animation: {
+            show: { duration: 300, type: "slide", from: { top: -50 } },
+            hide: { duration: 300, type: "slide", to: { top: -50 } }
+          }
+        }, "error", 1000);
     });
   }
 }

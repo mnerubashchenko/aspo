@@ -3,19 +3,20 @@ import { Component, Inject } from '@angular/core';
 import { Router } from "@angular/router";
 import { NgForm } from '@angular/forms';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import notify from 'devextreme/ui/notify';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html'
 })
 export class LoginComponent {
-    invalidLogin: boolean;
 
     constructor(private router: Router, private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private jwtHelper: JwtHelperService) {
         this.baseUrl = baseUrl;
     }
   
   public login = (form: NgForm) => {
+      
       let credentials = JSON.stringify(form.value);
       this.http.post(this.baseUrl + "api/auth/login", credentials, {
       headers: new HttpHeaders({
@@ -32,10 +33,16 @@ export class LoginComponent {
       }).subscribe(result => {
         localStorage.setItem("idOfUser", result);
       });
-      this.invalidLogin = false;
       this.router.navigate(["/"]);
     }, err => {
-      this.invalidLogin = true;
+        notify({
+          message: "Неверный логин или пароль", width: 300, shading: false,
+          position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+          animation: {
+            show: { duration: 300, type: "slide", from: { top: -50 } },
+            hide: { duration: 300, type: "slide", to: { top: -50 } }
+          }
+        }, "error", 1000);
     });
   }
 }

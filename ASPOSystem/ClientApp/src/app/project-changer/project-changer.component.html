@@ -32,7 +32,11 @@
         </div>
       </div>
       <div>
-        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <dx-button text="Сохранить"
+                   type="success"
+                   [useSubmitBehavior]="true"
+                   icon="check">
+        </dx-button>
       </div>
     </form>
   </div>
@@ -56,7 +60,11 @@
     </div>
     <div>
       <p></p>
-      <button type="button" class="btn btn-primary" (click)='saveMeasures()'>Сохранить</button>
+      <dx-button text="Сохранить"
+                 type="success"
+                 (onClick)="saveMeasures()"
+                 icon="check">
+      </dx-button>
     </div>
   </div>
   <label for="tab-3" tabindex="0"></label>
@@ -79,7 +87,11 @@
     </div>
     <div>
       <p></p>
-      <button type="button" class="btn btn-primary" (click)='saveDevices()'>Сохранить</button>
+      <dx-button text="Сохранить"
+                 type="success"
+                 (onClick)="saveDevices()"
+                 icon="check">
+      </dx-button>
     </div>
   </div>
   <label for="tab-4" tabindex="0"></label>
@@ -102,7 +114,11 @@
     </div>
     <div>
       <p></p>
-      <button type="button" class="btn btn-primary" (click)='saveInterfaces()'>Сохранить</button>
+      <dx-button text="Сохранить"
+                 type="success"
+                 (onClick)="saveInterfaces()"
+                 icon="check">
+      </dx-button>
     </div>
   </div>
   <label for="tab-5" tabindex="0"></label>
@@ -125,7 +141,11 @@
     </div>
     <div>
       <p></p>
-      <button type="button" class="btn btn-primary" (click)='saveCommands()'>Сохранить</button>
+      <dx-button text="Сохранить"
+                 type="success"
+                 (onClick)="saveCommands()"
+                 icon="check">
+      </dx-button>
     </div>
   </div>
   <label for="tab-6" tabindex="0"></label>
@@ -148,7 +168,11 @@
     </div>
     <div>
       <p></p>
-      <button type="button" class="btn btn-primary" (click)='saveTelemetries()'>Сохранить</button>
+      <dx-button text="Сохранить"
+                 type="success"
+                 (onClick)="saveTelemetries()"
+                 icon="check">
+      </dx-button>
     </div>
   </div>
 </div>
@@ -178,42 +202,3 @@
 </dx-data-grid>
 
 <p></p>
-
-<dx-popup [title]="popupSuccessTitle"
-          [(visible)]="isPopupSuccessVisible"
-          [closeOnOutsideClick]="true"
-          width="400"
-          height="150"
-          [dragEnabled]="false"
-          position="top"
-          class="success">
-  <div>
-    <p class="colorTextSuccess">{{popupSuccessText}}</p>
-  </div>
-</dx-popup>
-
-<dx-popup [title]="popupDangerTitle"
-          [(visible)]="isPopupDangerVisible"
-          [closeOnOutsideClick]="true"
-          width="400"
-          height="150"
-          [dragEnabled]="false"
-          position="top"
-          class="danger">
-  <div>
-    <p class="colorTextDanger">{{popupDangerText}}</p>
-  </div>
-</dx-popup>
-
-<dx-popup [title]="popupWarningTitle"
-          [(visible)]="isPopupWarningVisible"
-          [closeOnOutsideClick]="true"
-          width="400"
-          height="150"
-          [dragEnabled]="false"
-          position="top"
-          class="warning">
-  <div>
-    <p class="colorTextWarning">{{popupWarningText}}</p>
-  </div>
-</dx-popup>

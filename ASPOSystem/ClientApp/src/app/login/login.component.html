@@ -1,4 +1,4 @@
-<form class="form-signin" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+<form action="your-action" class="form-signin" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
   <div class="container-fluid">
     <h2 class="form-signin-heading">Авторизация</h2>
     <br />
@@ -10,7 +10,7 @@
     <br />
     <dx-text-box id="password" name="password" class="form-control" mode="password" ngModel placeholder="Введите пароль">
       <dx-validator>
-        <dxi-validation-rule type="required" message="Введите пароль"></dxi-validation-rule>
+        <dxi-validation-rule type="required" message=""></dxi-validation-rule>
       </dx-validator>
     </dx-text-box>
     <br />
@@ -20,5 +20,4 @@
     </dx-button>
   </div>
   <p></p>
-  <div *ngIf="invalidLogin" class="alert alert-danger">Неправильный логин или пароль.</div>
 </form>

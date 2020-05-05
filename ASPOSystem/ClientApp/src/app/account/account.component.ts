@@ -9,6 +9,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { Observable } from 'rxjs';
+import notify from 'devextreme/ui/notify';
 
 @Component({
     selector: 'app-account',
@@ -25,16 +26,6 @@ export class AccountComponent implements OnInit {
     public flagForReadOnly: boolean = true;
     public flagForChangeButtons: boolean = false;
     store: any;
-    login: string = "Логин";
-    isPopupSuccessVisible: boolean = false;
-    popupSuccessTitle: string;
-    popupSuccessText: string;
-    isPopupDangerVisible: boolean = false;
-    popupDangerTitle: string;
-    popupDangerText: string;
-    isPopupWarningVisible: boolean = false;
-    popupWarningTitle: string;
-    popupWarningText: string;
     loginPattern: any = /^[A-Za-z0-9]+$/;
 
     headers: HttpHeaders = new HttpHeaders({
@@ -117,7 +108,6 @@ export class AccountComponent implements OnInit {
     private buttonIsPressed() {
         this.flagForReadOnly = !this.flagForReadOnly;
         this.flagForChangeButtons = true;
-        this.login = "Логин*";
     }
 
     private isChanged() {
@@ -130,7 +120,6 @@ export class AccountComponent implements OnInit {
         this.form.resetForm(this.user[0]);
         this.flagForReadOnly = !this.flagForReadOnly;
         this.flagForChangeButtons = false;
-        this.login = "Логин";
     }
 
   public account = (form: NgForm) => {
@@ -141,38 +130,46 @@ export class AccountComponent implements OnInit {
       && form.controls.loginUser.value == this.user[0].loginUser
       && form.controls.roleUser.value == this.user[0].roleUser
       && form.controls.postUser.value == this.user[0].postUser) {
-      this.isPopupWarningVisible = true;
-      this.popupWarningTitle = "Внимание!";
-      this.popupWarningText = "Вы не произвели никаких изменений";
+      notify({
+        message: "Вы не произвели никаких изменений", width: 300, shading: false,
+        position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+        animation: {
+          show: { duration: 300, type: "slide", from: { top: -50 } },
+          hide: { duration: 300, type: "slide", to: { top: -50 } }
+        }
+      }, "warning", 1000);
     }
 
-    else if (form.controls.loginUser.value != "" && form.controls.middlenameUser.value != "") {
+    else {
       this.http.put<any>(this.baseUrl + "Users/UpdateUser", JSON.stringify(form.value as IUsers), {
         headers: new HttpHeaders({
           "Content-Type": "application/json"
         })
       }).subscribe(res => {
-        this.isPopupSuccessVisible = true;
-        this.popupSuccessTitle = "Успешно!";
-        this.popupSuccessText = "Профиль отредактирован!";
+        notify({
+          message: "Профиль отредактирован!", width: 300, shading: false,
+          position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+          animation: {
+            show: { duration: 300, type: "slide", from: { top: -50 } },
+            hide: { duration: 300, type: "slide", to: { top: -50 } }
+          }
+        }, "success", 1000);
         this.flagForChangeButtons = false;
         this.flagForReadOnly = !this.flagForReadOnly;
-        this.login = "Логин";
         localStorage.removeItem("login");
         localStorage.setItem("login", form.controls.loginUser.value);
         this.usersService.subjectAuth.subscribe(this.userAccountReceived);
         this.usersService.getUserForAccount();
         }, error => {
-          this.isPopupDangerVisible = true;
-          this.popupDangerTitle = "Ошибка!";
-          this.popupDangerText = error.error;
+          notify({
+            message: error.error, width: 300, shading: false,
+            position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+            animation: {
+              show: { duration: 300, type: "slide", from: { top: -50 } },
+              hide: { duration: 300, type: "slide", to: { top: -50 } }
+            }
+          }, "error", 1000);
       });
-    }
-
-    else {
-      this.isPopupWarningVisible = true;
-      this.popupWarningTitle = "Внимание!";
-      this.popupWarningText = "Заполните поля, отмеченные *";
     }
   }
 }

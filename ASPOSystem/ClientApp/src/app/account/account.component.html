@@ -31,10 +31,11 @@
   </div>
 
   <div class="dx-field">
-    <div class="dx-field-label">{{login}}</div>
+    <div class="dx-field-label">Логин</div>
     <div class="dx-field-value">
       <dx-text-box id="loginUser" name="loginUser" [readOnly]="isChanged()" [ngModel]="user[0].loginUser" class="form-control">
         <dx-validator>
+          <dxi-validation-rule type="required" message="Логин необходимо ввести"></dxi-validation-rule>
           <dxi-validation-rule type="pattern" [pattern]="loginPattern" message="Логин может состоять только из латинских букв и цифр"></dxi-validation-rule>
         </dx-validator>
       </dx-text-box>
@@ -77,7 +78,8 @@
   <div *ngIf="flagForChangeButtons==false">
     <dx-button text="Редактировать профиль"
                type="normal"
-               (onClick)="buttonIsPressed()">
+               (onClick)="buttonIsPressed()"
+               icon="edit">
     </dx-button>
   </div>
 
@@ -93,7 +95,8 @@
   <div *ngIf="flagForChangeButtons==true">
     <dx-button text="Сохранить изменения"
                type="success"
-               [useSubmitBehavior]="true">
+               [useSubmitBehavior]="true"
+               icon="check">
     </dx-button>
   </div>
 
@@ -102,7 +105,8 @@
   <div *ngIf="flagForChangeButtons==true">
     <dx-button text="Отмена"
                type="danger"
-               (onClick)="cancel()">
+               (onClick)="cancel()"
+               icon="close">
     </dx-button>
   </div>
 
