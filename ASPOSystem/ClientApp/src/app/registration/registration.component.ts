@@ -1,3 +1,16 @@
+/* Компонент формы регистрации.
+ * Название: RegistrationComponent.
+ * Язык: TypeScript.
+ * Краткое описание:
+ *    Данный компонент является формой регистрации.
+ * Переменные, используемые в компоненте:
+ *    checkPass - флаг для проверки совпадения введенного нового пароля и его подтверждения;
+ *    checkLogin - флаг для проверки соответствия введенного логина всем требованиям;
+ *    loginPattern - требования для логина.
+ * Метод, используемый в компоненте:
+ *    registration() - отправка данных на сервер.
+ */
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import { Router } from "@angular/router";
@@ -14,11 +27,20 @@ export class RegistrationComponent {
   checkLogin: boolean = true;
   loginPattern: any = new RegExp(/^[A-Za-z0-9]+$/);
 
+  /* Конструктор компонента RegistrationComponent.
+   * Переменные, используемые в конструкторе:
+   *      http - HTTP клиент;
+   *      baseUrl - базовый URL адрес;
+   *      router - переменная, отвечающая за маршрутизацию.
+   */
    constructor(private router: Router, private http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
        this.baseUrl = baseUrl;
-  }
+   }
 
- 
+  /* registration() - отправка данных на сервер.
+   * Формальный параметр:
+   *      form - данные с формы регистрации.
+   */
   public registration = (form: NgForm) => {
     this.checkPass = (form.controls.passwordUser.value == form.controls.passwordConfirm.value) ? true : false;
     this.checkLogin = form.controls.loginUser.value.match(this.loginPattern);

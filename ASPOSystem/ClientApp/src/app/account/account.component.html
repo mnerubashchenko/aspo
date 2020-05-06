@@ -120,7 +120,13 @@
               (onRowUpdating)="onRowUpdating($event)"
               [hoverStateEnabled]="true">
 
-  <dxi-column dataField="nameProject" caption="Название"></dxi-column>
+  <dxi-column dataField="nameProject" caption="Название">
+    <dxi-validation-rule type="required"></dxi-validation-rule>
+    <dxi-validation-rule type="async"
+                         message="Проект с таким названием уже существует."
+                         [validationCallback]="asyncValidation">
+    </dxi-validation-rule>
+  </dxi-column>
 
   <dxi-column dataField="directorProject"
               caption="Создатель проекта">
@@ -136,8 +142,7 @@
 
   <dxo-editing mode="popup"
                [allowUpdating]="true"
-               [allowDeleting]="true"
-               [allowAdding]="true">
+               [allowDeleting]="true">
     <dxo-popup title="Проекты"
                [showTitle]="true"
                [width]="700"

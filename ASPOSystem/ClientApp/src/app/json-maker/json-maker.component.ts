@@ -1,6 +1,20 @@
-import { Component, OnInit, Inject } from '@angular/core';
+/* Компонент генератора файла настроек JSON.
+ * Название: JsonMakerComponent.
+ * Язык: TypeScript.
+ * Краткое описание:
+ *    Данный компонент является генератором файла настроек JSON.
+ * Переменные, используемые в компоненте:
+ *    projects - названия всех протоколов;
+ *    projectname - название выбранного протокола;
+ *    headers - HTTP заголовки для формирования HTTP запроса.
+ * Методы, используемые в компоненте:
+ *    selectedTable() - определение выбранного протокола;
+ *    ConfigMaker() - генерация и скачивание файла настроек JSON.
+ */
+
+import { Component, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { IProject, ProjectService } from '../table-projects/ProjectService';
+import { ProjectService } from '../table-projects/ProjectService';
 import { saveAs } from 'file-saver/dist/FileSaver';
 import CyrillicToTranslit = require('cyrillic-to-translit-js/dist/bundle');
 
@@ -9,16 +23,20 @@ import CyrillicToTranslit = require('cyrillic-to-translit-js/dist/bundle');
   templateUrl: './json-maker.component.html',
   styleUrls: ['./json-maker.component.css']
 })
-export class JsonMakerComponent implements OnInit {
+export class JsonMakerComponent {
 
   projects: string;
   projectname: string;
-
   headers: HttpHeaders = new HttpHeaders({
     "Content-Type": "application/json"
   });
 
-  constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string, projectService: ProjectService) {
+  /* Конструктор компонента JsonMakerComponent.
+   * Переменные, используемые в конструкторе:
+   *      http - HTTP клиент;
+   *      baseUrl - базовый URL адрес.
+   */
+  constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
 
     this.http.get<any>(this.baseUrl + 'Projects/GetNamesOfProjects').subscribe(result => {
       this.projects = result as string;
@@ -26,10 +44,19 @@ export class JsonMakerComponent implements OnInit {
 
   }
 
+   /* selectedTable() - определение выбранного протокола.
+    * Формальный параметр:
+    *      data - выбранное значение SelectBox.
+    */
   public selectedTable(data) {
     this.projectname = data.selectedItem;
   }
 
+   /* ConfigMaker() - генерация и скачивание файла настроек JSON.
+    * Локальные переменные:
+    *      blob - сгенерированный файл настроек;
+    *      filename - имя файла.
+    */
   private ConfigMaker() {
     this.http.post<any>(this.baseUrl + 'JSONMaker/ConfigMaker', { headers: this.headers }, { params: new HttpParams().set("nameProject", this.projectname) }).subscribe(
       result => {
@@ -39,9 +66,6 @@ export class JsonMakerComponent implements OnInit {
       }, err => {
         console.log(err);
       });
-  }
-
-  ngOnInit() {
   }
 
 }

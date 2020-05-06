@@ -1,10 +1,31 @@
-import { Component, OnInit, Inject } from '@angular/core';
+/* Компонент формы создания нового протокола.
+ * Название: ProjectCreatorComponent.
+ * Язык: TypeScript.
+ * Краткое описание:
+ *    Данный компонент является формой создания нового протокола.
+ * Переменные, используемые в компоненте:
+ *    measures - названия всех измерений базы данных;
+ *    devices - названия всех устройств базы данных;
+ *    interfaces - названия всех интерфейсов базы данных;
+ *    commands - названия всех программных команд базы данных;
+ *    telemetries - названия всех телеметрий базы данных;
+ *    selectedMeasures - названия измерений, выбранных для создаваемого протокола;
+ *    selectedDevices - названия устройств, выбранных для создаваемого протокола;
+ *    selectedInterfaces - названия интерфейсов, выбранных для создаваемого протокола;
+ *    selectedCommands - названия программных команд, выбранных для создаваемого протокола;
+ *    selectedTelemetries - названия телеметрий, выбранных для создаваемого протокола;
+ *    helper - флаг, отвечающий за отображение текущего шага создания протокола.
+ * Методы, используемые в компоненте:
+ *    next() - переход к следующему шагу создания протокола;
+ *    back() - возврат к предыдущему шагу создания протокола;
+ *    generateProject() - создание протокола с выбранными характеристиками.
+ */
+
+import { Component, Inject } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { IProject, ProjectService } from '../table-projects/ProjectService';
-import { IMeasure, MeasureService } from '../table-measures/MeasureService';
+import { IProject } from '../table-projects/ProjectService';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import notify from 'devextreme/ui/notify';
 
 @Component({
@@ -12,8 +33,7 @@ import notify from 'devextreme/ui/notify';
   templateUrl: './project-creator.component.html',
   styleUrls: ['./project-creator.component.css'],
 })
-export class ProjectCreatorComponent implements OnInit {
-  user: string;
+export class ProjectCreatorComponent {
   measures: string[];
   devices: string[];
   interfaces: string[];
@@ -26,9 +46,12 @@ export class ProjectCreatorComponent implements OnInit {
   selectedTelemetries: string[] = [];
   helper: number = 0;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private router: Router) {
-
-    this.user = localStorage.getItem("idOfUser");
+  /* Конструктор компонента ProjectCreatorComponent.
+   * Переменные, используемые в конструкторе:
+   *      http - HTTP клиент;
+   *      baseUrl - базовый URL адрес.
+   */
+  constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
 
     Observable.forkJoin(
       this.http.get<any>(this.baseUrl + 'Measure/GetNamesOfMeasures'),
@@ -46,17 +69,20 @@ export class ProjectCreatorComponent implements OnInit {
 
   }
 
-  ngOnInit() {
-  }
-
+  /* next() - переход к следующему шагу создания протокола. */
   public next() {
     this.helper++;
   }
 
+  /* back() - возврат к предыдущему шагу создания протокола. */
   public back() {
     --this.helper;
   }
 
+  /* generateProject() - создание протокола с выбранными характеристиками.
+   * Формальный параметр:
+   *      form - данные с формы создания протокола.
+   */
   public generateProject = (form: NgForm) => {
     this.http.post<any>(this.baseUrl + "Projects/CreateProject", JSON.stringify(form.value as IProject), {
       headers: new HttpHeaders({

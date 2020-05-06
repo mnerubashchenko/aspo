@@ -39,7 +39,6 @@ import { TableDevicesComponent } from './table-devices/table-devices.component';
 import { TableMeasuresComponent } from './table-measures/table-measures.component';
 import { LoginComponent } from './login/login.component';
 import { JwtModule } from '@auth0/angular-jwt';
-import { AuthGuard } from './guards/auth-guard.service';
 import { RegistrationComponent } from './registration/registration.component';
 import { AccountComponent } from './account/account.component';
 import { PasswordChangerComponent } from './password-changer/password-changer.component';
@@ -110,7 +109,7 @@ export function tokenGetter() {
     DxValidationSummaryModule,
     RouterModule.forRoot([
     { path: '', component: HomeComponent, pathMatch: 'full' },
-    { path: 'table-brands', component: TableBrandsComponent, canActivate: [AuthGuard] },
+    { path: 'table-brands', component: TableBrandsComponent },
     { path: 'table-posts', component: TablePostsComponent },
     { path: 'table-roles', component: TableRolesComponent },
     { path: 'table-type-dev', component: TableTypeDevComponent },
@@ -150,7 +149,6 @@ export function tokenGetter() {
         InterfaceService,
         DevicesService,
         MeasureService,
-        AuthGuard,
         CommentsService
     ],
   bootstrap: [AppComponent]

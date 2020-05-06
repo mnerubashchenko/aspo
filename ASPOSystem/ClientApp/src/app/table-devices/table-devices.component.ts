@@ -1,3 +1,23 @@
+/* Компонент таблицы устройств.
+ * Название: TableDevicesComponent.
+ * Язык: TypeScript.
+ * Краткое описание:
+ *    Данный компонент является страницей, отображающей информацию об устройстах в расширенной версии приложения.
+ * Переменные, используемые в компоненте:
+ *    devices - информация об устройствах;
+ *    brands - информация о брендах устройств;
+ *    types - информация о типах устройств;
+ *    dataGrid - таблица, содержащая информацию об устройствах;
+ *    store - логика отправки данных об устройствах на сервер;
+ *    headers - HTTP заголовки для формирования HTTP запроса.
+ * Методы, используемые в компоненте:
+ *    onRowUpdating() - формирование набора данных об устройствах после редактирования для отправки на сервер;
+ *    asyncValidation() - проверка валидности данных при изменении информации об устройстве;
+ *    devicesReceived() - получение данных об устройствах из сервиса DevicesService;
+ *    brandReceived() - получение данных о брендах устройств из сервиса BrandService;
+ *    typedevReceived() - получение данных о типах устройств из сервиса TypedevService.
+ */
+
 import { Component, enableProdMode, ViewChild, Inject } from '@angular/core';
 import { IDevice, DevicesService } from '../table-devices/DevicesService';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -13,12 +33,20 @@ import { ITypedev, TypedevService } from '../table-type-dev/TypedevService';
 })
 export class TableDevicesComponent {
     public devices: IDevice[];
-    public devicesValidate: IDevice[];
     public brands: IBrands[];
     public types: ITypedev[];
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
+
+  /* Конструктор компонента TableDevicesComponent.
+   * Переменные, используемые в конструкторе:
+   *      deviceService - экземпляр сервиса DevicesService;
+   *      brandService - экземпляр сервиса BrandService;
+   *      typedevService - экземпляр сервиса TypedevService;
+   *      http - HTTP клиент;
+   *      baseUrl - базовый URL адрес.
+   */
     constructor(private deviceService: DevicesService,
         private brandsService: BrandService, private typedevService: TypedevService, 
         public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
@@ -50,6 +78,12 @@ export class TableDevicesComponent {
 
     }
 
+   /* onRowUpdating() - формирование набора данных об устройствах после редактирования для отправки на сервер.
+    * Формальный параметр:
+    *      e - данные строки.
+    * Локальная переменная:
+    *      property - переменная для перебора значений строки.
+    */
     onRowUpdating(e) {
         for (var property in e.oldData) {
             if (!e.newData.hasOwnProperty(property)) {
@@ -58,32 +92,46 @@ export class TableDevicesComponent {
         }
     }
 
+   /* asyncValidation() - проверка валидности данных при изменении информации об устройствах.
+    * Формальный параметр:
+    *      params - значение, которое валидируется.
+    * Локальные переменные:
+    *      cleanDevicesValidate - набор устройств, после удаления изменяемого устройства;
+    *      check - флаг, определяющий, уникально ли входное значение.
+    */
   asyncValidation(params) {
-    let cleanDevicesValidate = this.devicesValidate.filter(item => item.id != params.data.id);
+    let cleanDevicesValidate = this.devices.filter(item => item.id != params.data.id);
     let check = (cleanDevicesValidate.find(item => item.model.toLowerCase() == params.value.toLowerCase()) != null) ? false : true;
     return new Promise((resolve) => {
       resolve(check === true);
     });
   }
-    
+
+   /* devicesReceived() - получение данных о брендах устройств из сервиса DevicesService.
+    * Формальный параметр:
+    *      data - данные, пришедшие из сервиса DevicesService.
+    */
     devicesReceived = (data: IDevice[]) => {
         this.devices = data;
-        this.devicesValidate = data;
         this.dataGrid.instance.refresh();
     }
 
+   /* brandReceived() - получение данных о брендах устройств из сервиса BrandService.
+    * Формальный параметр:
+    *      data2 - данные, пришедшие из сервиса BrandService.
+    */
     brandReceived = (data2: IBrands[]) => {
         this.brands = data2;
         this.dataGrid.instance.refresh();
     }
 
-    typedevReceived = (data2: ITypedev[]) => {
-      this.types = data2;
+   /* typedevReceived() - получение данных о брендах устройств из сервиса TypedevService.
+    * Формальный параметр:
+    *      data3 - данные, пришедшие из сервиса TypedevService.
+    */
+    typedevReceived = (data3: ITypedev[]) => {
+      this.types = data3;
       this.dataGrid.instance.refresh();
-    }
-
-    ngOnInit() {
-
     }
 
 }

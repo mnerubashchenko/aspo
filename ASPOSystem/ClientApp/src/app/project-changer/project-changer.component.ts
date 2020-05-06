@@ -1,4 +1,43 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+/* Компонент изменения данных о протоколе.
+ * Название: ProjectChangerComponent.
+ * Язык: TypeScript.
+ * Краткое описание:
+ *    Данный компонент является формой изменения данных о протоколе.
+ * Переменные, используемые в компоненте:
+ *    projects - название всех протоколов;
+ *    projectName - название выбранного протокола;
+ *    projectInfo - вся информация о выбранном протоколе;
+ *    comments - комментарии к выбранному протоколу;
+ *    users - информация о пользователях;
+ *    measures - названия всех измерений базы данных;
+ *    devices - названия всех устройств базы данных;
+ *    interfaces - названия всех интерфейсов базы данных;
+ *    commands - названия всех программных команд базы данных;
+ *    telemetries - названия всех телеметрий базы данных;
+ *    selectedMeasures - названия измерений, используемых в выбранном протоколе;
+ *    selectedDevices - названия устройств, используемых в выбранном протоколе;
+ *    selectedInterfaces - названия интерфейсов, используемых в выбранном протоколе;
+ *    selectedCommands - названия программных команд, используемых в выбранном протоколе;
+ *    selectedTelemetries - названия телеметрий, используемых в выбранном протоколе;
+ *    checkMeasures - названия измерений, используемых в выбранном протоколе, для проверки перед отправкой на сервер;
+ *    checkDevices - названия устройств, используемых в выбранном протоколе, для проверки перед отправкой на сервер;
+ *    checkInterfaces - названия интерфейсов, используемых в выбранном протоколе, для проверки перед отправкой на сервер;
+ *    checkCommands - названия программных команд, используемых в выбранном протоколе, для проверки перед отправкой на сервер;
+ *    checkTelemetries - названия телеметрий, используемых в выбранном протоколе, для проверки перед отправкой на сервер;
+ *    headers - HTTP заголовки для формирования HTTP запроса;
+ *    selectBox - SelectBox, с помощью которого выбирается нужный протокол.
+ * Методы, используемые в компоненте:
+ *    selectedTable() - определение выбранного протокола;
+ *    saveInfoAboutProject() - сохранение основной информации о протоколе;
+ *    saveMeasures() - сохранение списка измерений выбранного протокола;
+ *    saveDevices() - сохранение списка устройств выбранного протокола;
+ *    saveInterfaces() - сохранение списка интерфейсов выбранного протокола;
+ *    saveCommands() - сохранение списка программных команд выбранного протокола;
+ *    saveTelemetries() - сохранение списка телеметрий выбранного протокола;
+ *    addComment() - добавление комметария к протоколу после сохранения любого действия.
+ */
+
+import { Component, Inject, ViewChild } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { IProject } from '../table-projects/ProjectService';
 import { Observable } from 'rxjs';
@@ -13,12 +52,11 @@ import notify from 'devextreme/ui/notify';
   templateUrl: './project-changer.component.html',
   styleUrls: ['./project-changer.component.css']
 })
-export class ProjectChangerComponent implements OnInit {
+export class ProjectChangerComponent {
   projects: string;
   projectName: string;
   projectInfo: IProject = { id: '', nameProject: '', descriptionProject: '', dateCreateProject: new Date(), directorProject: '' };
   comments: IComments[];
-  newComment: IComments;
   users: IUsers[];
   measures: string[];
   devices: string[];
@@ -40,12 +78,21 @@ export class ProjectChangerComponent implements OnInit {
   });
   @ViewChild(DxSelectBoxComponent) selectBox: DxSelectBoxComponent;
 
+  /* Конструктор компонента ProjectChangerComponent.
+   * Переменные, используемые в конструкторе:
+   *      http - HTTP клиент;
+   *      baseUrl - базовый URL адрес.
+   */
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
     this.http.get<any>(this.baseUrl + 'Projects/GetNamesOfProjects').subscribe(result => {
       this.projects = result as string;
     }, error => console.error(error));
   }
 
+  /* selectedTable() - определение выбранного протокола.
+   * Формальный параметр:
+   *      data - выбранное значение SelectBox.
+   */
   public selectedTable(data) {
 
     this.projectName = data.value;
@@ -104,6 +151,10 @@ export class ProjectChangerComponent implements OnInit {
     }
   }
 
+  /* saveInfoAboutProject() - сохранение основной информации о протоколе.
+   * Формальный параметр:
+   *      form - данные с формы изменения основной информации протокола.
+   */
   public saveInfoAboutProject = (form: NgForm) => {
 
     if (form.controls.nameProject.value == this.projectInfo.nameProject &&
@@ -168,6 +219,7 @@ export class ProjectChangerComponent implements OnInit {
     }
   }
 
+  /* saveMeasures() - сохранение списка измерений выбранного протокола. */
   public saveMeasures() {
     if (JSON.stringify(this.checkMeasures) != JSON.stringify(this.selectedMeasures)) {
       this.http.put<any>(this.baseUrl + 'ProjectMeasure/UpdateLinkFromProjectChanger',
@@ -199,6 +251,7 @@ export class ProjectChangerComponent implements OnInit {
     }
   }
 
+  /* saveDevices() - сохранение списка устройств выбранного протокола. */
   public saveDevices() {
     if (JSON.stringify(this.checkDevices) != JSON.stringify(this.selectedDevices)) {
       this.http.put<any>(this.baseUrl + 'ProjectDevice/UpdateLinkFromProjectChanger',
@@ -230,6 +283,7 @@ export class ProjectChangerComponent implements OnInit {
     }
   }
 
+  /* saveInterfaces() - сохранение списка интерфейсов выбранного протокола. */
   public saveInterfaces() {
     if (JSON.stringify(this.checkInterfaces) != JSON.stringify(this.selectedInterfaces)) {
       this.http.put<any>(this.baseUrl + 'ProjectInterface/UpdateLinkFromProjectChanger',
@@ -261,6 +315,7 @@ export class ProjectChangerComponent implements OnInit {
     }
   }
 
+  /* saveCommands() - сохранение списка программных команд выбранного протокола. */
   public saveCommands() {
     if (JSON.stringify(this.checkCommands) != JSON.stringify(this.selectedCommands)) {
       this.http.put<any>(this.baseUrl + 'ProjectCommand/UpdateLinkFromProjectChanger',
@@ -292,6 +347,7 @@ export class ProjectChangerComponent implements OnInit {
     }
   }
 
+  /* saveTelemetries() - сохранение списка телеметрий выбранного протокола. */
   public saveTelemetries() {
     if (JSON.stringify(this.checkTelemetries) != JSON.stringify(this.selectedTelemetries)) {
       this.http.put<any>(this.baseUrl + 'ProjectTelemetry/UpdateLinkFromProjectChanger',
@@ -323,6 +379,10 @@ export class ProjectChangerComponent implements OnInit {
     }
   }
 
+  /* addComment() - добавление комметария к протоколу.
+   * Формальный параметр:
+   *      bodyComment - текст комментария.
+   */
   public addComment(bodyComment: string) {
     this.http.post<any>(this.baseUrl + "Comments/CreateComment", { headers: this.headers },
       {
@@ -335,8 +395,4 @@ export class ProjectChangerComponent implements OnInit {
         }).subscribe(res => this.comments = res);
       });
   }
-
-  ngOnInit() {
-  }
-
 }

@@ -1,3 +1,10 @@
+/* Компонент главной страницы.
+ * Название: HomeComponent.
+ * Язык: TypeScript.
+ * Краткое описание:
+ *    Данный компонент является главной страницей.
+ */
+
 import { Component } from '@angular/core';
 
 @Component({

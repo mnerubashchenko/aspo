@@ -1,3 +1,19 @@
+/* Компонент таблицы типов устройств.
+ * Название: TableTypeDevComponent.
+ * Язык: TypeScript.
+ * Краткое описание:
+ *    Данный компонент является страницей, отображающей информацию о типах устройств в расширенной версии приложения.
+ * Переменные, используемые в компоненте:
+ *    typesdev - информация о типах устройств;
+ *    dataGrid - таблица, содержащая информацию о типах устройств;
+ *    store - логика отправки данных о типах устройств на сервер;
+ *    headers - HTTP заголовки для формирования HTTP запроса.
+ * Методы, используемые в компоненте:
+ *    onRowUpdating() - формирование набора данных о типах устройств после редактирования для отправки на сервер;
+ *    asyncValidation() - проверка валидности данных при изменении информации о типе устройства;
+ *    telemetryReceived() - получение данных о типах устройств из сервиса TypedevService.
+ */
+
 import { Component, enableProdMode, ViewChild, Inject } from '@angular/core';
 import { ITypedev, TypedevService } from './TypedevService';
 import CustomStore from "devextreme/data/custom_store";
@@ -11,10 +27,16 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 })
 export class TableTypeDevComponent {
     public typesdev: ITypedev[];
-    typesdevValidate: ITypedev[];
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
+
+  /* Конструктор компонента TableTypeDevComponent.
+   * Переменные, используемые в конструкторе:
+   *      typedevService - экземпляр сервиса TypedevService;
+   *      http - HTTP клиент;
+   *      baseUrl - базовый URL адрес.
+   */
     constructor(private typedevService: TypedevService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
         this.asyncValidation = this.asyncValidation.bind(this);
@@ -34,6 +56,12 @@ export class TableTypeDevComponent {
         });
     }
 
+   /* onRowUpdating() - формирование набора данных о типах устройств после редактирования для отправки на сервер.
+    * Формальный параметр:
+    *      e - данные строки.
+    * Локальная переменная:
+    *      property - переменная для перебора значений строки.
+    */
     onRowUpdating(e) {
       for (var property in e.oldData) {
         if (!e.newData.hasOwnProperty(property)) {
@@ -42,22 +70,28 @@ export class TableTypeDevComponent {
       }
     }
 
+   /* asyncValidation() - проверка валидности данных при изменении информации о типах устройств.
+    * Формальный параметр:
+    *      params - значение, которое валидируется.
+    * Локальные переменные:
+    *      cleanTypesdevValidate - набор типов устройств, после удаления изменяемого типа устройства;
+    *      check - флаг, определяющий, уникально ли входное значение.
+    */
   asyncValidation(params) {
-    let cleanTypesdevValidate = this.typesdevValidate.filter(item => item.id != params.data.id);
+    let cleanTypesdevValidate = this.typesdev.filter(item => item.id != params.data.id);
     let check = (cleanTypesdevValidate.find(item => item.nameTypedev.toLowerCase() == params.value.toLowerCase()) != null) ? false : true;
     return new Promise((resolve) => {
       resolve(check === true);
     });
   }
 
+   /* typesdevReceived() - получение данных о типах устройств из сервиса TypedevService.
+    * Формальный параметр:
+    *      data - данные, пришедшие из сервиса TypedevService.
+    */
     typesdevReceived = (data: ITypedev[]) => {
         this.typesdev = data;
-        this.typesdevValidate = data;
         this.dataGrid.instance.refresh();
     }
-
-  ngOnInit() {
-
-  }
 
 }

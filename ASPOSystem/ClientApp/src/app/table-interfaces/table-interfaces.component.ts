@@ -1,3 +1,21 @@
+/* Компонент таблицы интерфейсов.
+ * Название: TableInterfacesComponent.
+ * Язык: TypeScript.
+ * Краткое описание:
+ *    Данный компонент является страницей, отображающей информацию об интерфейсах в расширенной версии приложения.
+ * Переменные, используемые в компоненте:
+ *    interfaces - информация об интерфейсах;
+ *    types - информация о типах интерфейсов;
+ *    dataGrid - таблица, содержащая информацию об интерфейсах;
+ *    store - логика отправки данных об интерфейсах на сервер;
+ *    headers - HTTP заголовки для формирования HTTP запроса.
+ * Методы, используемые в компоненте:
+ *    onRowUpdating() - формирование набора данных об интерфейсах после редактирования для отправки на сервер;
+ *    asyncValidation() - проверка валидности данных при изменении информации об интерфейсе;
+ *    interfaceReceived() - получение данных об устройствах из сервиса InterfaceService;
+ *    typeinterReceived() - получение данных о типах устройств из сервиса TypeinterService.
+ */
+
 import { Component, enableProdMode, ViewChild, Inject } from '@angular/core';
 import { IInterface, InterfaceService } from '../table-interfaces/InterfaceService';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -12,11 +30,18 @@ import { ITypeinter, TypeinterService } from '../table-type-inter/TypeinterServi
 })
 export class TableInterfacesComponent {
     public interfaces: IInterface[];
-    public interfacesValidate: IInterface[];
     public types: ITypeinter[];
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
-    headers: HttpHeaders;
+    headers: HttpHeaders; 
+
+  /* Конструктор компонента TableInterfacesComponent.
+   * Переменные, используемые в конструкторе:
+   *      interfaceService - экземпляр сервиса InterfaceService;
+   *      typeinterService - экземпляр сервиса TypeinterService;
+   *      http - HTTP клиент;
+   *      baseUrl - базовый URL адрес.
+   */
     constructor(private interfaceService: InterfaceService, private typeinterService: TypeinterService,
         public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
@@ -45,6 +70,12 @@ export class TableInterfacesComponent {
 
     }
 
+   /* onRowUpdating() - формирование набора данных об интерфейсах после редактирования для отправки на сервер.
+    * Формальный параметр:
+    *      e - данные строки.
+    * Локальная переменная:
+    *      property - переменная для перебора значений строки.
+    */
     onRowUpdating(e) {
         for (var property in e.oldData) {
             if (!e.newData.hasOwnProperty(property)) {
@@ -53,27 +84,37 @@ export class TableInterfacesComponent {
         }
     }
 
+   /* asyncValidation() - проверка валидности данных при изменении информации об интерфейсах.
+    * Формальный параметр:
+    *      params - значение, которое валидируется.
+    * Локальные переменные:
+    *      cleanInterfacesValidate - набор интерфейсов, после удаления изменяемого интерфейса;
+    *      check - флаг, определяющий, уникально ли входное значение.
+    */
   asyncValidation(params) {
-    let cleanDInterfacesValidate = this.interfacesValidate.filter(item => item.id != params.data.id);
-    let check = (cleanDInterfacesValidate.find(item => item.name.toLowerCase() == params.value.toLowerCase()) != null) ? false : true;
+    let cleanInterfacesValidate = this.interfaces.filter(item => item.id != params.data.id);
+    let check = (cleanInterfacesValidate.find(item => item.name.toLowerCase() == params.value.toLowerCase()) != null) ? false : true;
     return new Promise((resolve) => {
       resolve(check === true);
     });
   }
 
+   /* interfaceReceived() - получение данных об интерфейсах из сервиса InterfaceService.
+    * Формальный параметр:
+    *      data - данные, пришедшие из сервиса InterfaceService.
+    */
     interfaceReceived = (data: IInterface[]) => {
         this.interfaces = data;
-        this.interfacesValidate = data;
         this.dataGrid.instance.refresh();
     }
 
+   /* typeinterReceived() - получение данных об интерфейсах из сервиса TypeinterService.
+    * Формальный параметр:
+    *      data1 - данные, пришедшие из сервиса TypeinterService.
+    */
     typeinterReceived = (data1: ITypeinter[]) => {
         this.types = data1;
         this.dataGrid.instance.refresh();
-    }
-
-    ngOnInit() {
-
     }
 
 }

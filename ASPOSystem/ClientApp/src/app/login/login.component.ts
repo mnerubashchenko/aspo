@@ -1,5 +1,14 @@
+/* Компонент формы авторизации.
+ * Название: LoginComponent.
+ * Язык: TypeScript.
+ * Краткое описание:
+ *    Данный компонент является формой авторизации в приложении.
+ * Метод, используемый в компоненте:
+ *    login() - отправка введенных данных на сервер для авторизации и аутентификации.
+ */
+
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Router } from "@angular/router";
 import { NgForm } from '@angular/forms';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -13,12 +22,25 @@ import notify from 'devextreme/ui/notify';
 })
 export class LoginComponent {
 
-  loginn: string = "";
-  password: string = "";
+  /* Конструктор компонента LoginComponent.
+   * Переменные, используемые в конструкторе:
+   *      router - переменная, отвечающая за маршрутизацию;
+   *      http - HTTP клиент;
+   *      baseUrl - базовый URL адрес;
+   *      jwtHelper - переменная для работы с JWT токенами.
+   */
     constructor(private router: Router, private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private jwtHelper: JwtHelperService) {
         this.baseUrl = baseUrl;
     }
-  
+
+   /* login() - отправка введенных данных на сервер для авторизации и аутентификации.
+    * Формальный параметр:
+    *      form - данные, введенные пользователем.
+    * Локальные переменные:
+    *      credentials - десериализованные данные, введенные пользователем;
+    *      token - сгенерированный закодированный JWT токен;
+    *      userLogin - декодированный JWT токен, содержащий информацию о пользователе.
+    */
   public login = (form: NgForm) => {
       let credentials = JSON.stringify(form.value);
       this.http.post(this.baseUrl + "api/auth/login", credentials, {

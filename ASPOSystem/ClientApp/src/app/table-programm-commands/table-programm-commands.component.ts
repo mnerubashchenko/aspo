@@ -1,3 +1,19 @@
+/* Компонент таблицы программных команд.
+ * Название: TableProgrammCommandsComponent.
+ * Язык: TypeScript.
+ * Краткое описание:
+ *    Данный компонент является страницей, отображающей информацию о программных командах в расширенной версии приложения.
+ * Переменные, используемые в компоненте:
+ *    commands - информация о программных командах;
+ *    dataGrid - таблица, содержащая информацию о программных командах;
+ *    store - логика отправки данных о программных командах на сервер;
+ *    headers - HTTP заголовки для формирования HTTP запроса.
+ * Методы, используемые в компоненте:
+ *    onRowUpdating() - формирование набора данных о программных командах после редактирования для отправки на сервер;
+ *    asyncValidation() - проверка валидности данных при изменении информации о программной команде;
+ *    commandReceived() - получение данных о программных командах из сервиса PrCommandsService.
+ */
+
 import { Component, enableProdMode, ViewChild, Inject } from '@angular/core';
 import { IProgrammcommands, PrCommandsService } from './PrCommandsService';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -11,10 +27,16 @@ import { DxDataGridComponent } from 'devextreme-angular';
 })
 export class TableProgrammCommandsComponent {
     public commands: IProgrammcommands[];
-    public commandsValidate: IProgrammcommands[];
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
+
+  /* Конструктор компонента TableProgrammCommandsComponent.
+   * Переменные, используемые в конструкторе:
+   *      commandService - экземпляр сервиса PrCommandsService;
+   *      http - HTTP клиент;
+   *      baseUrl - базовый URL адрес.
+   */
     constructor(private commandService: PrCommandsService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
         this.asyncValidation = this.asyncValidation.bind(this);
@@ -34,6 +56,12 @@ export class TableProgrammCommandsComponent {
         });
     }
 
+   /* onRowUpdating() - формирование набора данных о программных командах после редактирования для отправки на сервер.
+    * Формальный параметр:
+    *      e - данные строки.
+    * Локальная переменная:
+    *      property - переменная для перебора значений строки.
+    */
     onRowUpdating(e) {
       for (var property in e.oldData) {
         if (!e.newData.hasOwnProperty(property)) {
@@ -42,22 +70,28 @@ export class TableProgrammCommandsComponent {
       }
     }
 
+   /* asyncValidation() - проверка валидности данных при изменении информации о программных командах.
+    * Формальный параметр:
+    *      params - значение, которое валидируется.
+    * Локальные переменные:
+    *      cleanCommandsValidate - набор программных команд, после удаления изменяемой команды;
+    *      check - флаг, определяющий, уникально ли входное значение.
+    */
   asyncValidation(params) {
-    let cleanCommandsValidate = this.commandsValidate.filter(item => item.id != params.data.id);
+    let cleanCommandsValidate = this.commands.filter(item => item.id != params.data.id);
     let check = (cleanCommandsValidate.find(item => item.name.toLowerCase() == params.value.toLowerCase()) != null) ? false : true;
     return new Promise((resolve) => {
       resolve(check === true);
     });
   }
 
+   /* commandReceived() - получение данных о программных командах из сервиса PrCommandsService.
+    * Формальный параметр:
+    *      data - данные, пришедшие из сервиса PrCommandsService.
+    */
     commandReceived = (data: IProgrammcommands[]) => {
         this.commands = data;
-        this.commandsValidate = data;
         this.dataGrid.instance.refresh();
-  }
-
-  ngOnInit() {
-
-  }
+    }
 
 }

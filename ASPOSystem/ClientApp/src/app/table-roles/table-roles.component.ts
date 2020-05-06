@@ -1,3 +1,19 @@
+/* Компонент таблицы ролей пользователей.
+ * Название: TableRolesComponent.
+ * Язык: TypeScript.
+ * Краткое описание:
+ *    Данный компонент является страницей, отображающей информацию о ролях пользователей в расширенной версии приложения.
+ * Переменные, используемые в компоненте:
+ *    roles - информация о ролях;
+ *    dataGrid - таблица, содержащая информацию о ролях;
+ *    store - логика отправки данных о ролях на сервер;
+ *    headers - HTTP заголовки для формирования HTTP запроса.
+ * Методы, используемые в компоненте:
+ *    onRowUpdating() - формирование набора данных о ролях после редактирования для отправки на сервер;
+ *    asyncValidation() - проверка валидности данных при изменении информации о роли;
+ *    rolesReceived() - получение данных о ролях из сервиса RoleService.
+ */
+
 import { Component, enableProdMode, ViewChild, Inject } from '@angular/core';
 import { IRoles, RoleService } from './RoleService';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -11,10 +27,16 @@ import { DxDataGridComponent } from 'devextreme-angular';
 })
 export class TableRolesComponent {
     public roles: IRoles[];
-    public rolesValidate: IRoles[];
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
     store: any;
     headers: HttpHeaders;
+
+  /* Конструктор компонента TableRolesComponent.
+   * Переменные, используемые в конструкторе:
+   *      roleService - экземпляр сервиса RoleService;
+   *      http - HTTP клиент;
+   *      baseUrl - базовый URL адрес.
+   */
     constructor(private roleService: RoleService, public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
         sessionStorage.setItem("locale", 'ru');
         this.asyncValidation = this.asyncValidation.bind(this);
@@ -34,6 +56,12 @@ export class TableRolesComponent {
         });
     }
 
+   /* onRowUpdating() - формирование набора данных о ролях после редактирования для отправки на сервер.
+    * Формальный параметр:
+    *      e - данные строки.
+    * Локальная переменная:
+    *      property - переменная для перебора значений строки.
+    */
     onRowUpdating(e) {
       for (var property in e.oldData) {
         if (!e.newData.hasOwnProperty(property)) {
@@ -42,22 +70,28 @@ export class TableRolesComponent {
       }
     }
 
+   /* asyncValidation() - проверка валидности данных при изменении информации о ролях.
+    * Формальный параметр:
+    *      params - значение, которое валидируется.
+    * Локальные переменные:
+    *      cleanRolesValidate - набор ролей, после удаления изменяемой роли;
+    *      check - флаг, определяющий, уникально ли входное значение.
+    */
   asyncValidation(params) {
-    let cleanRolesValidate = this.rolesValidate.filter(item => item.id != params.data.id);
+    let cleanRolesValidate = this.roles.filter(item => item.id != params.data.id);
     let check = (cleanRolesValidate.find(item => item.nameRole.toLowerCase() == params.value.toLowerCase()) != null) ? false : true;
     return new Promise((resolve) => {
       resolve(check === true);
     });
   }
 
+   /* rolesReceived() - получение данных о ролях из сервиса RoleService.
+    * Формальный параметр:
+    *      data - данные, пришедшие из сервиса RoleService.
+    */
     rolesReceived = (data: IRoles[]) => {
         this.roles = data;
-        this.rolesValidate = data;
         this.dataGrid.instance.refresh();
-    }
-
-    ngOnInit() {
-
     }
 
 }
