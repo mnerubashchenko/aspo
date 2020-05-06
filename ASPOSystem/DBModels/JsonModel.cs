@@ -1,4 +1,17 @@
-﻿using System;
+﻿/* Класс "Модель файла настроек JSON".
+ * Название: JsonModel.
+ * Язык: C#.
+ * Краткое описание:
+ *      Данный класс описывает структуру файла настроек JSON.
+ * Свойства, описанные в классе:
+ *      measures - список измерений;
+ *      devices - список устройств;
+ *      interfaces - список интерфейсов;
+ *      commands - список программных команд;
+ *      telemetryItems - список телеметрий.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

@@ -1,10 +1,34 @@
-﻿using System;
+﻿/* Класс "Модель таблицы измерений".
+ * Название: Measure.
+ * Язык: C#.
+ * Краткое описание:
+ *      Данный класс описывает таблицу измерений.
+ * Свойства, описанные в классе:
+ *      Id - поле Id таблицы измерений;
+ *      Grouup - поле Grouup таблицы измерений;
+ *      IsParent - поле IsParent таблицы измерений;
+ *      IdMeasure - поле IdMeasure таблицы измерений;
+ *      ParentId - поле ParentId таблицы измерений;
+ *      Name - поле Name таблицы измерений;
+ *      Caption - поле Caption таблицы измерений;
+ *      MinValue - поле MinValue таблицы измерений;
+ *      MaxValue - поле MaxValue таблицы измерений;
+ *      IsCheck - поле IsCheck таблицы измерений;
+ *      Status - поле Status таблицы измерений;
+ *      Type - поле Type таблицы измерений;
+ *      Factor - поле Factor таблицы измерений;
+ *      TypeNavigation - связь измерения и его типа;
+ *      ProjectMeasure - связь конкретного измерения и протоколов, использующих данное измерение.
+ */
+
+using System;
 using System.Collections.Generic;
 
 namespace ASPOSystem.DBModels
 {
     public partial class Measure
     {
+        /* Конструктор класса Measure. */
         public Measure()
         {
             ProjectMeasure = new HashSet<ProjectMeasure>();

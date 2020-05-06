@@ -1,4 +1,34 @@
-﻿using System;
+﻿/* Класс "Контекст базы данных".
+ * Название: RSSForVKRContext.
+ * Язык: C#.
+ * Краткое описание:
+ *      Данный класс структуру базы данных.
+ * Свойства, описанные в классе:
+ *      Brands - таблица Brands;
+ *      Comments - таблица Comments;
+ *      Devices - таблица Devices;
+ *      Interfaces - таблица Interfaces;
+ *      Measure - таблица Measure;
+ *      Posts - таблица Posts;
+ *      Programmcommands - таблица Programmcommands;
+ *      Project - таблица Project;
+ *      ProjectCommand - таблица ProjectCommand;
+ *      ProjectDevice - таблица ProjectDevice;
+ *      ProjectInterface - таблица ProjectInterface;
+ *      ProjectMeasure - таблица ProjectMeasure;
+ *      ProjectTelemetry - таблица ProjectTelemetry;
+ *      Roles - таблица Roles;
+ *      Telemetry - таблица Telemetry;
+ *      Typedev - таблица Typedev;
+ *      Typeinter - таблица Typeinter;
+ *      Typemeasure - таблица Typemeasure;
+ *      Users - таблица Users.
+ * Методы, используемые в классе:
+ *      OnConfiguring() - конфигурация подключения к SQL серверу;
+ *      OnModelCreating() - создание модели базы данных.
+ */
+
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -6,10 +36,12 @@ namespace ASPOSystem.DBModels
 {
     public partial class RSSForVKRContext : DbContext
     {
+        /* Конструктор класса RSSForVKRContext. */
         public RSSForVKRContext()
         {
         }
 
+        /* Перегруженный конструктор класса RSSForVKRContext. */
         public RSSForVKRContext(DbContextOptions<RSSForVKRContext> options)
             : base(options)
         {
@@ -35,15 +67,22 @@ namespace ASPOSystem.DBModels
         public virtual DbSet<Typemeasure> Typemeasure { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
+        /* OnConfiguring() - конфигурация подключения к SQL серверу.
+         * Формальный параметр:
+         *      optionsBuilder - параметры подключения.
+         */
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=DESKTOP-DRQFEK8\\SQLEXPRESS;Initial Catalog=RSSForVKR;Persist Security Info=False;User ID=RSSadmin;Password=#Qteltn3;MultipleActiveResultSets=False;");
             }
         }
 
+        /* OnModelCreating() - создание модели базы данных.
+         * Формальный параметр:
+         *      modelBuilder - параметр, организующий генерацию модели.
+         */
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Brands>(entity =>

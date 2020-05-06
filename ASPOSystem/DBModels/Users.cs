@@ -1,10 +1,31 @@
-﻿using System;
+﻿/* Класс "Модель таблицы пользователей".
+ * Название: Users.
+ * Язык: C#.
+ * Краткое описание:
+ *      Данный класс описывает таблицу пользователей.
+ * Свойства, описанные в классе:
+ *      Id - поле Id таблицы пользователей;
+ *      NameUser - поле NameUser таблицы пользователей;
+ *      MiddlenameUser - поле MiddlenameUser таблицы пользователей;
+ *      LastnameUser - поле LastnameUser таблицы пользователей;
+ *      LoginUser - поле LoginUser таблицы пользователей;
+ *      PasswordUser - поле PasswordUser таблицы пользователей;
+ *      PostUser - поле PostUser таблицы пользователей;
+ *      RoleUser - поле RoleUser таблицы пользователей;
+ *      PostUserNavigation - связь пользователя и его должности;
+ *      RoleUserNavigation - связь пользователя и его роли;
+ *      Comments - связь конкретного пользователя и комментариев, которые он оставил;
+ *      Project - связь конкретного пользователя и протоколов, которые он создал.
+ */
+
+using System;
 using System.Collections.Generic;
 
 namespace ASPOSystem.DBModels
 {
     public partial class Users
     {
+        /* Конструктор класса Users. */
         public Users()
         {
             Comments = new HashSet<Comments>();
