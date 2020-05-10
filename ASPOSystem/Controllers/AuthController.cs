@@ -44,14 +44,8 @@ namespace ASPOSystem.Controllers
         [HttpPost, Route("login")]
         public IActionResult Login([FromBody]LoginModel user)
         {
-            if (user == null)                                                                    // Проверка на наличие введенных данных
-            {
-                return BadRequest("Invalid client request");
-            }
-
             if (db.Users.Any(r=> r.LoginUser.ToString() == user.UserName && r.PasswordUser.ToString() == string.Concat(GetSalt_Hash(user.UserName,user.Password).Item1, GetSalt_Hash(user.UserName, user.Password).Item2)))
             {
-
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
                 var role = db.Roles.FirstOrDefault(r => r.Id == db.Users.FirstOrDefault(t => t.LoginUser == user.UserName).RoleUser).NameRole.ToString();
@@ -88,9 +82,7 @@ namespace ASPOSystem.Controllers
          *      hashed - хэш введенного пользователем пароля на основе реальной соли.
          */
         private Tuple<string,string> GetSalt_Hash(string login, string psswd) {
-            if (!db.Users.Any(r => r.LoginUser == login))                                        // Проверка на существование пользовтеля с введенным логином
-                return Tuple.Create("", "");
-            else
+            if (db.Users.Any(r => r.LoginUser == login))                                         // Проверка на существование пользовтеля с введенным логином
             {
                 Users u = db.Users.FirstOrDefault(r => r.LoginUser == login);                    // Хэширование введенного пользователем пароля
                 string salt = u.PasswordUser.ToString().Substring(0, 24);
@@ -102,6 +94,9 @@ namespace ASPOSystem.Controllers
                 numBytesRequested: 256 / 8));
                 return Tuple.Create(salt, hashed);
             }
+               
+            else
+                return Tuple.Create("", "");
 
         }
     }

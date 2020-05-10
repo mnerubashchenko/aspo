@@ -25,7 +25,8 @@
  *    checkCommands - названия программных команд, используемых в выбранном протоколе, для проверки перед отправкой на сервер;
  *    checkTelemetries - названия телеметрий, используемых в выбранном протоколе, для проверки перед отправкой на сервер;
  *    headers - HTTP заголовки для формирования HTTP запроса;
- *    selectBox - SelectBox, с помощью которого выбирается нужный протокол.
+ *    selectBox - SelectBox, с помощью которого выбирается нужный протокол;
+ *    flag - переменная, отвечающая за отображение информации по проекту.
  * Методы, используемые в компоненте:
  *    selectedTable() - определение выбранного протокола;
  *    saveInfoAboutProject() - сохранение основной информации о протоколе;
@@ -77,6 +78,7 @@ export class ProjectChangerComponent {
     "Content-Type": "application/json"
   });
   @ViewChild(DxSelectBoxComponent) selectBox: DxSelectBoxComponent;
+  flag: boolean = false;
 
   /* Конструктор компонента ProjectChangerComponent.
    * Переменные, используемые в конструкторе:
@@ -96,6 +98,8 @@ export class ProjectChangerComponent {
   public selectedTable(data) {
 
     this.projectName = data.value;
+
+    this.flag = true;
 
     if (this.projectName != null) {
       Observable.forkJoin(

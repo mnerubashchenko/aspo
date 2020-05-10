@@ -1,4 +1,4 @@
-<h1>Выберите проект, которые хотите изменить</h1>
+<h1>Выберите проект, который хотите изменить</h1>
 
 <div>
   <dx-select-box [items]="projects" (onValueChanged)="selectedTable($event)"></dx-select-box>
@@ -6,6 +6,7 @@
 
 <p></p>
 
+<div *ngIf="flag">
 <h1 class="">Измените необходимые параметры</h1>
 <p></p>
 <div class="tabPanel-widget">
@@ -176,29 +177,32 @@
     </div>
   </div>
 </div>
+</div>
 
-<h1>Журнал действий по проекту</h1>
+<div *ngIf="flag">
+  <h1>Журнал действий по проекту</h1>
 
-<dx-data-grid id="gridContainer"
-              [dataSource]="comments"
-              [showBorders]="true"
-              keyExpr="Id"
-              (onRowUpdating)="onRowUpdating($event)"
-              [hoverStateEnabled]="true">
+  <dx-data-grid id="gridContainer"
+                [dataSource]="comments"
+                [showBorders]="true"
+                keyExpr="Id"
+                (onRowUpdating)="onRowUpdating($event)"
+                [hoverStateEnabled]="true">
 
-  <dxi-column dataField="AuthorComment"
-              caption="Автор комментария"
-              [allowSorting]="false">
-    <dxo-lookup [dataSource]="users"
-                displayExpr="loginUser"
-                valueExpr="id">
-    </dxo-lookup>
-  </dxi-column>
+    <dxi-column dataField="AuthorComment"
+                caption="Автор комментария"
+                [allowSorting]="false">
+      <dxo-lookup [dataSource]="users"
+                  displayExpr="loginUser"
+                  valueExpr="id">
+      </dxo-lookup>
+    </dxi-column>
 
-  <dxi-column dataField="DateCreateComment" dataType="datetime" caption="Дата" sortOrder="desc" [allowSorting]="false"></dxi-column>
+    <dxi-column dataField="DateCreateComment" dataType="datetime" caption="Дата" sortOrder="desc" [allowSorting]="false"></dxi-column>
 
-  <dxi-column dataField="BodyComment" caption="Комментарий" [allowSorting]="false"></dxi-column>
+    <dxi-column dataField="BodyComment" caption="Комментарий" [allowSorting]="false"></dxi-column>
 
-</dx-data-grid>
+  </dx-data-grid>
+</div>
 
 <p></p>

@@ -46,7 +46,7 @@ namespace ASPOSystem.Controllers
             if (correction == "full")
                 return db.Users.ToList();
             else
-                return db.Users.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000" 
+                return db.Users.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000"
                 && p.Id.ToString() != "11111111-1111-1111-1111-111111111111").ToList();
         }
 
@@ -67,7 +67,7 @@ namespace ASPOSystem.Controllers
          */
         [HttpGet]
         [Route("GetIdOfAuthorizedUser"), Authorize(Roles = "Администратор, Гость")]
-        public Guid GetIdOfAuthorizedUser (string login)
+        public Guid GetIdOfAuthorizedUser(string login)
         {
             return db.Users.FirstOrDefault(p => p.LoginUser == login).Id;
         }
@@ -83,15 +83,13 @@ namespace ASPOSystem.Controllers
         [Route("CreateUser")]
         public IActionResult CreateUser([FromBody] Users newUser)
         {
-            if (db.Users.Any(r=> r.LoginUser == newUser.LoginUser))                                                        // Проверка занятости
-                return BadRequest("Данный логин занят");                                                                   // введенного логина
-            else
+            if (!db.Users.Any(r => r.LoginUser == newUser.LoginUser))
             {
                 var salt = new byte[128 / 8];
 
                 using (var rng = RandomNumberGenerator.Create())
                 {
-                rng.GetBytes(salt);
+                    rng.GetBytes(salt);
                 }
 
                 newUser.PasswordUser = HashPassword(Convert.ToBase64String(salt), newUser.PasswordUser);
@@ -103,6 +101,9 @@ namespace ASPOSystem.Controllers
 
                 return Ok();
             }
+
+            else
+                return BadRequest("Данный логин занят");
         }
 
 
@@ -117,10 +118,10 @@ namespace ASPOSystem.Controllers
         [Route("UpdateUser"), Authorize(Roles = "Администратор, Гость")]
         public IActionResult UpdateUser([FromBody] Users updatedUser)
         {
-            Users user = db.Users.FirstOrDefault(r=>r.Id == updatedUser.Id);
+            Users user = db.Users.FirstOrDefault(r => r.Id == updatedUser.Id);
 
             if ((user.LoginUser == updatedUser.LoginUser) || (!db.Users.Any(r => r.LoginUser == updatedUser.LoginUser)))      // Проверка занятости введенного логина
-            {                                                                                                               
+            {
                 if (user.PasswordUser != updatedUser.PasswordUser)                                                            // Проверка на то, был ли изменен пароль   
                 {
                     var salt = new byte[128 / 8];
@@ -145,7 +146,7 @@ namespace ASPOSystem.Controllers
                 return Ok();
             }
 
-            else 
+            else
                 return BadRequest("Данный логин занят!");
         }
 
@@ -170,14 +171,11 @@ namespace ASPOSystem.Controllers
             string saltOfOldPass = user.PasswordUser.ToString().Substring(0, 24);
 
             string hashedOldPass = HashPassword(saltOfOldPass, oldPassword);
-            
-            if (hashedOldPass != user.PasswordUser.ToString())
-                return BadRequest("Неправильно введен ваш текущий пароль");
-            
-            else if (HashPassword(saltOfOldPass, newPassword) == user.PasswordUser)                                           // Проверка правильности                                                                                                   
-                return BadRequest("Новый пароль не должен совпадать с текущим");                                              // введенного старого пароля
 
-            else
+            if (hashedOldPass != user.PasswordUser.ToString())                                                                // Проверка правильности введенного старого пароля    
+                return BadRequest("Неправильно введен ваш текущий пароль");
+
+            else if (HashPassword(saltOfOldPass, newPassword) != user.PasswordUser)
             {
                 var salt = new byte[128 / 8];
 
@@ -192,7 +190,10 @@ namespace ASPOSystem.Controllers
 
                 return Ok();
             }
-                
+            
+            else
+                return BadRequest("Новый пароль не должен совпадать с текущим");
+
         }
 
 
@@ -203,7 +204,7 @@ namespace ASPOSystem.Controllers
          * Локальная переменная:
          *      hashed - хэш пароля.
          */
-        public string HashPassword (string salt, string pass)
+        public string HashPassword(string salt, string pass)
         {
             string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                 password: pass,
