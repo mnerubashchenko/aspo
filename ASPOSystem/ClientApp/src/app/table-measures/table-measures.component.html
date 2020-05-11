@@ -7,7 +7,7 @@
 
   <dxo-filter-row [visible]="true"></dxo-filter-row>
 
-  <dxi-column dataField="grouup" caption="Группа"></dxi-column>
+  <dxi-column dataField="grouup" caption="Группа" dataType="number"></dxi-column>
 
   <dxi-column dataField="isParent" caption="Статус родительского элемента"></dxi-column>
 
@@ -42,7 +42,7 @@
     </dxo-lookup>
   </dxi-column>
 
-  <dxi-column dataField="factor" caption="фактор ?"></dxi-column>
+  <dxi-column dataField="factor" caption="Фактор"></dxi-column>
 
   <dxo-editing mode="popup"
                [allowUpdating]="true"

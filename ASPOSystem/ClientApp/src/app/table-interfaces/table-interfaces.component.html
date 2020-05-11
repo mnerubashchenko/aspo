@@ -30,9 +30,13 @@
     </dxo-lookup>
   </dxi-column>
 
-  <dxi-column dataField="ipInput" caption="Базовый IP"></dxi-column>
+  <dxi-column dataField="ipInput" caption="Базовый IP">
+    <dxi-validation-rule type="pattern" [pattern]="ipPattern" message="Вы допустили ошибку при вводе базового IP-адреса"></dxi-validation-rule>
+  </dxi-column>
 
-  <dxi-column dataField="actualIp" caption="Актуальный IP"></dxi-column>
+  <dxi-column dataField="actualIp" caption="Актуальный IP">
+    <dxi-validation-rule type="pattern" [pattern]="ipPattern" message="Вы допустили ошибку при вводе актуального IP-адреса"></dxi-validation-rule>
+  </dxi-column>
 
   <dxo-editing mode="popup"
                [allowUpdating]="true"

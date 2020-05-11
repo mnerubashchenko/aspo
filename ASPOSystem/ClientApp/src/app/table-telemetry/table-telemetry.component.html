@@ -7,9 +7,9 @@
 
   <dxo-filter-row [visible]="true"></dxo-filter-row>
 
-  <dxi-column dataField="hasItems" caption="???"></dxi-column>
+  <dxi-column dataField="hasItems" caption="Наличие дочерних элементов"></dxi-column>
 
-  <dxi-column dataField="parentId" caption="id родительского элемента"></dxi-column>
+  <dxi-column dataField="parentId" caption="ID родительского элемента"></dxi-column>
 
   <dxi-column dataField="longName" caption="Полное название">
     <dxi-validation-rule type="required"></dxi-validation-rule>
@@ -23,11 +23,11 @@
     </dxi-validation-rule>
   </dxi-column>
 
-  <dxi-column dataField="byteNumber" caption="Количество байтов"></dxi-column>
+  <dxi-column dataField="byteNumber" caption="Количество байтов" dataType="number"></dxi-column>
 
-  <dxi-column dataField="startBit" caption="Первый бит"></dxi-column>
+  <dxi-column dataField="startBit" caption="Первый бит" dataType="number"></dxi-column>
 
-  <dxi-column dataField="lenght" caption="Длина"></dxi-column>
+  <dxi-column dataField="lenght" caption="Длина" dataType="number"></dxi-column>
 
   <dxi-column dataField="possibleValues" caption="Возможные значения"></dxi-column>
 

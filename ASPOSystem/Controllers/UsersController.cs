@@ -172,27 +172,30 @@ namespace ASPOSystem.Controllers
 
             string hashedOldPass = HashPassword(saltOfOldPass, oldPassword);
 
-            if (hashedOldPass != user.PasswordUser.ToString())                                                                // Проверка правильности введенного старого пароля    
-                return BadRequest("Неправильно введен ваш текущий пароль");
-
-            else if (HashPassword(saltOfOldPass, newPassword) != user.PasswordUser)
+            if (hashedOldPass == user.PasswordUser.ToString())                                                                // Проверка правильности введенного старого пароля    
             {
-                var salt = new byte[128 / 8];
-
-                using (var rng = RandomNumberGenerator.Create())
+                if (HashPassword(saltOfOldPass, newPassword) != user.PasswordUser)
                 {
-                    rng.GetBytes(salt);
+                    var salt = new byte[128 / 8];
+
+                    using (var rng = RandomNumberGenerator.Create())
+                    {
+                        rng.GetBytes(salt);
+                    }
+
+                    user.PasswordUser = HashPassword(Convert.ToBase64String(salt), newPassword);
+
+                    db.SaveChanges();
+
+                    return Ok();
                 }
 
-                user.PasswordUser = HashPassword(Convert.ToBase64String(salt), newPassword);
-
-                db.SaveChanges();
-
-                return Ok();
+                else
+                    return BadRequest("Новый пароль не должен совпадать с текущим");
             }
-            
+
             else
-                return BadRequest("Новый пароль не должен совпадать с текущим");
+                return BadRequest("Неправильно введен ваш текущий пароль");
 
         }
 

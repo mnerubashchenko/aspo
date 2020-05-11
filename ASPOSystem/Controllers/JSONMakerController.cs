@@ -51,35 +51,83 @@ namespace ASPOSystem.Controllers
 
             Guid idProject = db.Project.FirstOrDefault(p => p.NameProject == nameProject).Id;
 
-            List<Measure> measures = new List<Measure>();
+            var measures = new List<object>();
 
-            List<Devices> devices = new List<Devices>();
+            var devices = new List<object>();
 
-            List<Interfaces> interfaces = new List<Interfaces>();
+            var interfaces = new List<object>();
 
-            List<Programmcommands> commands = new List<Programmcommands>();
+            var commands = new List<Programmcommands>();
 
-            List<Telemetry> telemetries = new List<Telemetry>();
+            var telemetries = new List<Telemetry>();
 
             var measuresId = db.ProjectMeasure.Where(p => p.IdProject == idProject).Select(item => item.IdMeasure).ToList();            // Определение измерений, используемых
                                                                                                                                         // в выбранном протоколе
             foreach (Guid mi in measuresId)
             {
-                measures.Add(db.Measure.FirstOrDefault(p => p.Id == mi));
+                measures.Add(db.Measure.Join(db.Typemeasure,
+                    measure => measure.Type.ToString(),
+                    type => type.Id.ToString(),
+                    (measure, type) => new
+                    {
+                        measure.Id,
+                        measure.Grouup,
+                        measure.IsParent,
+                        measure.IdMeasure,
+                        measure.ParentId,
+                        measure.Name,
+                        measure.Caption,
+                        measure.MinValue,
+                        measure.MaxValue,
+                        measure.IsCheck,
+                        measure.Status,
+                        Type = type.NameTypemeasure,
+                        measure.Factor
+                    }).ToList().FirstOrDefault(u => u.Id == mi));
             }
 
             var devicesId = db.ProjectDevice.Where(p => p.IdProject == idProject).Select(item => item.IdDevice).ToList();             // Определение устройств, используемых
                                                                                                                                       // в выбранном протоколе
             foreach (Guid di in devicesId)
             {
-                devices.Add(db.Devices.FirstOrDefault(p => p.Id == di));
+                var result = from device in db.Devices
+                             join type in db.Typedev on device.Type equals type.Id
+                             join brand in db.Brands on device.Brand equals brand.Id
+                             where device.Id == di
+                             select new
+                             {
+                                 device.Id,
+                                 Type = type.NameTypedev,
+                                 device.Caption,
+                                 Brand = brand.NameBrand,
+                                 device.Model,
+                                 device.Status,
+                                 device.IpInput,
+                                 device.ActualIp,
+                                 device.Port,
+                                 device.PositionNumber
+                             };
+                devices.Add(result.ToList().First());
             }
 
             var interfacesId = db.ProjectInterface.Where(p => p.IdProject == idProject).Select(item => item.IdInterface).ToList();    // Определение интерфейсов, используемых
                                                                                                                                       // в выбранном протоколе
             foreach (Guid ii in interfacesId)
             {
-                interfaces.Add(db.Interfaces.FirstOrDefault(p => p.Id == ii));
+                interfaces.Add(db.Interfaces.Join(db.Typeinter,
+                    inter => inter.Type.ToString(),
+                    type => type.Id.ToString(),
+                    (inter, type) => new
+                    {
+                        inter.Id,
+                        inter.Name,
+                        inter.IsReadyStatus,
+                        inter.IsUsed,
+                        inter.SelectedPort,
+                        type.NameTypeinter,
+                        inter.IpInput,
+                        inter.ActualIp
+                    }).ToList().FirstOrDefault(u => u.Id == ii));
             }
 
             var commandsId = db.ProjectCommand.Where(p => p.IdProject == idProject).Select(item => item.IdCommand).ToList();          // Определение программных команд, используемых

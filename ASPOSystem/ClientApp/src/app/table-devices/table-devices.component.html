@@ -35,15 +35,19 @@
     </dxi-validation-rule>
   </dxi-column>
 
-  <dxi-column dataField="status" caption="статус"></dxi-column>
+  <dxi-column dataField="status" caption="Статус"></dxi-column>
 
-  <dxi-column dataField="ipInput" caption="Базовый IP"></dxi-column>
+  <dxi-column dataField="ipInput" caption="Базовый IP">
+    <dxi-validation-rule type="pattern" [pattern]="ipPattern" message="Вы допустили ошибку при вводе базового IP-адреса"></dxi-validation-rule>
+  </dxi-column>
 
-  <dxi-column dataField="actualIp" caption="Актуальный IP"></dxi-column>
+  <dxi-column dataField="actualIp" caption="Актуальный IP">
+    <dxi-validation-rule type="pattern" [pattern]="ipPattern" message="Вы допустили ошибку при вводе актуального IP-адреса"></dxi-validation-rule>
+  </dxi-column>
 
-  <dxi-column dataField="port" caption="Порт"></dxi-column>
+  <dxi-column dataField="port" caption="Порт" dataType="number"></dxi-column>
 
-  <dxi-column dataField="positionNumber" caption="номер позиции?"></dxi-column>
+  <dxi-column dataField="positionNumber" caption="Номер" dataType="number"></dxi-column>
 
   <dxo-editing mode="popup"
                [allowUpdating]="true"

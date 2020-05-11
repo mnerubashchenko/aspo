@@ -14,7 +14,6 @@
 
 import { Component, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { ProjectService } from '../table-projects/ProjectService';
 import { saveAs } from 'file-saver/dist/FileSaver';
 import CyrillicToTranslit = require('cyrillic-to-translit-js/dist/bundle');
 

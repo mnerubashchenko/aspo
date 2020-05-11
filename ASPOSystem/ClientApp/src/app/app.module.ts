@@ -47,6 +47,7 @@ import { ProjectCreatorComponent } from './project-creator/project-creator.compo
 import { ProjectChangerComponent } from './project-changer/project-changer.component';
 import { TableCommentsComponent } from './table-comments/table-comments.component';
 import { CommentsService } from './table-comments/CommentsService';
+import { AuthGuard } from './guards/auth-guard.service';
 
 declare var require: any;
 let messagesDe = require("devextreme/localization/messages/de.json"),
@@ -109,24 +110,16 @@ export function tokenGetter() {
     DxValidationSummaryModule,
     RouterModule.forRoot([
     { path: '', component: HomeComponent, pathMatch: 'full' },
-    { path: 'table-brands', component: TableBrandsComponent },
-    { path: 'table-posts', component: TablePostsComponent },
-    { path: 'table-roles', component: TableRolesComponent },
-    { path: 'table-type-dev', component: TableTypeDevComponent },
-    { path: 'table-type-inter', component: TableTypeInterComponent },
-    { path: 'table-type-measure', component: TableTypeMeasureComponent },
-    { path: 'table-telemetry', component: TableTelemetryComponent },
-    { path: 'table-programm-commands', component: TableProgrammCommandsComponent },
-    { path: 'handbooks', component: HandbooksComponent },
-    { path: 'people', component: PeopleComponent },
-    { path: 'main-information', component: MainInformationComponent },
+    { path: 'handbooks', component: HandbooksComponent, canActivate: [AuthGuard] },
+    { path: 'people', component: PeopleComponent, canActivate: [AuthGuard] },
+    { path: 'main-information', component: MainInformationComponent, canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent },
     { path: 'registration', component: RegistrationComponent },
-    { path: 'account', component: AccountComponent },
+    { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
     { path: 'password-changer', component: PasswordChangerComponent },
-    { path: 'project-creator', component: ProjectCreatorComponent },
-    { path: 'project-changer', component: ProjectChangerComponent },
-    { path: 'json-maker', component: JsonMakerComponent }
+    { path: 'project-creator', component: ProjectCreatorComponent, canActivate: [AuthGuard] },
+    { path: 'project-changer', component: ProjectChangerComponent, canActivate: [AuthGuard] },
+    { path: 'json-maker', component: JsonMakerComponent, canActivate: [AuthGuard] }
     ]),
     JwtModule.forRoot({
       config: {
@@ -149,7 +142,8 @@ export function tokenGetter() {
         InterfaceService,
         DevicesService,
         MeasureService,
-        CommentsService
+        CommentsService,
+        AuthGuard
     ],
   bootstrap: [AppComponent]
 })

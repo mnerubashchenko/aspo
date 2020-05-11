@@ -78,11 +78,8 @@ namespace ASPOSystem.Controllers
         [Route("DeleteDevice"), Authorize(Roles = "Администратор")]
         public void DeleteDevice(Guid idDevice)
         {
-            using (RSSForVKRContext db = new RSSForVKRContext())
-            {
                 db.Devices.Remove(db.Devices.Find(idDevice));
                 db.SaveChanges();
-            }
         }
     }
 }
