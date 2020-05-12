@@ -1,9 +1,9 @@
-<h1>Выберите проект из списка ниже:</h1>
+<h1>Выберите протокол из списка ниже:</h1>
 <div>
   <dx-select-box [items]="projects" (onSelectionChanged)="selectedTable($event)"></dx-select-box>
 </div>
 <p></p>
-<div>
+<div *ngIf="helper">
   <dx-button text="Скачать"
              type="default"
              (onClick)="ConfigMaker()"

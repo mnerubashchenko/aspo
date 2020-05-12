@@ -79,9 +79,9 @@ namespace ASPOSystem.Controllers
         public IActionResult CreateProject([FromBody] Project newProject)
         {
             if (db.Project.Any(i => i.NameProject.ToLower() == newProject.NameProject.ToLower()))                                    // Проверка занятости введенного
-                return BadRequest("Проект с таким названием уже существует!");                                                       // название протокола
+                return BadRequest("Протокол с таким названием уже существует!");                                                     // название протокола
             else if (newProject.NameProject == "" || newProject.NameProject == null)
-                return BadRequest("Вы не ввели название проекта!");
+                return BadRequest("Вы не ввели название протокола!");
             else
             {
                 newProject.DateCreateProject = DateTime.Now;

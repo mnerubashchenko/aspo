@@ -130,7 +130,7 @@ export class ProjectCreatorComponent {
             .set("bodyComment", "Создал проект.")
         }).subscribe();
       notify({
-        message: "Проект создан", width: 300, shading: false,
+        message: "Протокол создан", width: 300, shading: false,
         position: { my: 'top', at: 'top', of: window, offset: '0 10' },
         animation: {
           show: { duration: 300, type: "slide", from: { top: -50 } },
@@ -142,26 +142,14 @@ export class ProjectCreatorComponent {
       form.controls.descriptionProject.setValue("");
     },
       error => {
-        if (error.error == "Проект с таким названием уже существует!") {
           notify({
-            message: error.error, width: 300, shading: false,
-            position: { my: 'top', at: 'top', of: window, offset: '0 10' },
-            animation: {
-              show: { duration: 300, type: "slide", from: { top: -50 } },
-              hide: { duration: 300, type: "slide", to: { top: -50 } }
-            }
+              message: error.error, width: 300, shading: false,
+              position: { my: 'top', at: 'top', of: window, offset: '0 10' },
+              animation: {
+                  show: { duration: 300, type: "slide", from: { top: -50 } },
+                  hide: { duration: 300, type: "slide", to: { top: -50 } }
+              }
           }, "error", 1000);
-        }
-        else {
-          notify({
-            message: error.error, width: 300, shading: false,
-            position: { my: 'top', at: 'top', of: window, offset: '0 10' },
-            animation: {
-              show: { duration: 300, type: "slide", from: { top: -50 } },
-              hide: { duration: 300, type: "slide", to: { top: -50 } }
-            }
-          }, "error", 1000);
-        }
       });
   }  
 }

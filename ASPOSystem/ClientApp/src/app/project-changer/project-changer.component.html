@@ -1,4 +1,4 @@
-<h1>Выберите проект, который хотите изменить</h1>
+<h1>Выберите протокол, который хотите изменить</h1>
 
 <div>
   <dx-select-box [items]="projects" (onValueChanged)="selectedTable($event)"></dx-select-box>
@@ -21,13 +21,13 @@
         </div>
       </div>
       <div class="dx-field">
-        <div class="dx-field-label">Название проекта</div>
+        <div class="dx-field-label">Название протокола</div>
         <div class="dx-field-value">
           <dx-text-box id="nameProject" name="nameProject" [ngModel]="projectInfo.nameProject" class="form-control"></dx-text-box>
         </div>
       </div>
       <div class="dx-field">
-        <div class="dx-field-label">Описание проекта</div>
+        <div class="dx-field-label">Описание протокола</div>
         <div class="dx-field-value">
           <dx-text-box id="descriptionProject" name="descriptionProject" [ngModel]="projectInfo.descriptionProject" class="form-control"></dx-text-box>
         </div>
@@ -180,7 +180,7 @@
 </div>
 
 <div *ngIf="flag">
-  <h1>Журнал действий по проекту</h1>
+  <h1>Журнал действий по протоколу</h1>
 
   <dx-data-grid id="gridContainer"
                 [dataSource]="comments"

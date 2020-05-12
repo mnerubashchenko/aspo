@@ -6,7 +6,8 @@
  * Переменные, используемые в компоненте:
  *    projects - названия всех протоколов;
  *    projectname - название выбранного протокола;
- *    headers - HTTP заголовки для формирования HTTP запроса.
+ *    headers - HTTP заголовки для формирования HTTP запроса;
+ *    helper - переменная, отвечающая за отображение кнопки "Скачать".
  * Методы, используемые в компоненте:
  *    selectedTable() - определение выбранного протокола;
  *    ConfigMaker() - генерация и скачивание файла настроек JSON.
@@ -29,6 +30,7 @@ export class JsonMakerComponent {
   headers: HttpHeaders = new HttpHeaders({
     "Content-Type": "application/json"
   });
+  helper: boolean = false;
 
   /* Конструктор компонента JsonMakerComponent.
    * Переменные, используемые в конструкторе:
@@ -47,9 +49,10 @@ export class JsonMakerComponent {
     * Формальный параметр:
     *      data - выбранное значение SelectBox.
     */
-  public selectedTable(data) {
-    this.projectname = data.selectedItem;
-  }
+    public selectedTable(data) {
+        this.helper = true;
+        this.projectname = data.selectedItem;
+    }
 
    /* ConfigMaker() - генерация и скачивание файла настроек JSON.
     * Локальные переменные:
