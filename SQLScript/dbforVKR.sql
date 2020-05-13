@@ -41,6 +41,10 @@ ActualIp VARCHAR (30),
 Port VARCHAR (30),
 PositionNumber VARCHAR(10));
 
+select * from TYPEMEASURE
+
+select * from measure
+
 INSERT INTO DEVICES(ID, Model) VALUES ('00000000-0000-0000-0000-000000000000', '---');
 
 CREATE TABLE TYPEMEASURE 

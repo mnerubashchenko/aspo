@@ -19,7 +19,7 @@ import { Component } from '@angular/core';
 })
 export class MainInformationComponent {
 
-    maininfo: string[] = ["Проекты", "Комментарии к проектам", "Интерфейсы", "Устройства", "Измерения"];
+    maininfo: string[] = ["Протоколы", "Комментарии к протоколам", "Интерфейсы", "Устройства", "Измерения"];
     tablename: string;
 
    /* Конструктор компонента MainInformationComponent. */

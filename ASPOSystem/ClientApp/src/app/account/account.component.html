@@ -12,21 +12,33 @@
   <div class="dx-field">
     <div class="dx-field-label">Фамилия</div>
     <div class="dx-field-value">
-      <dx-text-box id="middlenameUser" name="middlenameUser" [readOnly]="isChanged()" [ngModel]="user[0].middlenameUser" class="form-control"></dx-text-box>
+      <dx-text-box id="middlenameUser" name="middlenameUser" [readOnly]="isChanged()" [ngModel]="user[0].middlenameUser" class="form-control">
+        <dx-validator>
+          <dxi-validation-rule type="pattern" [pattern]="fioPattern" message="Фамилия может содержать только буквы русского алфавита"></dxi-validation-rule>
+        </dx-validator>
+      </dx-text-box>
     </div>
   </div>
 
   <div class="dx-field">
     <div class="dx-field-label">Имя</div>
     <div class="dx-field-value">
-      <dx-text-box id="nameUser" name="nameUser" [readOnly]="isChanged()" [ngModel]="user[0].nameUser" class="form-control"></dx-text-box>
+      <dx-text-box id="nameUser" name="nameUser" [readOnly]="isChanged()" [ngModel]="user[0].nameUser" class="form-control">
+        <dx-validator>
+          <dxi-validation-rule type="pattern" [pattern]="fioPattern" message="Имя может содержать только буквы русского алфавита"></dxi-validation-rule>
+        </dx-validator>
+      </dx-text-box>
     </div>
   </div>
 
   <div class="dx-field">
     <div class="dx-field-label">Отчество</div>
     <div class="dx-field-value">
-      <dx-text-box id="lastnameUser" name="lastnameUser" [readOnly]="isChanged()" [ngModel]="user[0].lastnameUser" class="form-control"></dx-text-box>
+      <dx-text-box id="lastnameUser" name="lastnameUser" [readOnly]="isChanged()" [ngModel]="user[0].lastnameUser" class="form-control">
+        <dx-validator>
+          <dxi-validation-rule type="pattern" [pattern]="fioPattern" message="Отчество может содержать только буквы русского алфавита"></dxi-validation-rule>
+        </dx-validator>
+      </dx-text-box>
     </div>
   </div>
 

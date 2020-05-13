@@ -14,6 +14,7 @@
  *    flagForChangeButtons - флаг, отвечающий за отображение нужных кнопок в личном кабинете;
  *    store - логика отправки данных о протоколах на сервер;
  *    loginPattern - правило, которому должен соответствовать логин пользователя при редактировании;
+ *    fioPattern - правило, которому должны соответствовать ФИО;
  *    headers - HTTP заголовки для формирования HTTP запроса.
  * Методы, используемые в компоненте:
  *    userAccountReceived() - получение данных из сервиса UsersService;
@@ -54,6 +55,7 @@ export class AccountComponent {
     public flagForChangeButtons: boolean = false;
     store: any;
     loginPattern: any = /^[A-Za-z0-9]+$/;
+    fioPattern: any = /^[А-Яа-я]+$/;
     headers: HttpHeaders = new HttpHeaders({
         "Content-Type": "application/json"
     });

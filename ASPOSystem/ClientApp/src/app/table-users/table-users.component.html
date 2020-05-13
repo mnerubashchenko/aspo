@@ -7,11 +7,17 @@
 
  <dxo-filter-row [visible]="true"></dxo-filter-row>
 
- <dxi-column dataField="nameUser" caption="Имя" dataType="string"></dxi-column>
+ <dxi-column dataField="nameUser" caption="Имя" dataType="string">
+   <dxi-validation-rule type="pattern" [pattern]="fioPattern" message="Имя может содержать только буквы русского алфавита"></dxi-validation-rule>
+ </dxi-column>
 
- <dxi-column dataField="middlenameUser" caption="Фамилия" dataType="string"></dxi-column>
+ <dxi-column dataField="middlenameUser" caption="Фамилия" dataType="string">
+   <dxi-validation-rule type="pattern" [pattern]="fioPattern" message="Фамилия может содержать только буквы русского алфавита"></dxi-validation-rule>
+ </dxi-column>
 
- <dxi-column dataField="lastnameUser" caption="Отчество" dataType="string"></dxi-column>
+ <dxi-column dataField="lastnameUser" caption="Отчество" dataType="string">
+   <dxi-validation-rule type="pattern" [pattern]="fioPattern" message="Отчество может содержать только буквы русского алфавита"></dxi-validation-rule>
+ </dxi-column>
 
  <dxi-column dataField="loginUser" caption="Логин">
    <dxi-validation-rule type="required"></dxi-validation-rule>
