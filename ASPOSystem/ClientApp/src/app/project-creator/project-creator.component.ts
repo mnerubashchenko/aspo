@@ -4,6 +4,7 @@
  * Краткое описание:
  *    Данный компонент является формой создания нового протокола.
  * Переменные, используемые в компоненте:
+ *    user - идентификатор авторизированного пользователя;
  *    measures - названия всех измерений базы данных;
  *    devices - названия всех устройств базы данных;
  *    interfaces - названия всех интерфейсов базы данных;
@@ -34,6 +35,7 @@ import notify from 'devextreme/ui/notify';
   styleUrls: ['./project-creator.component.css'],
 })
 export class ProjectCreatorComponent {
+  user: string;
   measures: string[];
   devices: string[];
   interfaces: string[];
@@ -52,6 +54,8 @@ export class ProjectCreatorComponent {
    *      baseUrl - базовый URL адрес.
    */
   constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
+
+    this.user = localStorage.getItem("idOfUser");
 
     Observable.forkJoin(
       this.http.get<any>(this.baseUrl + 'Measure/GetNamesOfMeasures'),
