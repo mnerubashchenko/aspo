@@ -1,3 +1,5 @@
+<!-- Файл шаблона для компонента визуальной части приложения ProjectChangerComponent -->
+
 <h1>Выберите протокол, который хотите изменить</h1>
 
 <div>
@@ -7,176 +9,176 @@
 <p></p>
 
 <div *ngIf="flag">
-<h1 class="">Измените необходимые параметры</h1>
-<p></p>
-<div class="tabPanel-widget">
-  <label for="tab-1" tabindex="0"></label>
-  <input id="tab-1" type="radio" name="tabs" checked="true" aria-hidden="true">
-  <h2>Информация</h2>
-  <div>
-    <form class="form-signin" #projectChangerForm="ngForm" (ngSubmit)="saveInfoAboutProject(projectChangerForm)">
-      <div hidden class="dx-field">
-        <div class="dx-field-value">
-          <dx-text-box id="idProject" name="idProject" [ngModel]="projectInfo.id" class="form-control"></dx-text-box>
+  <h1 class="">Измените необходимые параметры</h1>
+  <p></p>
+  <div class="tabPanel-widget">
+    <label for="tab-1" tabindex="0"></label>
+    <input id="tab-1" type="radio" name="tabs" checked="true" aria-hidden="true">
+    <h2>Информация</h2>
+    <div>
+      <form class="form-signin" #projectChangerForm="ngForm" (ngSubmit)="saveInfoAboutProject(projectChangerForm)">
+        <div hidden class="dx-field">
+          <div class="dx-field-value">
+            <dx-text-box id="idProject" name="idProject" [ngModel]="projectInfo.id" class="form-control"></dx-text-box>
+          </div>
         </div>
-      </div>
-      <div class="dx-field">
-        <div class="dx-field-label">Название протокола</div>
-        <div class="dx-field-value">
-          <dx-text-box id="nameProject" name="nameProject" [ngModel]="projectInfo.nameProject" class="form-control"></dx-text-box>
+        <div class="dx-field">
+          <div class="dx-field-label">Название протокола</div>
+          <div class="dx-field-value">
+            <dx-text-box id="nameProject" name="nameProject" [ngModel]="projectInfo.nameProject" class="form-control"></dx-text-box>
+          </div>
         </div>
-      </div>
-      <div class="dx-field">
-        <div class="dx-field-label">Описание протокола</div>
-        <div class="dx-field-value">
-          <dx-text-box id="descriptionProject" name="descriptionProject" [ngModel]="projectInfo.descriptionProject" class="form-control"></dx-text-box>
+        <div class="dx-field">
+          <div class="dx-field-label">Описание протокола</div>
+          <div class="dx-field-value">
+            <dx-text-box id="descriptionProject" name="descriptionProject" [ngModel]="projectInfo.descriptionProject" class="form-control"></dx-text-box>
+          </div>
+        </div>
+        <div>
+          <dx-button text="Сохранить"
+                     type="success"
+                     [useSubmitBehavior]="true"
+                     icon="check">
+          </dx-button>
+        </div>
+      </form>
+    </div>
+    <label for="tab-2" tabindex="0"></label>
+    <input id="tab-2" type="radio" name="tabs" aria-hidden="true">
+    <h2>Измерения</h2>
+    <div>
+      <div class="widget-container">
+        <dx-list [items]="measures"
+                 [height]="400"
+                 [allowItemDeleting]="allowDeleting"
+                 [itemDeleteMode]="deleteType"
+                 [showSelectionControls]="true"
+                 selectionMode="multiple"
+                 [(selectedItems)]="selectedMeasures">
+        </dx-list>
+        <div class="selected-data">
+          <span class="caption">Выбранные измерения:</span>
+          <span>{{selectedMeasures.join(", ")}}</span>
         </div>
       </div>
       <div>
+        <p></p>
         <dx-button text="Сохранить"
                    type="success"
-                   [useSubmitBehavior]="true"
+                   (onClick)="saveMeasures()"
                    icon="check">
         </dx-button>
       </div>
-    </form>
-  </div>
-  <label for="tab-2" tabindex="0"></label>
-  <input id="tab-2" type="radio" name="tabs" aria-hidden="true">
-  <h2>Измерения</h2>
-  <div>
-    <div class="widget-container">
-      <dx-list [items]="measures"
-               [height]="400"
-               [allowItemDeleting]="allowDeleting"
-               [itemDeleteMode]="deleteType"
-               [showSelectionControls]="true"
-               selectionMode="multiple"
-               [(selectedItems)]="selectedMeasures">
-      </dx-list>
-      <div class="selected-data">
-        <span class="caption">Выбранные измерения:</span>
-        <span>{{selectedMeasures.join(", ")}}</span>
+    </div>
+    <label for="tab-3" tabindex="0"></label>
+    <input id="tab-3" type="radio" name="tabs" aria-hidden="true">
+    <h2>Устройства</h2>
+    <div>
+      <div class="widget-container">
+        <dx-list [items]="devices"
+                 [height]="400"
+                 [allowItemDeleting]="allowDeleting"
+                 [itemDeleteMode]="deleteType"
+                 [showSelectionControls]="true"
+                 selectionMode="multiple"
+                 [(selectedItems)]="selectedDevices">
+        </dx-list>
+        <div class="selected-data">
+          <span class="caption">Выбранные устройства:</span>
+          <span>{{selectedDevices.join(", ")}}</span>
+        </div>
+      </div>
+      <div>
+        <p></p>
+        <dx-button text="Сохранить"
+                   type="success"
+                   (onClick)="saveDevices()"
+                   icon="check">
+        </dx-button>
       </div>
     </div>
+    <label for="tab-4" tabindex="0"></label>
+    <input id="tab-4" type="radio" name="tabs" aria-hidden="true">
+    <h2>Интерфейсы</h2>
     <div>
-      <p></p>
-      <dx-button text="Сохранить"
-                 type="success"
-                 (onClick)="saveMeasures()"
-                 icon="check">
-      </dx-button>
-    </div>
-  </div>
-  <label for="tab-3" tabindex="0"></label>
-  <input id="tab-3" type="radio" name="tabs" aria-hidden="true">
-  <h2>Устройства</h2>
-  <div>
-    <div class="widget-container">
-      <dx-list [items]="devices"
-               [height]="400"
-               [allowItemDeleting]="allowDeleting"
-               [itemDeleteMode]="deleteType"
-               [showSelectionControls]="true"
-               selectionMode="multiple"
-               [(selectedItems)]="selectedDevices">
-      </dx-list>
-      <div class="selected-data">
-        <span class="caption">Выбранные устройства:</span>
-        <span>{{selectedDevices.join(", ")}}</span>
+      <div class="widget-container">
+        <dx-list [items]="interfaces"
+                 [height]="400"
+                 [allowItemDeleting]="allowDeleting"
+                 [itemDeleteMode]="deleteType"
+                 [showSelectionControls]="true"
+                 selectionMode="multiple"
+                 [(selectedItems)]="selectedInterfaces">
+        </dx-list>
+        <div class="selected-data">
+          <span class="caption">Выбранные интерфейсы:</span>
+          <span>{{selectedInterfaces.join(", ")}}</span>
+        </div>
+      </div>
+      <div>
+        <p></p>
+        <dx-button text="Сохранить"
+                   type="success"
+                   (onClick)="saveInterfaces()"
+                   icon="check">
+        </dx-button>
       </div>
     </div>
+    <label for="tab-5" tabindex="0"></label>
+    <input id="tab-5" type="radio" name="tabs" aria-hidden="true">
+    <h2>Команды</h2>
     <div>
-      <p></p>
-      <dx-button text="Сохранить"
-                 type="success"
-                 (onClick)="saveDevices()"
-                 icon="check">
-      </dx-button>
-    </div>
-  </div>
-  <label for="tab-4" tabindex="0"></label>
-  <input id="tab-4" type="radio" name="tabs" aria-hidden="true">
-  <h2>Интерфейсы</h2>
-  <div>
-    <div class="widget-container">
-      <dx-list [items]="interfaces"
-               [height]="400"
-               [allowItemDeleting]="allowDeleting"
-               [itemDeleteMode]="deleteType"
-               [showSelectionControls]="true"
-               selectionMode="multiple"
-               [(selectedItems)]="selectedInterfaces">
-      </dx-list>
-      <div class="selected-data">
-        <span class="caption">Выбранные интерфейсы:</span>
-        <span>{{selectedInterfaces.join(", ")}}</span>
+      <div class="widget-container">
+        <dx-list [items]="commands"
+                 [height]="400"
+                 [allowItemDeleting]="allowDeleting"
+                 [itemDeleteMode]="deleteType"
+                 [showSelectionControls]="true"
+                 selectionMode="multiple"
+                 [(selectedItems)]="selectedCommands">
+        </dx-list>
+        <div class="selected-data">
+          <span class="caption">Выбранные команды:</span>
+          <span>{{selectedCommands.join(", ")}}</span>
+        </div>
+      </div>
+      <div>
+        <p></p>
+        <dx-button text="Сохранить"
+                   type="success"
+                   (onClick)="saveCommands()"
+                   icon="check">
+        </dx-button>
       </div>
     </div>
+    <label for="tab-6" tabindex="0"></label>
+    <input id="tab-6" type="radio" name="tabs" aria-hidden="true">
+    <h2>Телеметрии</h2>
     <div>
-      <p></p>
-      <dx-button text="Сохранить"
-                 type="success"
-                 (onClick)="saveInterfaces()"
-                 icon="check">
-      </dx-button>
-    </div>
-  </div>
-  <label for="tab-5" tabindex="0"></label>
-  <input id="tab-5" type="radio" name="tabs" aria-hidden="true">
-  <h2>Команды</h2>
-  <div>
-    <div class="widget-container">
-      <dx-list [items]="commands"
-               [height]="400"
-               [allowItemDeleting]="allowDeleting"
-               [itemDeleteMode]="deleteType"
-               [showSelectionControls]="true"
-               selectionMode="multiple"
-               [(selectedItems)]="selectedCommands">
-      </dx-list>
-      <div class="selected-data">
-        <span class="caption">Выбранные команды:</span>
-        <span>{{selectedCommands.join(", ")}}</span>
+      <div class="widget-container">
+        <dx-list [items]="telemetries"
+                 [height]="400"
+                 [allowItemDeleting]="allowDeleting"
+                 [itemDeleteMode]="deleteType"
+                 [showSelectionControls]="true"
+                 selectionMode="multiple"
+                 [(selectedItems)]="selectedTelemetries">
+        </dx-list>
+        <div class="selected-data">
+          <span class="caption">Выбранные телеметрии:</span>
+          <span>{{selectedTelemetries.join(", ")}}</span>
+        </div>
+      </div>
+      <div>
+        <p></p>
+        <dx-button text="Сохранить"
+                   type="success"
+                   (onClick)="saveTelemetries()"
+                   icon="check">
+        </dx-button>
       </div>
     </div>
-    <div>
-      <p></p>
-      <dx-button text="Сохранить"
-                 type="success"
-                 (onClick)="saveCommands()"
-                 icon="check">
-      </dx-button>
-    </div>
   </div>
-  <label for="tab-6" tabindex="0"></label>
-  <input id="tab-6" type="radio" name="tabs" aria-hidden="true">
-  <h2>Телеметрии</h2>
-  <div>
-    <div class="widget-container">
-      <dx-list [items]="telemetries"
-               [height]="400"
-               [allowItemDeleting]="allowDeleting"
-               [itemDeleteMode]="deleteType"
-               [showSelectionControls]="true"
-               selectionMode="multiple"
-               [(selectedItems)]="selectedTelemetries">
-      </dx-list>
-      <div class="selected-data">
-        <span class="caption">Выбранные телеметрии:</span>
-        <span>{{selectedTelemetries.join(", ")}}</span>
-      </div>
-    </div>
-    <div>
-      <p></p>
-      <dx-button text="Сохранить"
-                 type="success"
-                 (onClick)="saveTelemetries()"
-                 icon="check">
-      </dx-button>
-    </div>
-  </div>
-</div>
 </div>
 
 <div *ngIf="flag">

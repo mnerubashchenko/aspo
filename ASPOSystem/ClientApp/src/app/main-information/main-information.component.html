@@ -1,10 +1,12 @@
+<!-- Файл шаблона для компонента визуальной части приложения MainInformationComponent -->
+
 <h1>Выберите таблицу из списка ниже:</h1>
 <br />
 <div>
   <dx-select-box [items]="maininfo" (onSelectionChanged)="selectedTable($event)"></dx-select-box>
 </div>
 <h1>{{ tablename }}</h1>
-<app-table-projects *ngIf ="tablename == 'Протоколы'"></app-table-projects>
+<app-table-projects *ngIf="tablename == 'Протоколы'"></app-table-projects>
 <app-table-comments *ngIf="tablename == 'Комментарии к проектам'"></app-table-comments>
 <app-table-interfaces *ngIf="tablename == 'Интерфейсы'"></app-table-interfaces>
 <app-table-devices *ngIf="tablename == 'Устройства'"></app-table-devices>

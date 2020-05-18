@@ -1,3 +1,4 @@
+/* Листинг создания базы данных */
 CREATE DATABASE RSSForVKR;
 USE RSSForVKR;
 

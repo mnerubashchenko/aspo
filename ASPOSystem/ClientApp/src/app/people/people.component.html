@@ -1,10 +1,12 @@
+<!-- Файл шаблона для компонента визуальной части приложения PeopleComponent -->
+
 <h1>Выберите таблицу из списка ниже:</h1>
 <br />
 <div>
   <dx-select-box [items]="people" (onSelectionChanged)="selectedTable($event)"></dx-select-box>
 </div>
 <h1>{{ tablename }}</h1>
-<app-table-users *ngIf ="tablename == 'Пользователи'"></app-table-users>
+<app-table-users *ngIf="tablename == 'Пользователи'"></app-table-users>
 <app-table-roles *ngIf="tablename == 'Роли'"></app-table-roles>
 <app-table-posts *ngIf="tablename == 'Должности'"></app-table-posts>
 

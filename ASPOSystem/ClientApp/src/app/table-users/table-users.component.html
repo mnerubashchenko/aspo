@@ -1,3 +1,5 @@
+<!-- Файл шаблона для компонента визуальной части приложения TableUsersComponent -->
+
 <dx-data-grid id="gridContainer"
               [dataSource]="store"
               [showBorders]="true"
@@ -5,60 +7,60 @@
               (onRowUpdating)="onRowUpdating($event)"
               [hoverStateEnabled]="true">
 
- <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
 
- <dxi-column dataField="nameUser" caption="Имя" dataType="string">
-   <dxi-validation-rule type="pattern" [pattern]="fioPattern" message="Имя может содержать только буквы русского алфавита"></dxi-validation-rule>
- </dxi-column>
+  <dxi-column dataField="nameUser" caption="Имя" dataType="string">
+    <dxi-validation-rule type="pattern" [pattern]="fioPattern" message="Имя может содержать только буквы русского алфавита"></dxi-validation-rule>
+  </dxi-column>
 
- <dxi-column dataField="middlenameUser" caption="Фамилия" dataType="string">
-   <dxi-validation-rule type="pattern" [pattern]="fioPattern" message="Фамилия может содержать только буквы русского алфавита"></dxi-validation-rule>
- </dxi-column>
+  <dxi-column dataField="middlenameUser" caption="Фамилия" dataType="string">
+    <dxi-validation-rule type="pattern" [pattern]="fioPattern" message="Фамилия может содержать только буквы русского алфавита"></dxi-validation-rule>
+  </dxi-column>
 
- <dxi-column dataField="lastnameUser" caption="Отчество" dataType="string">
-   <dxi-validation-rule type="pattern" [pattern]="fioPattern" message="Отчество может содержать только буквы русского алфавита"></dxi-validation-rule>
- </dxi-column>
+  <dxi-column dataField="lastnameUser" caption="Отчество" dataType="string">
+    <dxi-validation-rule type="pattern" [pattern]="fioPattern" message="Отчество может содержать только буквы русского алфавита"></dxi-validation-rule>
+  </dxi-column>
 
- <dxi-column dataField="loginUser" caption="Логин">
-   <dxi-validation-rule type="required"></dxi-validation-rule>
-   <dxi-validation-rule type="async"
-                        message="Данный логин занят."
-                        [validationCallback]="asyncValidation">
-   </dxi-validation-rule>
-   <dxi-validation-rule type="pattern" [pattern]="loginPattern" message="Логин может состоять только из латинских букв и цифр"></dxi-validation-rule>
- </dxi-column>
+  <dxi-column dataField="loginUser" caption="Логин">
+    <dxi-validation-rule type="required"></dxi-validation-rule>
+    <dxi-validation-rule type="async"
+                         message="Данный логин занят."
+                         [validationCallback]="asyncValidation">
+    </dxi-validation-rule>
+    <dxi-validation-rule type="pattern" [pattern]="loginPattern" message="Логин может состоять только из латинских букв и цифр"></dxi-validation-rule>
+  </dxi-column>
 
- <dxi-column dataField="passwordUser" caption="Пароль" mode="password">
-   <dxi-validation-rule type="required"></dxi-validation-rule>
- </dxi-column>
+  <dxi-column dataField="passwordUser" caption="Пароль" mode="password">
+    <dxi-validation-rule type="required"></dxi-validation-rule>
+  </dxi-column>
 
-<dxi-column dataField="postUser"
-                caption="Должность">
-   <dxo-lookup [dataSource]="posts"
-                  displayExpr="namePost"
-                  valueExpr="id">
-   </dxo-lookup>
+  <dxi-column dataField="postUser"
+              caption="Должность">
+    <dxo-lookup [dataSource]="posts"
+                displayExpr="namePost"
+                valueExpr="id">
+    </dxo-lookup>
 
-</dxi-column>
-<dxi-column dataField="roleUser"
-            caption="Роль">
-  <dxi-validation-rule type="required"></dxi-validation-rule>
-  <dxo-lookup [dataSource]="roles"
-              displayExpr="nameRole"
-              valueExpr="id">
-  </dxo-lookup>
+  </dxi-column>
+  <dxi-column dataField="roleUser"
+              caption="Роль">
+    <dxi-validation-rule type="required"></dxi-validation-rule>
+    <dxo-lookup [dataSource]="roles"
+                displayExpr="nameRole"
+                valueExpr="id">
+    </dxo-lookup>
 
-</dxi-column>
-<dxo-editing mode="popup"
-                 [allowUpdating]="true"
-                 [allowDeleting]="true"
-                 [allowAdding]="true">
-<dxo-popup title="Должности"
-                 [showTitle]="true"
-                 [width]="700"
-                 [height]="300"
-                 [position]="{ my: 'top', at: 'top', of: window }">
-</dxo-popup>
+  </dxi-column>
+  <dxo-editing mode="popup"
+               [allowUpdating]="true"
+               [allowDeleting]="true"
+               [allowAdding]="true">
+    <dxo-popup title="Должности"
+               [showTitle]="true"
+               [width]="700"
+               [height]="300"
+               [position]="{ my: 'top', at: 'top', of: window }">
+    </dxo-popup>
 
-</dxo-editing>
+  </dxo-editing>
 </dx-data-grid>

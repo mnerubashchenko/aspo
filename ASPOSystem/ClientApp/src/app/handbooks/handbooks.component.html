@@ -1,12 +1,14 @@
+<!-- Файл шаблона для компонента визуальной части приложения HandbooksComponent -->
+
 <h1>Выберите таблицу из списка ниже:</h1>
 <br />
 <div>
   <dx-select-box [items]="handbooks" (onSelectionChanged)="selectedTable($event)"></dx-select-box>
 </div>
 <h1>{{ tablename }}</h1>
-<app-table-brands *ngIf ="tablename == 'Бренды устройств'"></app-table-brands>
-<app-table-programm-commands *ngIf ="tablename == 'Программные команды'"></app-table-programm-commands>
-<app-table-telemetry *ngIf ="tablename == 'Телеметрии'"></app-table-telemetry>
-<app-table-type-inter *ngIf ="tablename == 'Типы интерфейсов'"></app-table-type-inter>
-<app-table-type-dev *ngIf ="tablename == 'Типы устройств'"></app-table-type-dev>
-<app-table-type-measure *ngIf ="tablename == 'Типы измерений'"></app-table-type-measure>
+<app-table-brands *ngIf="tablename == 'Бренды устройств'"></app-table-brands>
+<app-table-programm-commands *ngIf="tablename == 'Программные команды'"></app-table-programm-commands>
+<app-table-telemetry *ngIf="tablename == 'Телеметрии'"></app-table-telemetry>
+<app-table-type-inter *ngIf="tablename == 'Типы интерфейсов'"></app-table-type-inter>
+<app-table-type-dev *ngIf="tablename == 'Типы устройств'"></app-table-type-dev>
+<app-table-type-measure *ngIf="tablename == 'Типы измерений'"></app-table-type-measure>
