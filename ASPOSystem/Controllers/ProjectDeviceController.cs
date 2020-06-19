@@ -42,12 +42,9 @@ namespace ASPOSystem.Controllers
         {
             List<Guid?> idDevices = db.ProjectDevice.Where(item=>item.IdProject == (db.Project.FirstOrDefault(i=>i.NameProject == projectName).Id)).Select(p=>p.IdDevice).ToList();
            
-            List<string> namesOfDevices = new List<string>();
-            
-            foreach (Guid d in idDevices)
-            {                                                                                                          // Заполнение списка названий,
-                namesOfDevices.Add(db.Devices.FirstOrDefault(i=>i.Id == d).Model);                                     // используемых в протоколе устройств
-            } 
+            var namesOfDevices = new List<string>();
+
+            idDevices.ForEach(x => namesOfDevices.Add(db.Devices.FirstOrDefault(i => i.Id == x).Model));
 
             return namesOfDevices;
         }

@@ -42,12 +42,9 @@ namespace ASPOSystem.Controllers
         {
             List<Guid?> idTelemetries = db.ProjectTelemetry.Where(item => item.IdProject == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).Select(p => p.IdTelemetry).ToList();
 
-            List<string> namesOfTelemetries = new List<string>();
+            var namesOfTelemetries = new List<string>();
 
-            foreach (Guid d in idTelemetries)
-            {
-                namesOfTelemetries.Add(db.Telemetry.FirstOrDefault(i => i.Id == d).ShortName);                               // Заполнение списка названий,
-            }                                                                                                                // используемых в протоколе телеметрий
+            idTelemetries.ForEach(x => namesOfTelemetries.Add(db.Telemetry.FirstOrDefault(i => i.Id == x).ShortName));
 
             return namesOfTelemetries;
         }

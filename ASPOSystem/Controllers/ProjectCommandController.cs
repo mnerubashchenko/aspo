@@ -42,12 +42,9 @@ namespace ASPOSystem.Controllers
         {
             List<Guid?> idCommands = db.ProjectCommand.Where(item => item.IdProject == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).Select(p => p.IdCommand).ToList();
 
-            List<string> namesOfCommands = new List<string>();
+            var namesOfCommands = new List<string>();
 
-            foreach (Guid d in idCommands)                                                                                   // Заполнение списка названий, используемых 
-            {                                                                                                                // в протоколе программных команд
-                namesOfCommands.Add(db.Programmcommands.FirstOrDefault(i => i.Id == d).Name);
-            }
+            idCommands.ForEach(x => namesOfCommands.Add(db.Programmcommands.FirstOrDefault(i => i.Id == x).Name));
 
             return namesOfCommands;
         }

@@ -130,19 +130,13 @@ namespace ASPOSystem.Controllers
                     }).ToList().FirstOrDefault(u => u.Id == ii));
             }
 
-            var commandsId = db.ProjectCommand.Where(p => p.IdProject == idProject).Select(item => item.IdCommand).ToList();          // Определение программных команд, используемых
-                                                                                                                                      // в выбранном протоколе
-            foreach (Guid ci in commandsId)
-            {
-                commands.Add(db.Programmcommands.FirstOrDefault(p => p.Id == ci));
-            }
+            var commandsId = db.ProjectCommand.Where(p => p.IdProject == idProject).Select(item => item.IdCommand).ToList();
 
-            var telemetriesId = db.ProjectTelemetry.Where(p => p.IdProject == idProject).Select(item => item.IdTelemetry).ToList();   // Определение телеметрий, используемых
-                                                                                                                                      // в выбранном протоколе
-            foreach (Guid ti in telemetriesId)
-            {
-                telemetries.Add(db.Telemetry.FirstOrDefault(p => p.Id == ti));
-            }
+            commandsId.ForEach(x => commands.Add(db.Programmcommands.FirstOrDefault(p => p.Id == x)));
+
+            var telemetriesId = db.ProjectTelemetry.Where(p => p.IdProject == idProject).Select(item => item.IdTelemetry).ToList();
+
+            telemetriesId.ForEach(x => telemetries.Add(db.Telemetry.FirstOrDefault(p => p.Id == x)));
 
             return new JsonModel { measures = measures, devices = devices, interfaces = interfaces, commands = commands, telemetryItems = telemetries };
         }

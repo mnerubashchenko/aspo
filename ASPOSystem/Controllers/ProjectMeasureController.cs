@@ -42,12 +42,9 @@ namespace ASPOSystem.Controllers
         {
             List<Guid?> idMeasures = db.ProjectMeasure.Where(item => item.IdProject == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).Select(p => p.IdMeasure).ToList();
 
-            List<string> namesOfMeasures = new List<string>();
-
-            foreach (Guid d in idMeasures)
-            {                                                                                                               // Заполнение списка названий,
-                namesOfMeasures.Add(db.Measure.FirstOrDefault(i => i.Id == d).Name);                                        // используемых в протоколе измерений
-            }
+            var namesOfMeasures = new List<string>();
+                                                                                                                     
+            idMeasures.ForEach(x => namesOfMeasures.Add(db.Measure.FirstOrDefault(i => i.Id == x).Name));
 
             return namesOfMeasures;
         }

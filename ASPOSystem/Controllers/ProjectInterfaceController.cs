@@ -42,13 +42,10 @@ namespace ASPOSystem.Controllers
         {
             List<Guid?> idInterfaces = db.ProjectInterface.Where(item => item.IdProject == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).Select(p => p.IdInterface).ToList();
 
-            List<string> namesOfInterfaces = new List<string>();
+            var namesOfInterfaces = new List<string>();                                                                                                        
 
-            foreach (Guid d in idInterfaces)
-            {
-                namesOfInterfaces.Add(db.Interfaces.FirstOrDefault(i => i.Id == d).Name);                                           // Заполнение списка названий,
-            }                                                                                                                       // используемых в протоколе интерфейсов
-             
+            idInterfaces.ForEach(x => namesOfInterfaces.Add(db.Interfaces.FirstOrDefault(i => i.Id == x).Name));
+
             return namesOfInterfaces;
         }
 
