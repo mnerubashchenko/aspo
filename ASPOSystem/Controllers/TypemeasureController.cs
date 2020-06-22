@@ -26,8 +26,6 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class TypemeasureController : Controller
     {
-        private RSSForVKRContext db = new RSSForVKRContext();
-
         /* GetTypemeasure() - вывод записей таблицы типов измерений.
          * Формальный параметр:
          *      correction - параметр, уточняющий, все ли данные нужны.
@@ -36,10 +34,13 @@ namespace ASPOSystem.Controllers
         [Route("GetTypemeasure"), Authorize(Roles = "Администратор")]
         public List<Typemeasure> GetTypemeasure(string correction)
         {
-            if (correction == "full")
-                return db.Typemeasure.ToList();
-            else
-                return db.Typemeasure.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                if (correction == "full")
+                    return db.Typemeasure.ToList();
+                else
+                    return db.Typemeasure.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            }
         }
 
         /* CreateTypemeasure() - создание записи о типе измерения.
@@ -50,8 +51,11 @@ namespace ASPOSystem.Controllers
         [Route("CreateTypemeasure"), Authorize(Roles = "Администратор")]
         public void CreateTypemeasure([FromBody] Typemeasure newTypemeasure)
         {
-            db.Typemeasure.Add(newTypemeasure);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Typemeasure.Add(newTypemeasure);
+                db.SaveChanges();
+            }
         }
 
         /* UpdateTypemeasure() - изменение записи о типе измерения.
@@ -62,8 +66,11 @@ namespace ASPOSystem.Controllers
         [Route("UpdateTypemeasure"), Authorize(Roles = "Администратор")]
         public void UpdateTypemeasure([FromBody] Typemeasure updatedTypemeasure)
         {
-            db.Typemeasure.Update(updatedTypemeasure);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Typemeasure.Update(updatedTypemeasure);
+                db.SaveChanges();
+            }
         }
 
         /* DeleteTypemeasure() - удаление записи о типе измерения.
@@ -74,8 +81,11 @@ namespace ASPOSystem.Controllers
         [Route("DeleteTypemeasure"), Authorize(Roles = "Администратор")]
         public void DeleteTypemeasure(Guid idTypemeasure)
         {
-            db.Typemeasure.Remove(db.Typemeasure.Find(idTypemeasure));
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Typemeasure.Remove(db.Typemeasure.Find(idTypemeasure));
+                db.SaveChanges();
+            }
         }
     }
 }

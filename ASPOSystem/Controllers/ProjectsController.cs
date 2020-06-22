@@ -30,14 +30,15 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class ProjectsController : Controller
     {
-        private RSSForVKRContext db = new RSSForVKRContext();
-
         /* GetProjects() - вывод всех записей из таблицы протоколов. */
         [HttpGet]
         [Route("GetProjects"), Authorize(Roles = "Администратор, Гость")]
         public List<Project> GetProjects()
         {
-            return db.Project.ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                return db.Project.ToList();
+            }
         }
 
         /* GetNamesOfProjects() - вывод названий всех протоколов. */
@@ -45,7 +46,10 @@ namespace ASPOSystem.Controllers
         [Route("GetNamesOfProjects"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetNamesOfProjects()
         {
-            return db.Project.Select(item => item.NameProject).ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                return db.Project.Select(item => item.NameProject).ToList();
+            }
         }
 
         /* GetOneProject() - вывод информации об одном выбранном протоколе.
@@ -56,7 +60,10 @@ namespace ASPOSystem.Controllers
         [Route("GetOneProject"), Authorize(Roles = "Администратор, Гость")]
         public Project GetOneProject(string projectName)
         {
-            return db.Project.FirstOrDefault(r => r.NameProject == projectName);
+            using (var db = new RSSForVKRContext())
+            {
+                return db.Project.FirstOrDefault(r => r.NameProject == projectName);
+            }
         }
 
         /* GetPersonalProjects() - вывод протоколов, создателем которых является авторизированный пользователь.
@@ -67,7 +74,10 @@ namespace ASPOSystem.Controllers
         [Route("GetPersonalProjects"), Authorize(Roles = "Администратор, Гость")]
         public List<Project> GetPersonalProjects(string author)
         {
-            return db.Project.Where(p => p.DirectorProject == db.Users.FirstOrDefault(r => r.LoginUser == author).Id).ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                return db.Project.Where(p => p.DirectorProject == db.Users.FirstOrDefault(r => r.LoginUser == author).Id).ToList();
+            }
         }
 
         /* CreateProject() - создание записи о протоколе.
@@ -78,17 +88,20 @@ namespace ASPOSystem.Controllers
         [Route("CreateProject"), Authorize(Roles = "Администратор, Гость")]
         public IActionResult CreateProject([FromBody] Project newProject)
         {
-            if (db.Project.Any(i => i.NameProject.ToLower() == newProject.NameProject.ToLower()))                                    // Проверка занятости введенного
-                return BadRequest("Протокол с таким названием уже существует!");                                                     // название протокола
-            else if (newProject.NameProject == "" || newProject.NameProject == null)
-                return BadRequest("Вы не ввели название протокола!");
-            else
+            using (var db = new RSSForVKRContext())
             {
-                newProject.DateCreateProject = DateTime.Now;
-                db.Project.Add(newProject);
-                db.SaveChanges();
+                if (db.Project.Any(i => i.NameProject.ToLower() == newProject.NameProject.ToLower()))                                    // Проверка занятости введенного
+                    return BadRequest("Протокол с таким названием уже существует!");                                                     // название протокола
+                else if (newProject.NameProject == "" || newProject.NameProject == null)
+                    return BadRequest("Вы не ввели название протокола!");
+                else
+                {
+                    newProject.DateCreateProject = DateTime.Now;
+                    db.Project.Add(newProject);
+                    db.SaveChanges();
 
-                return Ok();
+                    return Ok();
+                }
             }
         }
 
@@ -100,8 +113,11 @@ namespace ASPOSystem.Controllers
         [Route("UpdateProject"), Authorize(Roles = "Администратор, Гость")]
         public void UpdateProject([FromBody] Project updatedProject)
         {
-            db.Project.Update(updatedProject);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Project.Update(updatedProject);
+                db.SaveChanges();
+            }
         }
 
         /* UpdateProjectFromProjectChanger() - изменение записи о протоколе из базовой версии приложения.
@@ -116,20 +132,23 @@ namespace ASPOSystem.Controllers
         [Route("UpdateProjectFromProjectChanger")]
         public IActionResult UpdateProjectFromProjectChanger(string projectId, string newProjectName, string newProjectDescription)
         {
-            Project updatedProject = db.Project.FirstOrDefault(proj => proj.Id.ToString() == projectId);
+            using (var db = new RSSForVKRContext())
+            {
+                Project updatedProject = db.Project.FirstOrDefault(proj => proj.Id.ToString() == projectId);
 
-            if ((updatedProject.NameProject == newProjectName) || (!db.Project.Any(p => p.NameProject == newProjectName)))           // Проверка занятости введенного 
-            {                                                                                                                        // названия протокола
-                updatedProject.NameProject = newProjectName;
-                updatedProject.DescriptionProject = newProjectDescription;
+                if ((updatedProject.NameProject == newProjectName) || (!db.Project.Any(p => p.NameProject == newProjectName)))           // Проверка занятости введенного 
+                {                                                                                                                        // названия протокола
+                    updatedProject.NameProject = newProjectName;
+                    updatedProject.DescriptionProject = newProjectDescription;
 
-                db.Project.Update(updatedProject);
-                db.SaveChanges();
-                return Ok();
+                    db.Project.Update(updatedProject);
+                    db.SaveChanges();
+                    return Ok();
+                }
+
+                else
+                    return BadRequest("Проект с таким названием уже существует!");
             }
-
-            else
-                return BadRequest("Проект с таким названием уже существует!");
         }
 
         /* DeleteProject() - удаление записи о протоколе.
@@ -140,8 +159,11 @@ namespace ASPOSystem.Controllers
         [Route("DeleteProject"), Authorize(Roles = "Администратор, Гость")]
         public void DeleteProject(Guid idProject)
         {
-            db.Project.Remove(db.Project.Find(idProject));
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Project.Remove(db.Project.Find(idProject));
+                db.SaveChanges();
+            }
         }
     }
 }

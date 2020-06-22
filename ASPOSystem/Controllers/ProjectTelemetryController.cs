@@ -26,8 +26,6 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class ProjectTelemetryController : Controller
     {
-        private RSSForVKRContext db = new RSSForVKRContext();
-
         /* GetLinksForOneProject() - вывод названий телеметрий, используемых в выбранном протоколе.
          * Формальный параметр:
          *      projectName - название выбранного протокола.
@@ -40,13 +38,16 @@ namespace ASPOSystem.Controllers
         [Route("GetLinksForOneProject"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetLinksForOneProject(string projectName)
         {
-            List<Guid?> idTelemetries = db.ProjectTelemetry.Where(item => item.IdProject == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).Select(p => p.IdTelemetry).ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                List<Guid?> idTelemetries = db.ProjectTelemetry.Where(item => item.IdProject == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).Select(p => p.IdTelemetry).ToList();
 
-            var namesOfTelemetries = new List<string>();
+                var namesOfTelemetries = new List<string>();
 
-            idTelemetries.ForEach(x => namesOfTelemetries.Add(db.Telemetry.FirstOrDefault(i => i.Id == x).ShortName));
+                idTelemetries.ForEach(x => namesOfTelemetries.Add(db.Telemetry.FirstOrDefault(i => i.Id == x).ShortName));
 
-            return namesOfTelemetries;
+                return namesOfTelemetries;
+            }
         }
 
         /* CreateLinkFromAccount() - создание связей последнего созданного протокола и выбранных телеметрий.
@@ -61,14 +62,17 @@ namespace ASPOSystem.Controllers
         [Route("CreateLinkFromAccount"), Authorize(Roles = "Администратор, Гость")]
         public void CreateLinkFromAccount([FromBody] List<string> namesOfTelemetries)
         {
-            Guid idOfProject = db.Project.FirstOrDefault(item => item.DateCreateProject == db.Project.Max(p => p.DateCreateProject)).Id;
-            foreach (string not in namesOfTelemetries)
+            using (var db = new RSSForVKRContext())
             {
-                ProjectTelemetry newLink = new ProjectTelemetry();
-                newLink.IdProject = idOfProject;
-                newLink.IdTelemetry = db.Telemetry.FirstOrDefault(com => com.ShortName == not).Id;
-                db.ProjectTelemetry.Add(newLink);
-                db.SaveChanges();
+                Guid idOfProject = db.Project.FirstOrDefault(item => item.DateCreateProject == db.Project.Max(p => p.DateCreateProject)).Id;
+                foreach (string not in namesOfTelemetries)
+                {
+                    ProjectTelemetry newLink = new ProjectTelemetry();
+                    newLink.IdProject = idOfProject;
+                    newLink.IdTelemetry = db.Telemetry.FirstOrDefault(com => com.ShortName == not).Id;
+                    db.ProjectTelemetry.Add(newLink);
+                    db.SaveChanges();
+                }
             }
         }
 
@@ -88,28 +92,31 @@ namespace ASPOSystem.Controllers
         [Route("UpdateLinkFromProjectChanger"), Authorize(Roles = "Администратор, Гость")]
         public void UpdateLinkFromProjectChanger(string projectName, string namesOfTelemetries)
         {
-            List<string> nots = JsonConvert.DeserializeObject<List<string>>(namesOfTelemetries);
-
-            Guid idOfProject = db.Project.FirstOrDefault(proj => proj.NameProject == projectName).Id;
-
-            List<ProjectTelemetry> links = db.ProjectTelemetry.Where(link => link.IdProject == idOfProject).ToList();
-
-            foreach (ProjectTelemetry l in links)
-            {                                                                                                               // Удаление старых связей выбранного  
-                db.ProjectTelemetry.Remove(l);                                                                              // протокола и телеметрий
-                db.SaveChanges();
-            }
-
-            foreach (string not in nots)
+            using (var db = new RSSForVKRContext())
             {
-                ProjectTelemetry Link = new ProjectTelemetry
-                {
-                    IdProject = idOfProject,                                                                                // Создание связей выбранного
-                    IdTelemetry = db.Telemetry.FirstOrDefault(tel => tel.ShortName == not).Id                               // протокола с выбранными телеметриями
-                };
+                List<string> nots = JsonConvert.DeserializeObject<List<string>>(namesOfTelemetries);
 
-                db.ProjectTelemetry.Add(Link);
-                db.SaveChanges();
+                Guid idOfProject = db.Project.FirstOrDefault(proj => proj.NameProject == projectName).Id;
+
+                List<ProjectTelemetry> links = db.ProjectTelemetry.Where(link => link.IdProject == idOfProject).ToList();
+
+                foreach (ProjectTelemetry l in links)
+                {                                                                                                               // Удаление старых связей выбранного  
+                    db.ProjectTelemetry.Remove(l);                                                                              // протокола и телеметрий
+                    db.SaveChanges();
+                }
+
+                foreach (string not in nots)
+                {
+                    ProjectTelemetry Link = new ProjectTelemetry
+                    {
+                        IdProject = idOfProject,                                                                                // Создание связей выбранного
+                        IdTelemetry = db.Telemetry.FirstOrDefault(tel => tel.ShortName == not).Id                               // протокола с выбранными телеметриями
+                    };
+
+                    db.ProjectTelemetry.Add(Link);
+                    db.SaveChanges();
+                }
             }
         }
     }

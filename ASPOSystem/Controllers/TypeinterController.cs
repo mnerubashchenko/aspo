@@ -26,8 +26,6 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class TypeinterController : Controller
     {
-        private RSSForVKRContext db = new RSSForVKRContext();
-
         /* GetTypeinter() - вывод записей таблицы типов интерфейсов.
          * Формальный параметр:
          *      correction - параметр, уточняющий, все ли данные нужны.
@@ -36,10 +34,13 @@ namespace ASPOSystem.Controllers
         [Route("GetTypeinter"), Authorize(Roles = "Администратор")]
         public List<Typeinter> GetTypeinter(string correction)
         {
-            if (correction == "full")
-                return db.Typeinter.ToList();
-            else 
-                return db.Typeinter.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                if (correction == "full")
+                    return db.Typeinter.ToList();
+                else
+                    return db.Typeinter.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            }
         }
 
         /* CreateTypeinter() - создание записи о типе интерфейса.
@@ -50,8 +51,11 @@ namespace ASPOSystem.Controllers
         [Route("CreateTypeinter"), Authorize(Roles = "Администратор")]
         public void CreateTypeinter([FromBody] Typeinter newTypeinter)
         {
-            db.Typeinter.Add(newTypeinter);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Typeinter.Add(newTypeinter);
+                db.SaveChanges();
+            }
         }
 
         /* UpdateTypeinter() - изменение записи о типе интерфейса.
@@ -62,8 +66,11 @@ namespace ASPOSystem.Controllers
         [Route("UpdateTypeinter"), Authorize(Roles = "Администратор")]
         public void UpdateTypeinter([FromBody] Typeinter updatedTypeinter)
         {
-            db.Typeinter.Update(updatedTypeinter);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Typeinter.Update(updatedTypeinter);
+                db.SaveChanges();
+            }
         }
 
         /* DeleteTypeinter() - удаление записи о типе интерфейса.
@@ -74,8 +81,11 @@ namespace ASPOSystem.Controllers
         [Route("DeleteTypeinter"), Authorize(Roles = "Администратор")]
         public void DeleteTypeinter(Guid idTypeinter)
         {
-            db.Typeinter.Remove(db.Typeinter.Find(idTypeinter));
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Typeinter.Remove(db.Typeinter.Find(idTypeinter));
+                db.SaveChanges();
+            }
         }
     }
 }

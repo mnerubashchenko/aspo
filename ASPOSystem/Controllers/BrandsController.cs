@@ -26,8 +26,6 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class BrandsController : Controller
     {
-        private RSSForVKRContext db = new RSSForVKRContext();
-
         /* GetBrand() - вывод записей таблицы брендов устройств.
          * Формальный параметр:
          *      correction - параметр, уточняющий, все ли данные нужны.
@@ -36,10 +34,13 @@ namespace ASPOSystem.Controllers
         [Route("GetBrand"), Authorize(Roles = "Администратор")]
         public List<Brands> GetBrand(string correction)
         {
-            if (correction == "full")                                                               // Проверка необходимости всех данных
-                return db.Brands.ToList();
-            else 
-                return db.Brands.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                if (correction == "full")                                                               // Проверка необходимости всех данных
+                    return db.Brands.ToList();
+                else
+                    return db.Brands.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            }
         }
 
         /* CreateBrand() - создание записи о бренде.
@@ -50,8 +51,11 @@ namespace ASPOSystem.Controllers
         [Route("CreateBrand"), Authorize(Roles = "Администратор")]
         public void CreateBrand([FromBody] Brands newBrand)
         {
-            db.Brands.Add(newBrand);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Brands.Add(newBrand);
+                db.SaveChanges();
+            }
         }
 
         /* UpdateBrand() - изменение записи о бренде.
@@ -62,8 +66,11 @@ namespace ASPOSystem.Controllers
         [Route("UpdateBrand"), Authorize(Roles = "Администратор")]
         public void UpdateBrand([FromBody] Brands updatedBrand)
         {
-            db.Brands.Update(updatedBrand);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Brands.Update(updatedBrand);
+                db.SaveChanges();
+            }
         }
 
         /* DeleteBrand() - удаление записи о бренде.
@@ -74,8 +81,11 @@ namespace ASPOSystem.Controllers
         [Route("DeleteBrand"), Authorize(Roles = "Администратор")]
         public void DeleteBrand(Guid id)
         {
-            db.Brands.Remove(db.Brands.Find(id));
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Brands.Remove(db.Brands.Find(id));
+                db.SaveChanges();
+            }
         }
     }
 }

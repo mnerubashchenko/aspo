@@ -27,14 +27,15 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class TelemetryController : Controller
     {
-        private RSSForVKRContext db = new RSSForVKRContext();
-
         /* GetTelemetry() - вывод всех записей из таблицы телеметрий. */
         [HttpGet]
         [Route("GetTelemetry"), Authorize(Roles = "Администратор")]
         public List<Telemetry> GetTelemetry()
         {
-            return db.Telemetry.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                return db.Telemetry.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            }
         }
 
         /* GetNamesOfTelemetries() - вывод названий всех телеметрий. */
@@ -42,7 +43,10 @@ namespace ASPOSystem.Controllers
         [Route("GetNamesOfTelemetries"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetNamesOfTelemetries()
         {
-            return db.Telemetry.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").Select(item => item.ShortName).ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                return db.Telemetry.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").Select(item => item.ShortName).ToList();
+            }
         }
 
         /* CreateTelemetry() - создание записи о телеметрии.
@@ -53,8 +57,11 @@ namespace ASPOSystem.Controllers
         [Route("CreateTelemetry"), Authorize(Roles = "Администратор")]
         public void CreateTelemetry([FromBody] Telemetry newTelemetry)
         {
-            db.Telemetry.Add(newTelemetry);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Telemetry.Add(newTelemetry);
+                db.SaveChanges();
+            }
         }
 
         /* UpdateTelemetry() - изменение записи о телеметрии.
@@ -65,8 +72,11 @@ namespace ASPOSystem.Controllers
         [Route("UpdateTelemetry"), Authorize(Roles = "Администратор")]
         public void UpdateTelemetry([FromBody] Telemetry updatedTelemetry)
         {
-            db.Telemetry.Update(updatedTelemetry);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Telemetry.Update(updatedTelemetry);
+                db.SaveChanges();
+            }
         }
 
         /* DeleteTelemetry() - удаление записи о телеметрии.
@@ -77,8 +87,11 @@ namespace ASPOSystem.Controllers
         [Route("DeleteTelemetry"), Authorize(Roles = "Администратор")]
         public void DeleteTelemetry(Guid idTelemetry)
         {
-            db.Telemetry.Remove(db.Telemetry.Find(idTelemetry));
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Telemetry.Remove(db.Telemetry.Find(idTelemetry));
+                db.SaveChanges();
+            }
         }
     }
 }

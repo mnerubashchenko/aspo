@@ -27,14 +27,15 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class InterfaceController : Controller
     {
-        private RSSForVKRContext db = new RSSForVKRContext();
-
         /* GetInterfaces() - вывод всех записей из таблицы интерфейсов. */
         [HttpGet]
         [Route("GetInterfaces"), Authorize(Roles = "Администратор")]
         public List<Interfaces> GetInterfaces()
         {
-            return db.Interfaces.ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                return db.Interfaces.ToList();
+            }
         }
 
         /* GetNamesOfInterfaces() - вывод названий всех интерфейсов. */
@@ -42,7 +43,10 @@ namespace ASPOSystem.Controllers
         [Route("GetNamesOfInterfaces"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetNamesOfInterfaces()
         {
-            return db.Interfaces.Select(item => item.Name).ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                return db.Interfaces.Select(item => item.Name).ToList();
+            }
         }
 
         /* CreateInterface() - создание записи об интерфейсе.
@@ -53,8 +57,11 @@ namespace ASPOSystem.Controllers
         [Route("CreateInterface"), Authorize(Roles = "Администратор")]
         public void CreateInterface([FromBody] Interfaces newInterface)
         {
-            db.Interfaces.Add(newInterface);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Interfaces.Add(newInterface);
+                db.SaveChanges();
+            }
         }
 
         /* UpdateInterface() - изменение записи об интерфейсе.
@@ -65,8 +72,11 @@ namespace ASPOSystem.Controllers
         [Route("UpdateInterface"), Authorize(Roles = "Администратор")]
         public void UpdateInterface([FromBody] Interfaces updatedInterface)
         {
-            db.Interfaces.Update(updatedInterface);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Interfaces.Update(updatedInterface);
+                db.SaveChanges();
+            }
         }
 
         /* DeleteInterface() - удаление записи об интерфейсе.
@@ -77,8 +87,11 @@ namespace ASPOSystem.Controllers
         [Route("DeleteInterface"), Authorize(Roles = "Администратор")]
         public void DeleteInterface(Guid idInterface)
         {
-            db.Interfaces.Remove(db.Interfaces.Find(idInterface));
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Interfaces.Remove(db.Interfaces.Find(idInterface));
+                db.SaveChanges();
+            }
         }
     }
 }

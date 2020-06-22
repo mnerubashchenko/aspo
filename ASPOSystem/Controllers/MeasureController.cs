@@ -27,14 +27,15 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class MeasureController : Controller
     {
-        private RSSForVKRContext db = new RSSForVKRContext();
-
         /* GetMeasures() - вывод всех записей из таблицы измерений. */
         [HttpGet]
         [Route("GetMeasures"), Authorize(Roles = "Администратор")]
         public List<Measure> GetMeasures()
         {
-            return db.Measure.ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                return db.Measure.ToList();
+            }
         }
 
         /* GetNamesOfMeasures() - вывод названий всех измерений. */
@@ -42,7 +43,10 @@ namespace ASPOSystem.Controllers
         [Route("GetNamesOfMeasures"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetNamesOfMeasures()
         {
-            return db.Measure.Select(item => item.Name).ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                return db.Measure.Select(item => item.Name).ToList();
+            }
         }
 
         /* CreateMeasure() - создание записи об измерении.
@@ -53,8 +57,11 @@ namespace ASPOSystem.Controllers
         [Route("CreateMeasure"), Authorize(Roles = "Администратор")]
         public void CreateMeasure([FromBody] Measure newMeasure)
         {
-            db.Measure.Add(newMeasure);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Measure.Add(newMeasure);
+                db.SaveChanges();
+            }
         }
 
         /* UpdateMeasure() - изменение записи об измерении.
@@ -65,8 +72,11 @@ namespace ASPOSystem.Controllers
         [Route("UpdateMeasure"), Authorize(Roles = "Администратор")]
         public void UpdateMeasure([FromBody] Measure updatedMeasure)
         {
-            db.Measure.Update(updatedMeasure);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Measure.Update(updatedMeasure);
+                db.SaveChanges();
+            }
         }
 
         /* DeleteMeasure() - удаление записи об измерении.
@@ -77,9 +87,11 @@ namespace ASPOSystem.Controllers
         [Route("DeleteMeasure"), Authorize(Roles = "Администратор")]
         public void DeleteMeasure(Guid idMeasure)
         {
-            db.Measure.Remove(db.Measure.Find(idMeasure));
-            db.SaveChanges();
-
+            using (var db = new RSSForVKRContext())
+            {
+                db.Measure.Remove(db.Measure.Find(idMeasure));
+                db.SaveChanges();
+            }
         }
     }
 }

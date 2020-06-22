@@ -26,8 +26,6 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class RolesController : Controller
     {
-        private RSSForVKRContext db = new RSSForVKRContext();
-
         /* GetRole() - вывод записей таблицы ролей.
         * Формальный параметр:
         *      correction - параметр, уточняющий, все ли данные нужны.
@@ -36,10 +34,13 @@ namespace ASPOSystem.Controllers
         [Route("GetRole"), Authorize(Roles = "Администратор, Гость")]
         public List<Roles> GetRole(string correction)
         {
-            if (correction == "full")
-                return db.Roles.ToList();
-            else 
-                return db.Roles.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                if (correction == "full")
+                    return db.Roles.ToList();
+                else
+                    return db.Roles.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            }
         }
 
         /* CreateRole() - создание записи о роли.
@@ -50,8 +51,11 @@ namespace ASPOSystem.Controllers
         [Route("CreateRole"), Authorize(Roles = "Администратор")]
         public void CreateRole([FromBody] Roles newRole)
         {
-            db.Roles.Add(newRole);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Roles.Add(newRole);
+                db.SaveChanges();
+            }
         }
 
         /* UpdateRole() - изменение записи о роли.
@@ -62,9 +66,11 @@ namespace ASPOSystem.Controllers
         [Route("UpdateRole"), Authorize(Roles = "Администратор")]
         public void UpdateRole([FromBody] Roles updatedRole)
         {
-            db.Roles.Update(updatedRole);
-            db.SaveChanges();
-
+            using (var db = new RSSForVKRContext())
+            {
+                db.Roles.Update(updatedRole);
+                db.SaveChanges();
+            }
         }
 
         /* DeleteRole() - удаление записи о роли.
@@ -75,9 +81,11 @@ namespace ASPOSystem.Controllers
         [Route("DeleteRole"), Authorize(Roles = "Администратор")]
         public void DeleteRole(Guid idRole)
         {
-            db.Roles.Remove(db.Roles.Find(idRole));
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Roles.Remove(db.Roles.Find(idRole));
+                db.SaveChanges();
+            }
         }
-
     }
 }

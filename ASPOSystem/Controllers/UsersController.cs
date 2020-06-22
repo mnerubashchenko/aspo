@@ -33,8 +33,6 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class UsersController : Controller
     {
-        private RSSForVKRContext db = new RSSForVKRContext();
-
         /* GetUsers() - вывод записей таблицы пользователей.
          * Формальный параметр:
          *      correction - параметр, уточняющий, все ли данные нужны.
@@ -43,11 +41,14 @@ namespace ASPOSystem.Controllers
         [Route("GetUsers"), Authorize(Roles = "Администратор, Гость")]
         public List<Users> GetUsers(string correction)
         {
-            if (correction == "full")
-                return db.Users.ToList();
-            else
-                return db.Users.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000"
-                && p.Id.ToString() != "11111111-1111-1111-1111-111111111111").ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                if (correction == "full")
+                    return db.Users.ToList();
+                else
+                    return db.Users.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000"
+                    && p.Id.ToString() != "11111111-1111-1111-1111-111111111111").ToList();
+            }
         }
 
         /* GetUserForAccount() - вывод информации об авторизированном пользователе.
@@ -58,7 +59,10 @@ namespace ASPOSystem.Controllers
         [Route("GetUserForAccount"), Authorize(Roles = "Администратор, Гость")]
         public List<Users> GetUserForAccount(string login)
         {
-            return db.Users.Where(p => p.LoginUser == login).ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                return db.Users.Where(p => p.LoginUser == login).ToList();
+            }
         }
 
         /* GetIdOfAuthorizedUser() - вывод идентификатора авторизированного пользователя.
@@ -69,7 +73,10 @@ namespace ASPOSystem.Controllers
         [Route("GetIdOfAuthorizedUser"), Authorize(Roles = "Администратор, Гость")]
         public Guid GetIdOfAuthorizedUser(string login)
         {
-            return db.Users.FirstOrDefault(p => p.LoginUser == login).Id;
+            using (var db = new RSSForVKRContext())
+            {
+                return db.Users.FirstOrDefault(p => p.LoginUser == login).Id;
+            }
         }
 
         /* CreateUser() - создание записи о пользователе.
@@ -83,27 +90,30 @@ namespace ASPOSystem.Controllers
         [Route("CreateUser")]
         public IActionResult CreateUser([FromBody] Users newUser)
         {
-            if (!db.Users.Any(r => r.LoginUser == newUser.LoginUser))
+            using (var db = new RSSForVKRContext())
             {
-                var salt = new byte[128 / 8];
-
-                using (var rng = RandomNumberGenerator.Create())
+                if (!db.Users.Any(r => r.LoginUser == newUser.LoginUser))
                 {
-                    rng.GetBytes(salt);
+                    var salt = new byte[128 / 8];
+
+                    using (var rng = RandomNumberGenerator.Create())
+                    {
+                        rng.GetBytes(salt);
+                    }
+
+                    newUser.PasswordUser = HashPassword(Convert.ToBase64String(salt), newUser.PasswordUser);
+
+                    newUser.RoleUser = new Guid("775ACD72-5459-EA11-B83A-645106511DF0");
+
+                    db.Users.Add(newUser);
+                    db.SaveChanges();
+
+                    return Ok();
                 }
 
-                newUser.PasswordUser = HashPassword(Convert.ToBase64String(salt), newUser.PasswordUser);
-
-                newUser.RoleUser = new Guid("775ACD72-5459-EA11-B83A-645106511DF0");
-
-                db.Users.Add(newUser);
-                db.SaveChanges();
-
-                return Ok();
+                else
+                    return BadRequest("Данный логин занят");
             }
-
-            else
-                return BadRequest("Данный логин занят");
         }
 
 
@@ -118,36 +128,39 @@ namespace ASPOSystem.Controllers
         [Route("UpdateUser"), Authorize(Roles = "Администратор, Гость")]
         public IActionResult UpdateUser([FromBody] Users updatedUser)
         {
-            Users user = db.Users.FirstOrDefault(r => r.Id == updatedUser.Id);
-
-            if ((user.LoginUser == updatedUser.LoginUser) || (!db.Users.Any(r => r.LoginUser == updatedUser.LoginUser)))      // Проверка занятости введенного логина
+            using (var db = new RSSForVKRContext())
             {
-                if (user.PasswordUser != updatedUser.PasswordUser)                                                            // Проверка на то, был ли изменен пароль   
-                {
-                    var salt = new byte[128 / 8];
+                Users user = db.Users.FirstOrDefault(r => r.Id == updatedUser.Id);
 
-                    using (var rng = RandomNumberGenerator.Create())
+                if ((user.LoginUser == updatedUser.LoginUser) || (!db.Users.Any(r => r.LoginUser == updatedUser.LoginUser)))      // Проверка занятости введенного логина
+                {
+                    if (user.PasswordUser != updatedUser.PasswordUser)                                                            // Проверка на то, был ли изменен пароль   
                     {
-                        rng.GetBytes(salt);
+                        var salt = new byte[128 / 8];
+
+                        using (var rng = RandomNumberGenerator.Create())
+                        {
+                            rng.GetBytes(salt);
+                        }
+
+                        user.PasswordUser = HashPassword(Convert.ToBase64String(salt), updatedUser.PasswordUser);
                     }
 
-                    user.PasswordUser = HashPassword(Convert.ToBase64String(salt), updatedUser.PasswordUser);
+                    user.LastnameUser = updatedUser.LastnameUser;
+                    user.LoginUser = updatedUser.LoginUser;
+                    user.MiddlenameUser = updatedUser.MiddlenameUser;
+                    user.NameUser = updatedUser.NameUser;
+                    user.PostUser = updatedUser.PostUser;
+                    user.RoleUser = updatedUser.RoleUser;
+
+                    db.SaveChanges();
+
+                    return Ok();
                 }
 
-                user.LastnameUser = updatedUser.LastnameUser;
-                user.LoginUser = updatedUser.LoginUser;
-                user.MiddlenameUser = updatedUser.MiddlenameUser;
-                user.NameUser = updatedUser.NameUser;
-                user.PostUser = updatedUser.PostUser;
-                user.RoleUser = updatedUser.RoleUser;
-
-                db.SaveChanges();
-
-                return Ok();
+                else
+                    return BadRequest("Данный логин занят!");
             }
-
-            else
-                return BadRequest("Данный логин занят!");
         }
 
 
@@ -166,36 +179,39 @@ namespace ASPOSystem.Controllers
         [Route("PasswordChanger"), Authorize(Roles = "Администратор, Гость")]
         public IActionResult PasswordChanger(string login, string oldPassword, string newPassword)
         {
-            Users user = db.Users.FirstOrDefault(p => p.LoginUser == login);
-
-            string saltOfOldPass = user.PasswordUser.ToString().Substring(0, 24);
-
-            string hashedOldPass = HashPassword(saltOfOldPass, oldPassword);
-
-            if (hashedOldPass == user.PasswordUser.ToString())                                                                // Проверка правильности введенного старого пароля    
+            using (var db = new RSSForVKRContext())
             {
-                if (HashPassword(saltOfOldPass, newPassword) != user.PasswordUser)
-                {
-                    var salt = new byte[128 / 8];
+                Users user = db.Users.FirstOrDefault(p => p.LoginUser == login);
 
-                    using (var rng = RandomNumberGenerator.Create())
+                string saltOfOldPass = user.PasswordUser.ToString().Substring(0, 24);
+
+                string hashedOldPass = HashPassword(saltOfOldPass, oldPassword);
+
+                if (hashedOldPass == user.PasswordUser.ToString())                                                                // Проверка правильности введенного старого пароля    
+                {
+                    if (HashPassword(saltOfOldPass, newPassword) != user.PasswordUser)
                     {
-                        rng.GetBytes(salt);
+                        var salt = new byte[128 / 8];
+
+                        using (var rng = RandomNumberGenerator.Create())
+                        {
+                            rng.GetBytes(salt);
+                        }
+
+                        user.PasswordUser = HashPassword(Convert.ToBase64String(salt), newPassword);
+
+                        db.SaveChanges();
+
+                        return Ok();
                     }
 
-                    user.PasswordUser = HashPassword(Convert.ToBase64String(salt), newPassword);
-
-                    db.SaveChanges();
-
-                    return Ok();
+                    else
+                        return BadRequest("Новый пароль не должен совпадать с текущим");
                 }
 
                 else
-                    return BadRequest("Новый пароль не должен совпадать с текущим");
+                    return BadRequest("Неправильно введен ваш текущий пароль");
             }
-
-            else
-                return BadRequest("Неправильно введен ваш текущий пароль");
 
         }
 
@@ -227,8 +243,11 @@ namespace ASPOSystem.Controllers
         [Route("DeleteUser"), Authorize(Roles = "Администратор")]
         public void DeleteUser(Guid idUser)
         {
-            db.Users.Remove(db.Users.Find(idUser));
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Users.Remove(db.Users.Find(idUser));
+                db.SaveChanges();
+            }
         }
     }
 }

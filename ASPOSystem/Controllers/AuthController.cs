@@ -28,8 +28,6 @@ namespace ASPOSystem.Controllers
     [ApiController]
     public class AuthController : Controller
     {
-        private RSSForVKRContext db = new RSSForVKRContext();
-
         /* Login() - авторизация и аутентификация пользователя.
          * Формальный параметр:
          *      user - пароль и логин пользователя.
@@ -44,32 +42,35 @@ namespace ASPOSystem.Controllers
         [HttpPost, Route("login")]
         public IActionResult Login([FromBody]LoginModel user)
         {
-            if (db.Users.Any(r=> r.LoginUser.ToString() == user.UserName && r.PasswordUser.ToString() == string.Concat(GetSalt_Hash(user.UserName,user.Password).Item1, GetSalt_Hash(user.UserName, user.Password).Item2)))
+            using (var db = new RSSForVKRContext())
             {
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
-                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-                var role = db.Roles.FirstOrDefault(r => r.Id == db.Users.FirstOrDefault(t => t.LoginUser == user.UserName).RoleUser).NameRole.ToString();
-                var claims = new List<Claim>
+                if (db.Users.Any(r => r.LoginUser.ToString() == user.UserName && r.PasswordUser.ToString() == string.Concat(GetSalt_Hash(user.UserName, user.Password).Item1, GetSalt_Hash(user.UserName, user.Password).Item2)))
                 {
+                    var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
+                    var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+                    var role = db.Roles.FirstOrDefault(r => r.Id == db.Users.FirstOrDefault(t => t.LoginUser == user.UserName).RoleUser).NameRole.ToString();
+                    var claims = new List<Claim>
+                    {
                     new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(ClaimTypes.Role, role.ToString())
-                };
+                    };
 
-                var tokeOptions = new JwtSecurityToken(                                           // Определение настроек JWT токена
-                    issuer: "http://localhost:5001",
-                    audience: "http://localhost:5001",
-                    claims: claims,
-                    expires: DateTime.Now.AddHours(12),
-                    signingCredentials: signinCredentials
-                );
+                    var tokeOptions = new JwtSecurityToken(                                           // Определение настроек JWT токена
+                        issuer: "http://localhost:5001",
+                        audience: "http://localhost:5001",
+                        claims: claims,
+                        expires: DateTime.Now.AddHours(12),
+                        signingCredentials: signinCredentials
+                    );
 
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-                return Ok(new { Token = tokenString });
-            }
-            else
-            {
-                return Unauthorized();
-            }
+                    var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+                    return Ok(new { Token = tokenString });
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+            }  
         }
 
         /* GetSalt_Hash() - получение соли и хэша введенного пользователем пароля.
@@ -81,23 +82,26 @@ namespace ASPOSystem.Controllers
          *      salt - соль реального пароля пользователя;
          *      hashed - хэш введенного пользователем пароля на основе реальной соли.
          */
-        private Tuple<string,string> GetSalt_Hash(string login, string psswd) {
-            if (db.Users.Any(r => r.LoginUser == login))                                         // Проверка на существование пользовтеля с введенным логином
+        private Tuple<string,string> GetSalt_Hash(string login, string psswd) 
+        {
+            using (var db = new RSSForVKRContext())
             {
-                Users u = db.Users.FirstOrDefault(r => r.LoginUser == login);                    // Хэширование введенного пользователем пароля
-                string salt = u.PasswordUser.ToString().Substring(0, 24);
-                string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password: psswd,
-                salt: Convert.FromBase64String(salt),
-                prf: KeyDerivationPrf.HMACSHA1,
-                iterationCount: 10000,
-                numBytesRequested: 256 / 8));
-                return Tuple.Create(salt, hashed);
-            }
-               
-            else
-                return Tuple.Create("", "");
+                if (db.Users.Any(r => r.LoginUser == login))                                         // Проверка на существование пользовтеля с введенным логином
+                {
+                    Users u = db.Users.FirstOrDefault(r => r.LoginUser == login);                    // Хэширование введенного пользователем пароля
+                    string salt = u.PasswordUser.ToString().Substring(0, 24);
+                    string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                    password: psswd,
+                    salt: Convert.FromBase64String(salt),
+                    prf: KeyDerivationPrf.HMACSHA1,
+                    iterationCount: 10000,
+                    numBytesRequested: 256 / 8));
+                    return Tuple.Create(salt, hashed);
+                }
 
+                else
+                    return Tuple.Create("", "");
+            }
         }
     }
 }

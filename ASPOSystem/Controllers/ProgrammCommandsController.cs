@@ -27,14 +27,15 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class ProgrammCommandsController : Controller
     {
-        private RSSForVKRContext db = new RSSForVKRContext();
-
         /* GetCommand() - вывод всех записей из таблицы программных команд. */
         [HttpGet]
         [Route("GetCommand"), Authorize(Roles = "Администратор")]
         public List<Programmcommands> GetCommand()
         {
-            return db.Programmcommands.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                return db.Programmcommands.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            }
         }
 
         /* GetNamesOfCommands() - вывод названий всех программных команд. */
@@ -42,7 +43,10 @@ namespace ASPOSystem.Controllers
         [Route("GetNamesOfCommands"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetNamesOfCommands()
         {
-            return db.Programmcommands.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").Select(item => item.Name).ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                return db.Programmcommands.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").Select(item => item.Name).ToList();
+            }
         }
 
         /* CreateCommand() - создание записи о программной команде.
@@ -53,8 +57,11 @@ namespace ASPOSystem.Controllers
         [Route("CreateCommand"), Authorize(Roles = "Администратор")]
         public void CreateCommand([FromBody] Programmcommands newCommand)
         {
-            db.Programmcommands.Add(newCommand);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Programmcommands.Add(newCommand);
+                db.SaveChanges();
+            }
         }
 
         /* UpdateCommand() - изменение записи о программной команде.
@@ -65,8 +72,11 @@ namespace ASPOSystem.Controllers
         [Route("UpdateCommand"), Authorize(Roles = "Администратор")]
         public void UpdateCommand([FromBody] Programmcommands updatedCommand)
         {
-            db.Programmcommands.Update(updatedCommand);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Programmcommands.Update(updatedCommand);
+                db.SaveChanges();
+            }
         }
 
         /* DeleteCommand() - удаление записи о программной команде.
@@ -77,8 +87,11 @@ namespace ASPOSystem.Controllers
         [Route("DeleteCommand"), Authorize(Roles = "Администратор")]
         public void DeleteCommand(Guid idCommand)
         {
-            db.Programmcommands.Remove(db.Programmcommands.Find(idCommand));
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Programmcommands.Remove(db.Programmcommands.Find(idCommand));
+                db.SaveChanges();
+            }
         }
     }
 }

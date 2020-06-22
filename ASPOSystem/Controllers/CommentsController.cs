@@ -28,14 +28,16 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class CommentsController : Controller
     {
-        private RSSForVKRContext db = new RSSForVKRContext();
-
         /* GetComments() - вывод комментриев ко всем протоколам. */
         [HttpGet]
         [Route("GetComments"), Authorize(Roles = "Администратор")]
         public List<Comments> GetComments()
         {
-            return db.Comments.ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                return db.Comments.ToList();
+            }
+
         }
 
         /* GetCommentsForOneProject() - вывод комментарием к определенному протоколу.
@@ -46,8 +48,12 @@ namespace ASPOSystem.Controllers
         [Route("GetCommentsForOneProject"), Authorize(Roles = "Администратор, Гость")]
         public string GetCommentsForOneProject(string projectName)
         {
-            return JsonConvert.SerializeObject(db.Comments.Where(p => p.ProjectComment == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).ToList(),
-                   new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            using (var db = new RSSForVKRContext())
+            {
+                return JsonConvert.SerializeObject(db.Comments.Where(p => p.ProjectComment == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).ToList(),
+                    new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            }
+
         }
 
         /* CreateComment() - добавление нового комментария.
@@ -62,14 +68,17 @@ namespace ASPOSystem.Controllers
         [Route("CreateComment"), Authorize(Roles = "Администратор, Гость")]
         public void CreateComment(string nameProject, Guid authorProject, string bodyComment)
         {
-            var newComment = new Comments();
-            newComment.Id = new Guid();
-            newComment.AuthorComment = authorProject;
-            newComment.ProjectComment = db.Project.FirstOrDefault(pr=>pr.NameProject == nameProject).Id;
-            newComment.BodyComment = bodyComment;
-            newComment.DateCreateComment = DateTime.Now;
-            db.Comments.Add(newComment);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                var newComment = new Comments();
+                newComment.Id = new Guid();
+                newComment.AuthorComment = authorProject;
+                newComment.ProjectComment = db.Project.FirstOrDefault(pr => pr.NameProject == nameProject).Id;
+                newComment.BodyComment = bodyComment;
+                newComment.DateCreateComment = DateTime.Now;
+                db.Comments.Add(newComment);
+                db.SaveChanges();
+            }
         }
 
         /* UpdateComment() - изменение комментария.
@@ -80,8 +89,11 @@ namespace ASPOSystem.Controllers
         [Route("UpdateComment"), Authorize(Roles = "Администратор")]
         public void UpdateComment([FromBody] Comments updatedComment)
         {
-            db.Comments.Update(updatedComment);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Comments.Update(updatedComment);
+                db.SaveChanges();
+            }
         }
 
         /* DeleteComment() - удаление комментария.
@@ -92,8 +104,11 @@ namespace ASPOSystem.Controllers
         [Route("DeleteComment"), Authorize(Roles = "Администратор")]
         public void DeleteComment(Guid id)
         {
-            db.Comments.Remove(db.Comments.Find(id));
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Comments.Remove(db.Comments.Find(id));
+                db.SaveChanges();
+            }
         }
     }
 }

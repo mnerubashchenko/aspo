@@ -141,6 +141,11 @@ export class ProjectCreatorComponent {
           hide: { duration: 300, type: "slide", to: { top: -50 } }
         }
       }, "success", 1000);
+      this.selectedCommands = [];
+      this.selectedDevices = [];
+      this.selectedInterfaces = [];
+      this.selectedMeasures = [];
+      this.selectedTelemetries = [];
       this.helper = 0;
       form.controls.nameProject.setValue("");
       form.controls.descriptionProject.setValue("");

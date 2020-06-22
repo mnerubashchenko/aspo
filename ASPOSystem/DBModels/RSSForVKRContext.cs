@@ -75,7 +75,7 @@ namespace ASPOSystem.DBModels
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=SERGEYSERGEEVI4\\SQLEXPRESS14;Initial Catalog=RSSForVKR;Persist Security Info=False;User ID=RSSadmin;Password=#Qteltn3;MultipleActiveResultSets=False;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-DRQFEK8\\SQLEXPRESS;Initial Catalog=RSSForVKR;Persist Security Info=False;User ID=RSSadmin;Password=#Qteltn3;MultipleActiveResultSets=False;");
             }
         }
 

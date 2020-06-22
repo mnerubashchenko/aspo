@@ -26,8 +26,6 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class ProjectMeasureController : Controller
     {
-        private RSSForVKRContext db = new RSSForVKRContext();
-
         /* GetLinksForOneProject() - вывод названий измерений, используемых в выбранном протоколе.
          * Формальный параметр:
          *      projectName - название выбранного протокола.
@@ -40,13 +38,16 @@ namespace ASPOSystem.Controllers
         [Route("GetLinksForOneProject"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetLinksForOneProject(string projectName)
         {
-            List<Guid?> idMeasures = db.ProjectMeasure.Where(item => item.IdProject == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).Select(p => p.IdMeasure).ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                List<Guid?> idMeasures = db.ProjectMeasure.Where(item => item.IdProject == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).Select(p => p.IdMeasure).ToList();
 
-            var namesOfMeasures = new List<string>();
-                                                                                                                     
-            idMeasures.ForEach(x => namesOfMeasures.Add(db.Measure.FirstOrDefault(i => i.Id == x).Name));
+                var namesOfMeasures = new List<string>();
 
-            return namesOfMeasures;
+                idMeasures.ForEach(x => namesOfMeasures.Add(db.Measure.FirstOrDefault(i => i.Id == x).Name));
+
+                return namesOfMeasures;
+            }
         }
 
         /* CreateLinkFromAccount() - создание связей последнего созданного протокола и выбранных интерфейсов.
@@ -61,14 +62,17 @@ namespace ASPOSystem.Controllers
         [Route("CreateLinkFromAccount"), Authorize(Roles = "Администратор, Гость")]
         public void CreateLinkFromAccount([FromBody] List<string> namesOfMeasures)
         {
-            Guid idOfProject = db.Project.FirstOrDefault(item => item.DateCreateProject == db.Project.Max(p=>p.DateCreateProject)).Id;
-            foreach (string nom in namesOfMeasures)
+            using (var db = new RSSForVKRContext())
             {
-                ProjectMeasure newLink = new ProjectMeasure();
-                newLink.IdProject = idOfProject;
-                newLink.IdMeasure = db.Measure.FirstOrDefault(meas => meas.Name == nom).Id;
-                db.ProjectMeasure.Add(newLink);
-                db.SaveChanges();
+                Guid idOfProject = db.Project.FirstOrDefault(item => item.DateCreateProject == db.Project.Max(p => p.DateCreateProject)).Id;
+                foreach (string nom in namesOfMeasures)
+                {
+                    ProjectMeasure newLink = new ProjectMeasure();
+                    newLink.IdProject = idOfProject;
+                    newLink.IdMeasure = db.Measure.FirstOrDefault(meas => meas.Name == nom).Id;
+                    db.ProjectMeasure.Add(newLink);
+                    db.SaveChanges();
+                }
             }
         }
 
@@ -88,28 +92,31 @@ namespace ASPOSystem.Controllers
         [Route("UpdateLinkFromProjectChanger")]
         public void UpdateLinkFromProjectChanger(string projectName, string namesOfMeasures)
         {
-            List<string> noms = JsonConvert.DeserializeObject<List<string>>(namesOfMeasures);
-
-            Guid idOfProject = db.Project.FirstOrDefault(proj => proj.NameProject == projectName).Id;
-
-            List<ProjectMeasure> links = db.ProjectMeasure.Where(link => link.IdProject == idOfProject).ToList();
-
-            foreach (ProjectMeasure l in links)
-            {                                                                                                               // Удаление старых связей выбранного
-                db.ProjectMeasure.Remove(l);                                                                                // протокола и  измерений
-                db.SaveChanges();
-            }
-
-            foreach (string nom in noms)
+            using (var db = new RSSForVKRContext())
             {
-                ProjectMeasure Link = new ProjectMeasure
-                {
-                    IdProject = idOfProject,                                                                                // Создание связей выбранного
-                    IdMeasure = db.Measure.FirstOrDefault(meas => meas.Name == nom).Id                                      // протокола с выбранными измерениями
-                };
+                List<string> noms = JsonConvert.DeserializeObject<List<string>>(namesOfMeasures);
 
-                db.ProjectMeasure.Add(Link);
-                db.SaveChanges();
+                Guid idOfProject = db.Project.FirstOrDefault(proj => proj.NameProject == projectName).Id;
+
+                List<ProjectMeasure> links = db.ProjectMeasure.Where(link => link.IdProject == idOfProject).ToList();
+
+                foreach (ProjectMeasure l in links)
+                {                                                                                                               // Удаление старых связей выбранного
+                    db.ProjectMeasure.Remove(l);                                                                                // протокола и  измерений
+                    db.SaveChanges();
+                }
+
+                foreach (string nom in noms)
+                {
+                    ProjectMeasure Link = new ProjectMeasure
+                    {
+                        IdProject = idOfProject,                                                                                // Создание связей выбранного
+                        IdMeasure = db.Measure.FirstOrDefault(meas => meas.Name == nom).Id                                      // протокола с выбранными измерениями
+                    };
+
+                    db.ProjectMeasure.Add(Link);
+                    db.SaveChanges();
+                }
             }
         }
     }

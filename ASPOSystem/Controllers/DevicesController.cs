@@ -28,14 +28,15 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class DevicesController : Controller
     {
-        private RSSForVKRContext db = new RSSForVKRContext();
-
         /* GetDevices() - вывод всех записей из таблицы устройств. */
         [HttpGet]
         [Route("GetDevices"), Authorize(Roles = "Администратор")]
         public List<Devices> GetDevices()
         {
-            return db.Devices.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                return db.Devices.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            }
         }
 
         /* GetNamesOfDevices() - вывод названий моделей всех устройств. */
@@ -43,7 +44,10 @@ namespace ASPOSystem.Controllers
         [Route("GetNamesOfDevices"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetNamesOfDevices()
         {
-            return db.Devices.Where(p=> p.Id.ToString() != "00000000-0000-0000-0000-000000000000").Select(item => item.Model).ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                return db.Devices.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").Select(item => item.Model).ToList();
+            }
         }
 
         /* CreateDevice() - создание записи об устройстве.
@@ -54,8 +58,11 @@ namespace ASPOSystem.Controllers
         [Route("CreateDevice"), Authorize(Roles = "Администратор")]
         public void CreateDevice([FromBody] Devices newDevice)
         {
-            db.Devices.Add(newDevice);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Devices.Add(newDevice);
+                db.SaveChanges();
+            }
         }
 
         /* UpdateDevice() - изменение записи об устройстве.
@@ -66,8 +73,11 @@ namespace ASPOSystem.Controllers
         [Route("UpdateDevice"), Authorize(Roles = "Администратор")]
         public void UpdateDevice([FromBody] Devices updatedDevice)
         {
-            db.Devices.Update(updatedDevice);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Devices.Update(updatedDevice);
+                db.SaveChanges();
+            }
         }
 
         /* DeleteDevice() - удаление записи об устройстве.
@@ -78,8 +88,11 @@ namespace ASPOSystem.Controllers
         [Route("DeleteDevice"), Authorize(Roles = "Администратор")]
         public void DeleteDevice(Guid idDevice)
         {
+            using (var db = new RSSForVKRContext())
+            {
                 db.Devices.Remove(db.Devices.Find(idDevice));
                 db.SaveChanges();
+            }
         }
     }
 }

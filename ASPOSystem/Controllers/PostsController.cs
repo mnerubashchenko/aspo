@@ -26,8 +26,6 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class PostsController : Controller
     {
-        private RSSForVKRContext db = new RSSForVKRContext();
-
         /* GetPost() - вывод записей таблицы должностей.
          * Формальный параметр:
          *      correction - параметр, уточняющий, все ли данные нужны.
@@ -36,10 +34,13 @@ namespace ASPOSystem.Controllers
         [Route("GetPost"), Authorize(Roles = "Администратор, Гость")]
         public List<Posts> GetPost(string correction)
         {
-            if (correction == "full")
-                return db.Posts.ToList();
-            else 
-                return db.Posts.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                if (correction == "full")
+                    return db.Posts.ToList();
+                else
+                    return db.Posts.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            }
         }
 
         /* CreatePost() - создание записи о должности.
@@ -50,8 +51,11 @@ namespace ASPOSystem.Controllers
         [Route("CreatePost"), Authorize(Roles = "Администратор")]
         public void CreatePost([FromBody] Posts newPost)
         {
-            db.Posts.Add(newPost);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Posts.Add(newPost);
+                db.SaveChanges();
+            }
         }
 
         /* UpdateBrand() - изменение записи о должности.
@@ -62,8 +66,11 @@ namespace ASPOSystem.Controllers
         [Route("UpdatePost"), Authorize(Roles = "Администратор")]
         public void UpdatePost([FromBody] Posts updatedPost)
         {
-            db.Posts.Update(updatedPost);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Posts.Update(updatedPost);
+                db.SaveChanges();
+            }
         }
 
         /* DeletePost() - удаление записи о должности.
@@ -74,8 +81,11 @@ namespace ASPOSystem.Controllers
         [Route("DeletePost"), Authorize(Roles = "Администратор")]
         public void DeletePost(Guid idPost)
         {
-            db.Posts.Remove(db.Posts.Find(idPost));
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Posts.Remove(db.Posts.Find(idPost));
+                db.SaveChanges();
+            }
         }
     }
 }

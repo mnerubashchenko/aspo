@@ -26,8 +26,6 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class TypedevController : Controller
     {
-        private RSSForVKRContext db = new RSSForVKRContext();
-
         /* GetTypedev() - вывод записей таблицы типов устройств.
          * Формальный параметр:
          *      correction - параметр, уточняющий, все ли данные нужны.
@@ -36,10 +34,13 @@ namespace ASPOSystem.Controllers
         [Route("GetTypedev"), Authorize(Roles = "Администратор")]
         public List<Typedev> GetTypedev(string correction)
         {
-            if (correction == "full")
-                return db.Typedev.ToList();
-            else
-                return db.Typedev.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                if (correction == "full")
+                    return db.Typedev.ToList();
+                else
+                    return db.Typedev.Where(p => p.Id.ToString() != "00000000-0000-0000-0000-000000000000").ToList();
+            }
         }
 
         /* CreateTypedev() - создание записи о типе устройства.
@@ -50,8 +51,11 @@ namespace ASPOSystem.Controllers
         [Route("CreateTypedev"), Authorize(Roles = "Администратор")]
         public void CreateTypedev([FromBody] Typedev newTypedev)
         {
-            db.Typedev.Add(newTypedev);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Typedev.Add(newTypedev);
+                db.SaveChanges();
+            }
         }
 
         /* UpdateTypedev() - изменение записи о типе устройства.
@@ -62,8 +66,11 @@ namespace ASPOSystem.Controllers
         [Route("UpdateTypedev"), Authorize(Roles = "Администратор")]
         public void UpdateTypedev([FromBody] Typedev updatedTypedev)
         {
-            db.Typedev.Update(updatedTypedev);
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Typedev.Update(updatedTypedev);
+                db.SaveChanges();
+            }
         }
 
         /* DeleteTypedev() - удаление записи о типе устройства.
@@ -74,8 +81,11 @@ namespace ASPOSystem.Controllers
         [Route("DeleteTypedev"), Authorize(Roles = "Администратор")]
         public void DeleteRole(Guid idTypedev)
         {
-            db.Typedev.Remove(db.Typedev.Find(idTypedev));
-            db.SaveChanges();
+            using (var db = new RSSForVKRContext())
+            {
+                db.Typedev.Remove(db.Typedev.Find(idTypedev));
+                db.SaveChanges();
+            }
         }
     }
 }

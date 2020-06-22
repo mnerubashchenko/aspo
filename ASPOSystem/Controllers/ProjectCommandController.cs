@@ -26,8 +26,6 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class ProjectCommandController : Controller
     {
-        private RSSForVKRContext db = new RSSForVKRContext();
-
         /* GetLinksForOneProject() - вывод названий программных команд, используемых в выбранном протоколе.
          * Формальный параметр:
          *      projectName - название выбранного протокола.
@@ -40,13 +38,16 @@ namespace ASPOSystem.Controllers
         [Route("GetLinksForOneProject"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetLinksForOneProject(string projectName)
         {
-            List<Guid?> idCommands = db.ProjectCommand.Where(item => item.IdProject == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).Select(p => p.IdCommand).ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                List<Guid?> idCommands = db.ProjectCommand.Where(item => item.IdProject == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).Select(p => p.IdCommand).ToList();
 
-            var namesOfCommands = new List<string>();
+                var namesOfCommands = new List<string>();
 
-            idCommands.ForEach(x => namesOfCommands.Add(db.Programmcommands.FirstOrDefault(i => i.Id == x).Name));
+                idCommands.ForEach(x => namesOfCommands.Add(db.Programmcommands.FirstOrDefault(i => i.Id == x).Name));
 
-            return namesOfCommands;
+                return namesOfCommands;
+            }
         }
 
 
@@ -62,14 +63,17 @@ namespace ASPOSystem.Controllers
         [Route("CreateLinkFromAccount"), Authorize(Roles = "Администратор, Гость")]
         public void CreateLinkFromAccount([FromBody] List<string> namesOfCommands)
         {
-            Guid idOfProject = db.Project.FirstOrDefault(item => item.DateCreateProject == db.Project.Max(p => p.DateCreateProject)).Id;
-            foreach (string noc in namesOfCommands)
+            using (var db = new RSSForVKRContext())
             {
-                ProjectCommand newLink = new ProjectCommand();
-                newLink.IdProject = idOfProject;
-                newLink.IdCommand = db.Programmcommands.FirstOrDefault(com => com.Name == noc).Id;
-                db.ProjectCommand.Add(newLink);
-                db.SaveChanges();
+                Guid idOfProject = db.Project.FirstOrDefault(item => item.DateCreateProject == db.Project.Max(p => p.DateCreateProject)).Id;
+                foreach (string noc in namesOfCommands)
+                {
+                    ProjectCommand newLink = new ProjectCommand();
+                    newLink.IdProject = idOfProject;
+                    newLink.IdCommand = db.Programmcommands.FirstOrDefault(com => com.Name == noc).Id;
+                    db.ProjectCommand.Add(newLink);
+                    db.SaveChanges();
+                }
             }
         }
 
@@ -89,28 +93,31 @@ namespace ASPOSystem.Controllers
         [Route("UpdateLinkFromProjectChanger"), Authorize(Roles = "Администратор, Гость")]
         public void UpdateLinkFromProjectChanger(string projectName, string namesOfCommands)
         {
-            List<string> nocs = JsonConvert.DeserializeObject<List<string>>(namesOfCommands);
-
-            Guid idOfProject = db.Project.FirstOrDefault(proj => proj.NameProject == projectName).Id;
-
-            List<ProjectCommand> links = db.ProjectCommand.Where(link => link.IdProject == idOfProject).ToList();
-
-            foreach (ProjectCommand l in links)
+            using (var db = new RSSForVKRContext())
             {
-                db.ProjectCommand.Remove(l);                                                                                 // Удаление старых связей выбранного
-                db.SaveChanges();                                                                                            // протокола и программных команд
-            } 
+                List<string> nocs = JsonConvert.DeserializeObject<List<string>>(namesOfCommands);
 
-            foreach (string noc in nocs)
-            {
-                ProjectCommand Link = new ProjectCommand
+                Guid idOfProject = db.Project.FirstOrDefault(proj => proj.NameProject == projectName).Id;
+
+                List<ProjectCommand> links = db.ProjectCommand.Where(link => link.IdProject == idOfProject).ToList();
+
+                foreach (ProjectCommand l in links)
                 {
-                    IdProject = idOfProject,                                                                                 // Создание связей выбранного протокола
-                    IdCommand = db.Programmcommands.FirstOrDefault(com => com.Name == noc).Id                                // с выбранными программными командами
-                };
+                    db.ProjectCommand.Remove(l);                                                                                 // Удаление старых связей выбранного
+                    db.SaveChanges();                                                                                            // протокола и программных команд
+                }
 
-                db.ProjectCommand.Add(Link);
-                db.SaveChanges();
+                foreach (string noc in nocs)
+                {
+                    ProjectCommand Link = new ProjectCommand
+                    {
+                        IdProject = idOfProject,                                                                                 // Создание связей выбранного протокола
+                        IdCommand = db.Programmcommands.FirstOrDefault(com => com.Name == noc).Id                                // с выбранными программными командами
+                    };
+
+                    db.ProjectCommand.Add(Link);
+                    db.SaveChanges();
+                }
             }
         }
     }

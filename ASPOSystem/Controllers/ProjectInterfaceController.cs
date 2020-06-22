@@ -26,8 +26,6 @@ namespace ASPOSystem.Controllers
     [Route("[controller]")]
     public class ProjectInterfaceController : Controller
     {
-        private RSSForVKRContext db = new RSSForVKRContext();
-
         /* GetLinksForOneProject() - вывод названий интерфейсов, используемых в выбранном протоколе.
          * Формальный параметр:
          *      projectName - название выбранного протокола.
@@ -40,13 +38,16 @@ namespace ASPOSystem.Controllers
         [Route("GetLinksForOneProject"), Authorize(Roles = "Администратор, Гость")]
         public List<string> GetLinksForOneProject(string projectName)
         {
-            List<Guid?> idInterfaces = db.ProjectInterface.Where(item => item.IdProject == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).Select(p => p.IdInterface).ToList();
+            using (var db = new RSSForVKRContext())
+            {
+                List<Guid?> idInterfaces = db.ProjectInterface.Where(item => item.IdProject == (db.Project.FirstOrDefault(i => i.NameProject == projectName).Id)).Select(p => p.IdInterface).ToList();
 
-            var namesOfInterfaces = new List<string>();                                                                                                        
+                var namesOfInterfaces = new List<string>();
 
-            idInterfaces.ForEach(x => namesOfInterfaces.Add(db.Interfaces.FirstOrDefault(i => i.Id == x).Name));
+                idInterfaces.ForEach(x => namesOfInterfaces.Add(db.Interfaces.FirstOrDefault(i => i.Id == x).Name));
 
-            return namesOfInterfaces;
+                return namesOfInterfaces;
+            }
         }
 
         /* CreateLinkFromAccount() - создание связей последнего созданного протокола и выбранных интерфейсов.
@@ -61,14 +62,17 @@ namespace ASPOSystem.Controllers
         [Route("CreateLinkFromAccount"), Authorize(Roles = "Администратор, Гость")]
         public void CreateLinkFromAccount([FromBody] List<string> namesOfInterfaces)
         {
-            Guid idOfProject = db.Project.FirstOrDefault(item => item.DateCreateProject == db.Project.Max(p => p.DateCreateProject)).Id;
-            foreach (string noi in namesOfInterfaces)
+            using (var db = new RSSForVKRContext())
             {
-                ProjectInterface newLink = new ProjectInterface();
-                newLink.IdProject = idOfProject;
-                newLink.IdInterface = db.Interfaces.FirstOrDefault(inter => inter.Name == noi).Id;
-                db.ProjectInterface.Add(newLink);
-                db.SaveChanges();
+                Guid idOfProject = db.Project.FirstOrDefault(item => item.DateCreateProject == db.Project.Max(p => p.DateCreateProject)).Id;
+                foreach (string noi in namesOfInterfaces)
+                {
+                    ProjectInterface newLink = new ProjectInterface();
+                    newLink.IdProject = idOfProject;
+                    newLink.IdInterface = db.Interfaces.FirstOrDefault(inter => inter.Name == noi).Id;
+                    db.ProjectInterface.Add(newLink);
+                    db.SaveChanges();
+                }
             }
         }
 
@@ -88,28 +92,31 @@ namespace ASPOSystem.Controllers
         [Route("UpdateLinkFromProjectChanger"), Authorize(Roles = "Администратор, Гость")]
         public void UpdateLinkFromProjectChanger(string projectName, string namesOfInterfaces)
         {
-            List<string> nois = JsonConvert.DeserializeObject<List<string>>(namesOfInterfaces);
-
-            Guid idOfProject = db.Project.FirstOrDefault(proj => proj.NameProject == projectName).Id;
-
-            List<ProjectInterface> links = db.ProjectInterface.Where(link => link.IdProject == idOfProject).ToList();
-
-            foreach (ProjectInterface l in links)
+            using (var db = new RSSForVKRContext())
             {
-                db.ProjectInterface.Remove(l);                                                                                     // Удаление старых связей выбранного
-                db.SaveChanges();                                                                                                  // протокола и интерфейсов
-            }
+                List<string> nois = JsonConvert.DeserializeObject<List<string>>(namesOfInterfaces);
 
-            foreach (string noi in nois)
-            {
-                ProjectInterface Link = new ProjectInterface
+                Guid idOfProject = db.Project.FirstOrDefault(proj => proj.NameProject == projectName).Id;
+
+                List<ProjectInterface> links = db.ProjectInterface.Where(link => link.IdProject == idOfProject).ToList();
+
+                foreach (ProjectInterface l in links)
                 {
-                    IdProject = idOfProject,                                                                                       // Создание связей выбранного
-                    IdInterface = db.Interfaces.FirstOrDefault(inter => inter.Name == noi).Id                                      // протокола с выбранными интерфейсами
-                };
+                    db.ProjectInterface.Remove(l);                                                                                     // Удаление старых связей выбранного
+                    db.SaveChanges();                                                                                                  // протокола и интерфейсов
+                }
 
-                db.ProjectInterface.Add(Link);
-                db.SaveChanges();
+                foreach (string noi in nois)
+                {
+                    ProjectInterface Link = new ProjectInterface
+                    {
+                        IdProject = idOfProject,                                                                                       // Создание связей выбранного
+                        IdInterface = db.Interfaces.FirstOrDefault(inter => inter.Name == noi).Id                                      // протокола с выбранными интерфейсами
+                    };
+
+                    db.ProjectInterface.Add(Link);
+                    db.SaveChanges();
+                }
             }
         }
     }
